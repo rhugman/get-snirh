@@ -1,78 +1,156 @@
-import unittest
+"""Live tests against the real SNIRH servers.
+
+Skipped by default; set RUN_LIVE_TESTS=1 to run. Keep request volume low —
+these exist to detect SNIRH drift, not to exercise every code path.
+"""
+
 import os
-from get_snirh import Snirh, Parameters
+import unittest
 
-@unittest.skipUnless(os.getenv('RUN_LIVE_TESTS'), "Skipping live tests. Set RUN_LIVE_TESTS=1 to run.")
-class TestLiveIntegration(unittest.TestCase):
+from get_snirh import Parameters, Snirh, SnirhClient
+from get_snirh.networks import fetch_networks
+from get_snirh.stations import fetch_stations
+from get_snirh.timeseries import TIMESERIES_COLUMNS
+
+
+#: UTF-8-decoded-as-latin1 pairs (Ã©=é, Ã§=ç, ...), stray marker chars and
+#: unescaped entities. Bare 'Ã' is legitimate uppercase Portuguese (SÃO).
+_MOJIBAKE = ("Ã©", "Ã¡", "Ã­", "Ã³", "Ãº", "Ã§", "Ã£", "Ãµ", "Ã¢", "Ãª",
+             "Ã´", "â–", "■", "&#", "&amp;")
+
+
+def _no_mojibake(text: str) -> bool:
+    return not any(bad in text for bad in _MOJIBAKE)
+
+
+@unittest.skipUnless(os.getenv("RUN_LIVE_TESTS"),
+                     "Skipping live tests. Set RUN_LIVE_TESTS=1 to run.")
+class TestLiveDiscovery(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.snirh = Snirh("piezometria")
+
+    def test_01_networks(self):
+        networks = self.snirh.networks()
+        self.assertEqual(len(networks), 15)
+        self.assertEqual(list(networks.columns), ["uid", "name", "slug"])
+        self.assertIn("piezometria", set(networks["slug"]))
+        self.assertIn("hidrometrica_acores", set(networks["slug"]))
+        for name in networks["name"]:
+            self.assertTrue(_no_mojibake(name), f"mojibake in network name {name!r}")
+
+    def test_02_stations(self):
+        stations = self.snirh.stations()
+        type(self).stations = stations  # reuse downstream to save requests
+        self.assertGreater(len(stations), 1000)
+        self.assertEqual(list(stations.columns[:2]), ["uid", "code"])
+        for column in ("name", "basin", "status", "latitude", "longitude",
+                       "coord_x", "coord_y", "aquifer_system"):
+            self.assertIn(column, stations.columns)
+        accented = stations["district"].dropna().str.contains("Ú|Á|É|Ã", regex=True)
+        self.assertTrue(accented.any(), "expected accented district names")
+        for value in stations["name"].dropna().head(200):
+            self.assertTrue(_no_mojibake(str(value)), f"mojibake in {value!r}")
+
+    def test_03_parameters(self):
+        stations = getattr(type(self), "stations", None)
+        if stations is None:
+            stations = self.snirh.stations()
+        parameters = self.snirh.parameters(stations["uid"].iloc[0])
+        self.assertFalse(parameters.empty)
+        self.assertEqual(list(parameters.columns), ["uid", "name"])
+        for name in parameters["name"]:
+            self.assertTrue(_no_mojibake(name), f"mojibake in parameter {name!r}")
+
+    def test_04_timeseries(self):
+        stations = getattr(type(self), "stations", None)
+        if stations is None:
+            stations = self.snirh.stations()
+        subset = stations[stations["code"].isin(["3/N1", "3/N2"])]
+        if len(subset) < 2:
+            subset = stations.head(2)
+        df = self.snirh.timeseries(subset, Parameters.GWL_DEPTH,
+                                   start="2023-01-01", end="2023-06-30")
+        self.assertEqual(list(df.columns), TIMESERIES_COLUMNS)
+        self.assertGreater(len(df), 0)
+        self.assertTrue(str(df["timestamp"].dtype).startswith("datetime64"))
+        self.assertEqual(df["value"].dtype, "float64")
+
+
+@unittest.skipUnless(os.getenv("RUN_LIVE_TESTS"),
+                     "Skipping live tests. Set RUN_LIVE_TESTS=1 to run.")
+class TestLiveParametersEnum(unittest.TestCase):
+    """The curated Parameters enum must stay true to live discovery.
+
+    Discovery is the source of truth; the enum is convenience constants. If
+    SNIRH ever renumbers a parameter, the stale enum id would silently fetch
+    the wrong quantity (or nothing), so pin the ids against live discovery.
+
+    One request's worth of stations from each of two networks covers all 28,
+    because the enum is meteorological apart from the two groundwater-level
+    ids. Probed 2026-07-15: meteorologica's first 50 stations yield 26,
+    piezometria's the remaining 2.
     """
-    These tests hit the actual SNIRH servers.
-    They are skipped by default to prevent network dependency in standard test runs.
+
+    #: {network slug: stations to discover parameters for}. One
+    #: _CHUNK_SIZE-sized request each.
+    SOURCES = {"meteorologica": 50, "piezometria": 50}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.discovered = set()
+        for slug, n_stations in cls.SOURCES.items():
+            snirh = Snirh(slug)
+            uids = snirh.stations()["uid"].astype(str).tolist()[:n_stations]
+            pars = snirh.parameters(uids)
+            cls.discovered |= set(pars["uid"].astype(str))
+
+    def test_every_enum_id_exists_in_discovery(self):
+        missing = {p.name: p.value for p in Parameters
+                   if str(p.value) not in self.discovered}
+        self.assertEqual(
+            missing, {},
+            f"Parameter uids in the curated enum that live discovery no longer "
+            f"reports: {missing}. Either SNIRH renumbered them (fix the enum) "
+            f"or the sampled stations no longer carry them (fix SOURCES)."
+        )
+
+
+@unittest.skipUnless(os.getenv("RUN_LIVE_TESTS"),
+                     "Skipping live tests. Set RUN_LIVE_TESTS=1 to run.")
+class TestLiveStationsSmokeAllNetworks(unittest.TestCase):
+    """stations() smoke across every discovered network.
+
+    A single shared client keeps the request count down: 1 home fetch for
+    the network list, then ~3 requests per network (network-select POST +
+    markers XML + metadata CSV; +1 home-page fallback for the coordinate-less
+    networks, e.g. 'eta' and 'hidrometrica_madeira'). ~49 requests for the
+    15 known networks, all sequential (single thread, no worker pool).
     """
 
-    def test_fetch_stations_all_networks(self):
-        """Test fetching station lists for all supported networks."""
-        networks = [
-            'piezometria', 
-            'meteorologica', 
-            'qualidade', 
-            'hidrometrica', 
-            'qualidade_superficial'
-        ]
-        
-        for network in networks:
-            with self.subTest(network=network):
-                print(f"\n[Live] Testing network station fetch: {network}")
-                snirh = Snirh(network=network)
-                # Fetch stations (limit to a small basin to be faster if possible)
-                # Using 'RIBEIRAS DO ALGARVE' as it's usually smaller than 'TEJO' or 'DOURO'
-                stations = snirh.stations.get_stations_with_metadata(basin_filter=['RIBEIRAS DO ALGARVE'])
-                
-                self.assertGreater(len(stations), 0, f"Should find stations for {network}")
-                print(f"Found {len(stations)} stations for {network}")
+    @classmethod
+    def setUpClass(cls):
+        cls.client = SnirhClient()
+        cls.networks = fetch_networks(cls.client)
 
-    def test_fetch_data_meteorologica(self):
-        """Test fetching data for Meteorologica network (Precipitation)."""
-        print("\n[Live] Testing data fetch: meteorologica")
-        snirh = Snirh(network='meteorologica')
-        stations = snirh.stations.get_stations_with_metadata(basin_filter=['RIBEIRAS DO ALGARVE'])
-        
-        # Try a few stations to increase chance of finding data
-        target_stations = stations.head(5)
-        
-        df = snirh.data.get_timeseries(
-            station_codes=target_stations,
-            parameter=Parameters.PRECIPITATION_DAILY,
-            start_date='01/01/2023',
-            end_date='31/01/2023'
-        )
-        
-        self.assertIsNotNone(df)
-        print(f"Fetched {len(df)} rows for meteorologica.")
-        
-        if not df.empty:
-            self.assertIn('site_name', df.columns)
-            self.assertIn('value', df.columns)
-            self.assertEqual(df['parameter'].iloc[0], 'PRECIPITATION_DAILY')
+    def test_stations_every_network(self):
+        for network in self.networks.itertuples(index=False):
+            with self.subTest(network=network.slug):
+                stations = fetch_stations(self.client, network.uid)
+                self.assertGreater(len(stations), 0,
+                                   f"no stations for network {network.slug}")
+                self.assertEqual(list(stations.columns[:2]), ["uid", "code"])
+                self.assertTrue(
+                    stations["uid"].astype(str).str.strip().str.len().gt(0).all(),
+                    f"empty station uid(s) in network {network.slug}",
+                )
+                if "name" in stations.columns:
+                    for value in stations["name"].dropna().head(20):
+                        self.assertTrue(
+                            _no_mojibake(str(value)),
+                            f"mojibake in {network.slug} station name {value!r}",
+                        )
 
-    def test_fetch_data_piezometria(self):
-        """Test fetching data for Piezometria network (Groundwater Level)."""
-        print("\n[Live] Testing data fetch: piezometria")
-        snirh = Snirh(network='piezometria')
-        stations = snirh.stations.get_stations_with_metadata(basin_filter=['RIBEIRAS DO ALGARVE'])
-        
-        target_stations = stations.head(5)
-        
-        df = snirh.data.get_timeseries(
-            station_codes=target_stations,
-            parameter=Parameters.GWL_DEPTH,
-            start_date='01/01/2023',
-            end_date='31/01/2023'
-        )
-        
-        self.assertIsNotNone(df)
-        print(f"Fetched {len(df)} rows for piezometria.")
-        
-        if not df.empty:
-            self.assertIn('site_name', df.columns)
-            self.assertIn('value', df.columns)
-            self.assertEqual(df['parameter'].iloc[0], 'GWL_DEPTH')
+
+if __name__ == "__main__":
+    unittest.main()

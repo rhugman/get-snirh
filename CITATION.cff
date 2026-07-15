@@ -6,7 +6,7 @@ authors:
 - family-names: "Hugman"
   given-names: "Rui"
 title: "get-snirh"
-version: 0.1.1
-date-released: 2025-12-15
+version: 0.2.0
+date-released: 2026-07-15
 url: "https://github.com/rhugman/get-snirh"
 license: GPL-3.0

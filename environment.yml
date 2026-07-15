@@ -3,11 +3,16 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python>=3.8
-  - pandas>=1.0.0
+  # Runtime floors mirror pyproject.toml; keep the two in step.
+  - python>=3.10
+  - pandas>=2.0.0
   - requests>=2.25.0
+  - beautifulsoup4>=4.12
+  - urllib3>=1.26
+  # Development and examples.
   - pytest
   - ipykernel
+  - matplotlib>=3.5      # examples/ notebooks only, not a package dependency
   - pip
   - pip:
-    - -e . 
+    - -e .

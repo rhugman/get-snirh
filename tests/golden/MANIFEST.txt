@@ -1,0 +1,66 @@
+Golden-file fixtures: raw bytes captured live from SNIRH (issue #19).
+Capture date: 2026-07-15
+Captured once, sequentially, via get_snirh.client.SnirhClient (honest
+User-Agent). Files are raw response bytes except where a truncation is
+noted below; truncations keep the payload structurally real (valid
+closing tags / original header+footer lines). Encodings per
+get_snirh.constants.SnirhEncodings: home pages and CSVs are ISO-8859-1,
+markers XML and parameters ajax are utf-8 (entity-encoded ASCII).
+
+Replayed offline by tests/test_golden.py.
+
+------------------------------------------------------------------------------
+file: home_page.html
+size: 107731 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/index.php?idMain=2&idItem=1 (GET, stateless)
+notes: Full page, ISO-8859-1 bytes, untruncated. Contains the <select name="f_redes_todas[]"> with all 15 networks; its <select name="f_estacoes[]"> is empty (no network selected). Expected parse: 15 networks.
+------------------------------------------------------------------------------
+file: home_stations_selected.html
+size: 116941 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/index.php?idMain=2&idItem=1 (GET, session-scoped, after POST f_redes_seleccao[]=458192970 [ETA])
+notes: Full page, ISO-8859-1 bytes, untruncated. The <select name="f_estacoes[]"> lists the 13 ETA stations (station labels arrive as &#9632;-prefixed entities). Expected parse: 13 stations, e.g. uid 596197002 -> code ETA_13.
+------------------------------------------------------------------------------
+file: markers_piezometria.xml
+size: 25660 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/snirh/_dadosbase/site/xml/xml_listaestacoes.php (GET, session-scoped, network Piezometria uid 100290946)
+notes: TRUNCATED: first 50 of 1127 <marker .../> elements kept, plus the original closing </markers> tag bytes (CRLF preserved); XML remains well-formed. utf-8 bytes with HTML entities (&#9632;). The first marker is station 3/N1 (site=2028876, lat=42.0474, lng=-8.38867). Expected parse: 50 stations. Full payload was 582000 bytes.
+------------------------------------------------------------------------------
+file: metadata_piezometria.csv
+size: 5721 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/snirh/_dadosbase/site/paraCSV/lista_csv.php?obj_janela=INFO_ESTACOES&s_cover=100290946&tp_lista=&completa=1&formato=csv (GET, stateless)
+notes: TRUNCATED: title block + CÓDIGO header + first 50 of 1127 data rows, then the original blank lines and 'Dados obtidos ...' footer (CRLF preserved, ISO-8859-1 bytes). Row 29 is station 3/N1 (A21, VIANA DO CASTELO, MINHO/ÂNCORA). Expected parse: 50 rows, 11 canonical columns. Full payload was 120845 bytes / 1127 rows.
+------------------------------------------------------------------------------
+file: metadata_hidrometrica_madeira.csv
+size: 714 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/snirh/_dadosbase/site/paraCSV/lista_csv.php?obj_janela=INFO_ESTACOES&s_cover=100406019&tp_lista=&completa=1&formato=csv (GET, stateless)
+notes: Full payload, untruncated (ISO-8859-1). Odd schema: LATITUDE (ºN)/LONGITUDE (ºW) instead of COORD_X/COORD_Y, no DISTRITO/CONCELHO/FREGUESIA/ALTITUDE; all coordinates are literal '-'. Expected parse: 9 rows, columns [code, name, status, basin, latitude_n, longitude_w].
+------------------------------------------------------------------------------
+file: parameters_station_2028876.html
+size: 448 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/snirh/_dadosbase/site/_ajax_listaparscomdados.php?sites=2028876 (GET, session-scoped, network Piezometria uid 100290946)
+notes: Full payload, untruncated (entity-encoded ASCII, utf-8 safe). Expected parse: 2 parameters: uid 100290981 'Nível piezométrico', uid 2277 'Profundidade Nível Água'.
+------------------------------------------------------------------------------
+file: timeseries_3n1_gwl.csv
+size: 485 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/snirh/_dadosbase/site/paraCSV/dados_csv.php?sites=2028876&pars=2277&tmin=01/01/2023&tmax=31/12/2023&formato=csv (GET, stateless)
+notes: Full payload, untruncated (ISO-8859-1). Station 3/N1 (uid 2028876), parameter 2277 'Profundidade Nível Água', calendar 2023. Expected parse: 12 rows; first row 30/01/2023 10:00 = 3.35, last row 28/12/2023 10:45 = 3.2.
+------------------------------------------------------------------------------
+file: timeseries_empty.csv
+size: 3533 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/snirh/_dadosbase/site/paraCSV/dados_csv.php?sites=1627743378&pars=436115734&tmin=01/01/2015&tmax=31/12/2024&formato=csv (GET, stateless)
+notes: Full payload, untruncated (ISO-8859-1). Hidrométrica station 19B/01H (uid 1627743378), parameter 436115734 'Nível instantâneo máximo anual', 2015-2024: a combo the network matrix verified as genuinely empty server-side. Header + full FLAG legend + footer, zero data rows. Expected parse: 0 rows.
+------------------------------------------------------------------------------
+file: timeseries_qualidade_flagged.csv
+size: 252 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/snirh/_dadosbase/site/paraCSV/dados_csv.php?sites=9203856240&pars=776221266&tmin=01/01/2015&tmax=31/12/2024&formato=csv (GET, stateless)
+notes: Full payload, untruncated (ISO-8859-1). Qualidade station 02N/02 'A VEIGA DO SEIXO' (uid 9203856240), parameter 776221266 '(m+p)-Xileno (ug/l)', 2015-2024. Smallest real dados_csv.php layout observed across all 15 networks (2026-07-15 sweep): the FLAG legend lists only the flags actually used — here '(<)' alone — against the 3533-byte full legend in timeseries_empty.csv, and the value is censored ('(<)' = below detection limit). Same structure regardless: 'DATA,' header on line 3, data from line 5. Expected parse: 1 row, 16/05/2022 15:42 = 1.0; the FLAG column is not retained (the parser keeps timestamp+value).
+------------------------------------------------------------------------------

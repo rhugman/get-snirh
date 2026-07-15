@@ -1,0 +1,83 @@
+SNIRH - SISTEMA NACIONAL DE INFORMAÇÃO DE RECURSOS HÍDRICOS
+
+DATA,A-DOS-CUNHADOS (19B/01H),,
+,Nível instantâneo máximo anual (m),FLAG,
+
+(vc) Valor calculado pois falha valor introduzido
+(vd) Valor calculado diferente do valor introduzido
+(>) Maior que
+(<) Menor que
+(<=) Menor ou igual
+(>=) Maior ou igual
+(N_E) Níveis calculados a partir da leitura de escala
+(N_L) Níveis calculados a partir de limnigramas
+(N_R) Níveis calculados a partir das folhas resumo
+(C_E) Caudais calculados a partir das leituras da escala
+(C_L) Caudais calculados a partir de limnigramas
+(C_R) Caudais calculados a partir das folhas resumo
+(V_S) Consumos na Obra do Sorraia (Maranhão e Montargil)
+(apaga) Valor apagar
+(!) Valor actualizar
+(SH) Medições de caudal calculadas na aplicação SNIRH-Hidro
+(IV) Valor impossível de validar
+(B) Dados do Boletim de Escoamento
+(VC) Valor validado em campo
+(C_N) Caudais calculados a partir de níveis médios diários
+(N_N) Níveis carregados a partir de níveis médios diários
+(VE) Valor validado com estudos
+(VG) Valor validado em gabinete
+(VGQ0) Valor validado em gabinete (Caudal nulo)
+(VSS) Valor validado em gabinete (Sensor solto)
+(Lfs) Limite físico do sensor de nível
+(LfsQ0) Limite fisico do sensor de nível (Caudal nulo)
+(C) Amostragem complementar (balneares)
+(fda) Calculado com falha no dia anterior
+(AE) Alteração do local da escala
+(VAH) Valor acumulado na hora
+(CDLL) Dados de Cedillo
+(VIVH) Valor instantâneo igual ao valor horário
+(VM) Valor de Manutenção
+(d) Derrogação (balneares)
+(NH) Por falta de escala hidrométrica estes dados são níveis hidrométricos
+(e<) Estimado (menor que)
+(ei) Estimado pelo INAG
+(ei<) Estimado pelo INAG (menor que)
+(Vfls) Valor fora do limite do sensor
+(UE) Udógrafo entupido
+(BAC) Dados importados de outra Base de Dados não validada
+(CV) Valor calculado fora do limite da curva de vazão
+(vco) Valor da rede convencional
+(vau) Valor da rede automática
+(vdd) Valor da rede automática diferente do valor da rede convencional (equipamentos de medição diferentes)
+(e) Estimado
+(nf) Falha às nove horas
+(nv) Variação de nível às nove horas
+(S) Amostragem suplementar (balneares)
+(<;C) Amostragem complementar (balneares) + <
+(R) Amostragem de substituição (balneares)
+(O) Amostragem a omitir (balneares)
+(<;S) Amostragem suplementar (balneares) + <
+(<;R) Amostragem de substituição (balneares) + <
+(<;d) Derrogação (balneares) + <
+(<;O) Amostragem a omitir (balneares) + <
+(C;O) Amostragem complementar + a omitir (balneares)
+(<;C;O) Amostragem complementar + a omitir (balneares) + <
+(S;O) Amostragem suplementar + a omitir (balneares)
+(<;S;O) Amostragem suplementar + a omitir (balneares) + <
+(R;O) Amostragem de substituição + a omitir (balneares)
+(<;R;O) Amostragem de substituição + a omitir (balneares) + <
+(C;d) Amostragem complementar + derrogação (balneares)
+(<;C;d) Amostragem complementar + derrogação (balneares) + <
+(R;d) Amostragem de substituição + derrogação (balneares)
+(<;R;d) Amostragem de substituição + derrogação (balneares) + <
+(<;R;C) Amostragem de substituição + amostragem complementar + <
+(R;C) Amostragem de substituição + amostragem complementar
+(S;C) Amostragem complementar/suplementar (balneares)
+(<;S;C) Amostragem complementar/suplementar (balneares) + <
+(h) Ocultar
+(h<) Ocultar e menor que
+(h<=) Ocultar e menor ou igual a
+(h>) Ocultar e maior que
+(h>=) Ocultar e maior ou igual a
+
+Dados obtidos através do site http://snirh.apambiente.pt em 15/07/2026 12:33
