@@ -125,6 +125,37 @@ class TestSnapshotFallback:
             df = snirh.stations()
         assert len(df) == 3
 
+    def test_fallback_warning_reports_snapshot_date(self, monkeypatch, tmp_path):
+        monkeypatch.setattr(snapshots_module, "BUNDLED_DIR", tmp_path)
+        snapshots_module.save_snapshot(tmp_path, "piezometria", STATIONS_DF,
+                                       fetched_on="2026-07-15")
+        monkeypatch.setattr(get_snirh, "fetch_networks",
+                            lambda client: NETWORKS_DF.copy())
+
+        def down(client, uid):
+            raise SnirhNetworkError("SNIRH down")
+
+        monkeypatch.setattr(get_snirh, "fetch_stations", down)
+        snirh = Snirh("piezometria")
+        with pytest.warns(UserWarning, match="fetched 2026-07-15"):
+            df = snirh.stations()
+        assert len(df) == 3
+
+    def test_fallback_warning_unknown_date_for_legacy_snapshot(
+            self, monkeypatch, tmp_path):
+        # Header-less snapshot (written before date stamping).
+        self._snapshotted(monkeypatch, tmp_path)
+        monkeypatch.setattr(get_snirh, "fetch_networks",
+                            lambda client: NETWORKS_DF.copy())
+
+        def down(client, uid):
+            raise SnirhNetworkError("SNIRH down")
+
+        monkeypatch.setattr(get_snirh, "fetch_stations", down)
+        snirh = Snirh("piezometria")
+        with pytest.warns(UserWarning, match="of unknown date"):
+            snirh.stations()
+
     def test_fallback_when_discovery_is_down_too(self, monkeypatch, tmp_path):
         self._snapshotted(monkeypatch, tmp_path)
 

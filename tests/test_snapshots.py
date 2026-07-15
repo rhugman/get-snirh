@@ -1,8 +1,16 @@
+import datetime
+
 import pandas as pd
 import pytest
 
 from get_snirh.exceptions import SnirhError
-from get_snirh.snapshots import load_snapshot, save_snapshot, snapshot_path
+from get_snirh.snapshots import (
+    SNAPSHOT_DATE_PREFIX,
+    load_snapshot,
+    save_snapshot,
+    snapshot_date,
+    snapshot_path,
+)
 
 
 @pytest.fixture
@@ -44,6 +52,50 @@ class TestSaveLoadRoundtrip:
         target = tmp_path / "deep" / "dir"
         save_snapshot(target, "piezometria", stations_df)
         assert (target / "snapshot_piezometria.csv").exists()
+
+
+class TestSnapshotDate:
+    def test_header_line_written(self, tmp_path, stations_df):
+        path = save_snapshot(tmp_path, "piezometria", stations_df)
+        first = path.read_text(encoding="utf-8").splitlines()[0]
+        assert first == (
+            f"{SNAPSHOT_DATE_PREFIX} {datetime.date.today().isoformat()}"
+        )
+
+    def test_snapshot_date_defaults_to_today(self, tmp_path, stations_df):
+        save_snapshot(tmp_path, "piezometria", stations_df)
+        assert snapshot_date("piezometria", tmp_path) == (
+            datetime.date.today().isoformat()
+        )
+
+    def test_explicit_fetched_on(self, tmp_path, stations_df):
+        save_snapshot(tmp_path, "piezometria", stations_df,
+                      fetched_on=datetime.date(2026, 1, 2))
+        assert snapshot_date("piezometria", tmp_path) == "2026-01-02"
+
+    def test_explicit_fetched_on_string(self, tmp_path, stations_df):
+        save_snapshot(tmp_path, "piezometria", stations_df,
+                      fetched_on="2025-12-31")
+        assert snapshot_date("piezometria", tmp_path) == "2025-12-31"
+
+    def test_missing_snapshot_has_no_date(self, tmp_path):
+        assert snapshot_date("nope", tmp_path) is None
+
+    def test_legacy_snapshot_without_header(self, tmp_path, stations_df):
+        # Snapshots written before date stamping: no header line.
+        stations_df.to_csv(tmp_path / "snapshot_piezometria.csv",
+                           index=False, encoding="utf-8")
+        assert snapshot_date("piezometria", tmp_path) is None
+        loaded = load_snapshot("piezometria", tmp_path)
+        assert len(loaded) == 2
+        assert list(loaded.columns) == list(stations_df.columns)
+
+    def test_header_not_in_loaded_frame(self, tmp_path, stations_df):
+        save_snapshot(tmp_path, "piezometria", stations_df)
+        loaded = load_snapshot("piezometria", tmp_path)
+        assert len(loaded) == 2
+        assert list(loaded.columns) == list(stations_df.columns)
+        assert not loaded.iloc[0].astype(str).str.contains("#").any()
 
 
 class TestLoadMissing:

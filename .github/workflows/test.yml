@@ -1,12 +1,12 @@
 name: Tests
 
+# Offline test suite only: live tests in tests/test_live.py are skipped
+# unless RUN_LIVE_TESTS=1 (see live-drift.yml for the scheduled live run).
 on:
   push:
     branches: [ main, dev ]
   pull_request:
     branches: [ main, dev ]
-  schedule:
-    - cron: '0 0 1 * *'  # Run at 00:00 on the 1st of every month
 
 jobs:
   test:
@@ -26,14 +26,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
+    - name: Install package and test dependencies
+      # 'pip install -e .' pulls runtime deps (pandas, requests,
+      # beautifulsoup4, urllib3) from pyproject.toml.
       run: |
         python -m pip install --upgrade pip
         pip install pytest
         pip install -e .
 
-    - name: Run tests
-      env:
-        RUN_LIVE_TESTS: 1
+    - name: Run offline test suite
       run: |
-        pytest --ignore=tests/test_performance.py
+        pytest

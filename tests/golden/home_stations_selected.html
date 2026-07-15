@@ -1,0 +1,2049 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="PT-pt" xml:lang="PT-pt">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<!-- <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" /> -->
+
+<meta name="description" content="SNIRH - Sistema Nacional de Informação de Recursos Hídricos" />
+<meta name="author" content="SNIRH" />
+<meta name="keywords" content="agua, escoamento, telemetria, agua subterranea, albufeiras, precipitação, qualidade, água, relatórios, atlas da água, atlas, ambiente, praia, qualidade da água, água balnear, bandeira azul, inag, instituto da água, SNIRH" />
+<meta name="robots" content="All" />
+
+<meta name="infosnirh" content="SNIRHSITEOK" />
+
+<title>SNIRH > Dados de Base </title>
+
+<link href="/menu.min.css" rel="stylesheet" type="text/css" />
+<link href="/main.min.css?v=2" rel="stylesheet" type="text/css" />
+<link href="/pp.min.css" rel="stylesheet" type="text/css" />
+<link href="/_css/tabelasx1.css" rel="stylesheet" type="text/css" />
+
+<link href="/portaldaagua.min.css?v=2" rel="stylesheet" type="text/css" />
+
+<link href="/snirh/_navegacao/nav2010/default.advanced.css" media="all" rel="stylesheet" type="text/css" />
+<link href="/snirh/_navegacao/nav2010/dropdown.linear.columnar.css" media="all" rel="stylesheet" type="text/css" />
+
+<link href="/_classes/js/dhtmlxWindows2.5/codebase/dhtmlxwindows.css" rel="stylesheet" type="text/css" />
+<link href="/_classes/js/dhtmlxWindows2.5/codebase/skins/dhtmlxwindows_dhx_skyblue.css" rel="stylesheet" type="text/css" />
+<link href="/_classes/js/jQuery/css/flick/jquery-ui-1.8.23.custom.css" rel="stylesheet" type="text/css" />
+<link href="/_classes/css/pure-css-buttons-v1.0/css/buttons.css" rel="stylesheet" type="text/css" />
+<link href="/_classes/css/gp-buttons/css/css3-buttons.css" rel="stylesheet" type="text/css" media="screen">
+
+    <link href="/snirh/_dadosbase/site/dadosbase.css" type="text/css" rel="stylesheet" />
+    <link href="/snirh/_dadosbase/site/classes/date_picker/date_picker.css" type="text/css" rel="stylesheet" />
+    <link href="/snirh/_dadosbase/site/classes/tabpane/tab.css" rel="stylesheet" type="text/css" />
+
+	<script type="text/javascript" src="/snirh/funcoes_js/overlib/overlib.js"></script>
+
+<script type="text/javascript" src="/_classes/js/jQuery/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="/_classes/js/jQuery/jquery-ui-1.8.23.custom.min.js"></script>
+
+
+<script type="text/javascript" src="/snirh/funcoes_js/selectbox/selectbox.js"></script>
+<script type="text/javascript" src="/snirh/funcoes_js/funcoes.js"></script>
+<script type="text/javascript" src="/_classes/js/snirhlib.js"></script>
+<script type="text/javascript" src="/_classes/js/querystring.js"></script>
+<script type="text/javascript" src="/_classes/js/boxover/boxover.js"></script>
+<script type="text/javascript" src="/_classes/js/datas/validar_dadas.js"></script>
+<script type="text/javascript" src="/_classes/js/dhtmlxAjax/codebase/dhtmlxcommon.js"></script>
+
+<script type="text/javascript" src="/_classes/js/dhtmlxWindows2.5/codebase/dhtmlxcommon.js"></script>
+<script type="text/javascript" src="/_classes/js/dhtmlxWindows2.5/codebase/dhtmlxwindows.js"></script>
+<script type="text/javascript" src="/_classes/js/dhtmlxWindows2.5/codebase/dhtmlxcontainer.js"></script>
+
+<script type="text/javascript" src="/_classes/js/ajaxticker/ajaxticker.js">
+/***********************************************
+* Ajax Ticker script (txt file source)- © Dynamic Drive (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit http://www.dynamicdrive.com/ for this script and 100s more.
+***********************************************/
+</script>
+
+
+<script type="text/javascript" src="/_classes/js/niftycube/niftycube.js"></script>
+
+<script src="/Scripts/swfobject_modified.js" type="text/javascript"></script>
+
+<script src="/Scripts/AC_RunActiveContent.js" type="text/javascript"></script>
+
+<script src="/_classes/js/jQuery/jquery.printElementv2.min.js" type="text/javascript"></script>
+<script src="/_classes/js/jQuery/jquery.base64.min.js" type="text/javascript"></script>
+<script src="/_classes/js/jQuery/jquery.ui.message.min.js" type="text/javascript"></script>
+
+<script src="https://maps.google.com/maps/api/js?language=pt-PT" type="text/javascript"></script>
+
+<script src="/_classes/js/slimbox/js/slimbox2.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/_classes/js/slimbox/css/slimbox2.css" type="text/css" media="screen" />
+
+
+
+<script type="text/javascript">
+
+function S_Go_LoginIntranet() {
+	/*
+	var lg_user = document.getElementById('f_login_user').value;
+	var lg_pwd = document.getElementById('f_login_pwd').value;
+
+	var loader = dhtmlxAjax.getSync("snirh/_pages/validateintranetuser.php?u=" + lg_user + "&p="+ encodeURIComponent(lg_pwd));
+
+	if(loader.xmlDoc.responseText) {
+		window.open('http://intranet.snirh.pt/intranet?key='+loader.xmlDoc.responseText, 'intranet','toolbar=0,location=0,directories=0,menubar=0,status=1,scrollbars=1,resizable=1');
+
+		document.getElementById('f_login_user').value = "Utilizador";
+		document.getElementById('f_login_pwd').value = "Password";
+
+	} else {
+		alert("Dados incorrectos");
+	}
+	*/
+
+
+	var lg_user = jQuery('#f_login_user').val();
+	var lg_pwd = jQuery('#f_login_pwd').val();
+
+	jQuery.ajax({
+		url: 'snirh/_pages/validateintranetuser_v2.php',
+		data: 'u='+lg_user+'&p='+encodeURIComponent(lg_pwd),
+		type: 'post',
+		success: function(data){
+			if(data){
+				jQuery('#DivLogin').html(data);
+			} else {
+				alert("Dados incorrectos");
+			}
+		}
+	});
+}
+
+function S_Go_Intranet(authkey) {
+	window.open('https://snirhintranet.apambiente.pt/intranet?key='+authkey, 'intranet','toolbar=0,location=0,directories=0,menubar=0,status=1,scrollbars=1,resizable=1');
+}
+
+function S_Go_LogoutIntranet() {
+	jQuery("#DivHomeUserOptions").hide();
+	jQuery.ajax({
+		url: 'snirh/_pages/validateintranetuser_v2.php',
+		data: 'out=1',
+		type: 'post',
+		success: function(data){
+			if(data){
+				jQuery('#DivLogin').html(data);
+				window.location = '/';
+			}
+		}
+	});
+}
+
+function S_Go_Pesquisar() {
+	var palavra = new String(document.getElementById('f_pesquisa_termos').value)
+	location.href = '/index.php?idRef=MTM4Ng==&findestacao='+palavra;
+}
+
+function S_Go_PesquisarGoogle() {
+	var palavra = new String(document.getElementById('f_pesquisa_google').value);
+	location.href = '/index.php?idMain=-2&palavra='+palavra;
+}
+
+
+function S_HeaderFields_Pesquisa_EnterKey(field, event) {
+	var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+	if (keyCode == 13) { // Enter
+	S_Go_Pesquisar();
+	}
+	else
+	return true;
+}
+
+function S_HeaderFields_PesquisaGoogle_EnterKey(field, event) {
+	var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+	if (keyCode == 13) { // Enter
+	S_Go_PesquisarGoogle();
+	}
+	else
+	return true;
+}
+
+function S_HeaderFields_login_EnterKey(field, event) {
+	var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+	if (keyCode == 13) { // Enter
+	S_Go_LoginIntranet();
+	}
+	else
+	return true;
+}
+
+function _ShowMenu(idm) {
+	for(i=1; i<=6; i++) {
+		if(document.getElementById('menu_n0_' + i)) {
+			//$('#menu_n0_' + i + ' ul').children().css('visibility', 'hidden');
+			//$('#ul_menu_n0_' + i).children().css('visibility', 'hidden');
+			//$('#ul_menu_n0_' + i + " ul").children().css('visibility', 'hidden');
+			$('#ul_menu_n0_' + i).css('visibility', 'hidden');
+			$('#ul_menu_n0_' + i + " ul").css('visibility', 'hidden');
+		}
+	}
+	//$('#ul_menu_n0_' + idm).children().css('visibility', 'visible');
+	//$('#ul_menu_n0_' + idm + " ul").children().css('visibility', 'visible');
+
+	$('#ul_menu_n0_' + idm).css('visibility', 'visible');
+	$('#ul_menu_n0_' + idm + " ul").css('visibility', 'visible');
+
+}
+
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1210799-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+	// Em teste
+	/*
+	jQuery("a[href$='pdf']").each(function(index) {
+		pdflink = jQuery(this).attr('href');
+		pdfOnClick = "_gaq.push(['_trackEvent', 'PDF', 'Download', '" + pdflink + "']);";
+		jQuery(this).attr("onClick", pdfOnClick);
+	});
+	*/
+
+if (typeof jQuery != 'undefined') {
+    jQuery(document).ready(function($) {
+        var filetypes = /\.(zip|pdf|doc*|xls*|ppt*|mp3)$/i;
+        var baseHref = '';
+        if (jQuery('base').attr('href') != undefined)
+            baseHref = jQuery('base').attr('href');
+        jQuery('a').each(function() {
+            var href = jQuery(this).attr('href');
+            if (href && (href.match(/^https?\:/i)) && (!href.match(document.domain))) {
+                jQuery(this).click(function() {
+                    var extLink = href.replace(/^https?\:\/\//i, '');
+                    _gaq.push(['_trackEvent', 'External', 'Click', extLink]);
+                    if (jQuery(this).attr('target') != undefined && jQuery(this).attr('target').toLowerCase() != '_blank') {
+                        setTimeout(function() { location.href = href; }, 200);
+                        return false;
+                    }
+                });
+            }
+            else if (href && href.match(/^mailto\:/i)) {
+                jQuery(this).click(function() {
+                    var mailLink = href.replace(/^mailto\:/i, '');
+                    _gaq.push(['_trackEvent', 'Email', 'Click', mailLink]);
+                });
+            }
+            else if (href && href.match(filetypes)) {
+                jQuery(this).click(function() {
+                    var extension = (/[.]/.exec(href)) ? /[^.]+$/.exec(href) : undefined;
+                    var filePath = href;
+                    _gaq.push(['_trackEvent', 'Download', 'Click-' + extension, filePath]);
+                    if (jQuery(this).attr('target') != undefined && jQuery(this).attr('target').toLowerCase() != '_blank') {
+                        setTimeout(function() { location.href = baseHref + href; }, 200);
+                        return false;
+                    }
+                });
+            }
+        });
+    });
+}
+
+
+</script>
+
+</head>
+
+<body>
+
+
+<h1 class="invis">P&aacute;gina de entrada do SNIRH</h1>
+
+<div id="overDiv" style="z-index:1000; visibility:hidden; position:absolute"></div>
+
+    <div class="DivHomeContentBase">
+
+        <div style="clear:both"></div>
+
+        <div id="DivLogin">
+
+ 			<fieldset><legend>Formul&aacute;rio para login</legend><label for="f_login_user">Nome do utilizador</label><input name="f_login_user" id="f_login_user" type="text" title="Utilizador" placeholder="Utilizador" onkeyup="S_HeaderFields_login_EnterKey(this,event)" /> <label for="f_login_pwd">Password</label><input name="f_login_pwd" id="f_login_pwd" type="password" title="Password" placeholder="Password" onkeyup="S_HeaderFields_login_EnterKey(this,event)" /><a href="javascript:S_Go_LoginIntranet(); void(0)" class="buttonlogin" id="buttonlogin">Login</a></fieldset>
+        </div>
+
+        <div id="DivHomeMenuHeaderColumn">
+        <div class="DivHomeMenuHeader">
+        		<a href="https://www.portugal.gov.pt/pt/gc21/area-de-governo/ambiente" target="_blank" title="MAMB"><img alt="English" src="images/flaggoverno.gif" height="16px" /></a>
+                <span style="color:#333">|</span> <a href="https://www.portugal.gov.pt/pt/gc21/area-de-governo/ambiente" target="_blank" title="MAMB"><b>MAMB</b></a>
+                <span style="color:#333">|</span> <a href="https://www.apambiente.pt" target="_blank" title="APA, I.P."><b>APA, I.P.</b></a>
+                <span style="color:#333">|</span> <a href="/index.php?idMain=-1&idItem=1" title="Contactos">Contactos</a>
+        </div>
+        </div>
+
+        <div style="clear:both"></div>
+
+        <div id="DivHomeUserOptions">
+        ...sdadasdasd
+        f
+        asd
+        f
+
+        </div>
+
+        <div class="DivHomeContentHeader">
+        <div id="topWrapper">
+        <div id="top">
+
+
+
+            <div id="searcharea">
+
+                <fieldset><legend>Formul&aacute;rio para pesquisa de esta&ccedil;&otilde;es</legend><label for="f_pesquisa_termos">Pesquisa de esta&ccedil;&otilde;es (nome ou c&oacute;digo)</label><input name="f_pesquisa_termos" id="f_pesquisa_termos" type="text" title="Pesquisar esta&ccedil;&otilde;es" value="Pesquisar esta&ccedil;&otilde;es" onfocus="if(this.value=='Pesquisar esta&ccedil;&otilde;es') this.value=''" onblur="if(this.value=='') this.value='Pesquisar esta&ccedil;&otilde;es'" onkeyup="S_HeaderFields_Pesquisa_EnterKey(this,event)" /><input type="button" onclick="S_Go_Pesquisar()" /></fieldset>
+                <fieldset><legend>Formul&aacute;rio para pesquisa no site</legend><label for="f_pesquisa_google">Pesquisa no site</label><input name="f_pesquisa_google" id="f_pesquisa_google" type="text" title="Pesquisar no site" value="Pesquisar no site" onfocus="if(this.value=='Pesquisar no site') this.value=''" onblur="if(this.value=='') this.value='Pesquisar no site'" onkeyup="S_HeaderFields_PesquisaGoogle_EnterKey(this,event)" /><input type="button" onclick="S_Go_PesquisarGoogle()" /></fieldset>
+
+				<div id="dataehorautc">15/07/2026 12:33 [UTC+1] - <span title='Ano Hidrológico 2025/26, dia 288 de 365.'>2025/26 [288/365]</span></div>
+
+        	</div>
+
+            <div id="logo"><a href="/index.php?idMain=" title="SNIRH"><img src="snirh/_level0/imagens2/logo_SNIRH200px.png" alt="SNIRH" name="logosnirhtopo" width="200" height="67" id="logosnirhtopo" /></a></div>
+
+        </div>
+    </div>
+
+
+        </div>
+        <div class="DivHomeMainContent">
+            <div class="DivContent">
+
+
+
+    <div style="clear:both"></div>
+
+	<ul id="menu_nav_principal" class="dropdown dropdown-linear dropdown-columnar" style="z-index:10">
+
+	<li id="menu_n0_home"><a accesskey="0" href="/index.php?idMain=" title="Página inicial" onmouseover="_ShowMenu(0)"><span class="menu_n0_titulo">&nbsp;In&iacute;cio</span></a></li>
+
+                            <li class="dir" id="menu_n0_1"><a accesskey="1" href="javascript:_ShowMenu('1')"><span class="menu_n0_titulo">Dados Sintetizados</span></a>
+                                    <ul id="ul_menu_n0_1">
+                                                                                    <li class="dir"><span title="Recursos Hídricos">Recursos Hídricos</span>                                                                    <ul>
+                                        																							<li><a href="/index.php?idMain=1&idItem=1.1" target="_self" title="Boletim de Precipitação">Boletim de Precipitação</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=1&idItem=1.2" target="_self" title="Boletim de Escoamento">Boletim de Escoamento</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=1&idItem=1.3" target="_self" title="Boletim Armazenamento Albufeiras">Boletim Armazenamento Albufeiras</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=1&idItem=1.4" target="_self" title="Águas Subterrâneas">Águas Subterrâneas</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=1&idItem=1.6" target="_self" title="Boletim de Temperatura">Boletim de Temperatura</a>
+												</li>
+											                                                                            </ul>
+                                                          </li>
+                                                                                                                <li class="dir"><span title="Águas Balneares">Águas Balneares</span>                                                                    <ul>
+                                        																							<li><a href="/index.php?idMain=1&idItem=2.1" target="_self" title="Análise à qualidade da água durante a Época Balnear">Época Balnear</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=1&idItem=2.4" target="_self" title="Campanha Educativa">Campanha Educativa</a>
+												</li>
+											                                                                            </ul>
+                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=1&idItem=7" target="_self" title="Características das Albufeiras">Características das Albufeiras</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=1&idItem=8" target="_self" title="Perímetros de Protecção">Perímetros de Protecção</a>                                                          </li>
+                                                                                                                <li class="dir"><span title="Fenómenos Extremos">Fenómenos Extremos</span>                                                                    <ul>
+                                        																							<li><a href="/index.php?idMain=1&idItem=9.6" target="_self" title="Monitorização da Seca">Monitorização da Seca</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=1&idItem=9.8" target="_self" title="Implicações dos Incêndios Florestais nos Recursos Hídricos">Incêndios Florestais</a>
+												</li>
+											                                                                            </ul>
+                                                          </li>
+                                                                        </ul>
+                                </li>
+                            <li class="dir" id="menu_n0_2"><a accesskey="2" href="javascript:_ShowMenu('2')"><span class="menu_n0_titulo">Dados de Base</span></a>
+                                    <ul id="ul_menu_n0_2">
+                                                                                    <li class="dir"><a href="/index.php?idMain=2&idItem=1" target="_self" title="Monitorização">Monitorização</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=2&idItem=3" target="_self" title="Pesquisa Rápida">Pesquisa Rápida</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=2&idItem=4" target="_self" title="Meteorologia em Tempo-Real">Meteorologia em Tempo-Real</a>                                                          </li>
+                                                                                                                <li class="dir"><span title="Inundações">Inundações</span>                                                                    <ul>
+                                        																							<li><a href="/index.php?idMain=2&idItem=5.1" target="_self" title="SVARH">SVARH</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=2&idItem=5.2" target="_self" title="Zonas Inundáveis e de Risco de Inundações (SIG)">Zonas Inundáveis e de Risco de Inundações (SIG)</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=2&idItem=5.3" target="_self" title="Marcas de Referência">Marcas de Referência</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=2&idItem=5.4" target="_self" title="Relatório da Cartografia de Inundações">Relatório da Cartografia de Inundações</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=2&idItem=5.6" target="_self" title="Mapas sobre Cartografia de Inundações (PDF)">Mapas sobre Cartografia de Inundações (PDF)</a>
+												</li>
+											                                                                            </ul>
+                                                          </li>
+                                                                        </ul>
+                                </li>
+                            <li class="dir" id="menu_n0_4"><a accesskey="3" href="javascript:_ShowMenu('4')"><span class="menu_n0_titulo">Grandes Números</span></a>
+                                    <ul id="ul_menu_n0_4">
+                                                                                    <li class="dir"><a href="/index.php?idMain=4&idItem=2" target="_self" title="Galeria de Imagens">Galeria de Imagens</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=4&idItem=3" target="_self" title="Sistemas Aquíferos">Sistemas Aquíferos</a>                                                          </li>
+                                                                        </ul>
+                                </li>
+                            <li class="dir" id="menu_n0_5"><a accesskey="4" href="javascript:_ShowMenu('5')"><span class="menu_n0_titulo">MEDIATECA</span></a>
+                                    <ul id="ul_menu_n0_5">
+                                                                                    <li class="dir"><a href="/index.php?idMain=5&idItem=2" target="_self" title="Glossário">Glossário</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=5&idItem=3" target="_self" title="Legislação">Legislação</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=5&idItem=5" target="_self" title="SNIRH. O que é?">SNIRH. O que é?</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=5&idItem=6" target="_self" title="Hidro-Biblioteca">Hidro-Biblioteca</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=5&idItem=7" target="_self" title="Hidro-Album">Hidro-Album</a>                                                          </li>
+                                                                        </ul>
+                                </li>
+                            <li class="dir" id="menu_n0_6"><a accesskey="5" href="javascript:_ShowMenu('6')"><span class="menu_n0_titulo">Relações Internacionais</span></a>
+                                    <ul id="ul_menu_n0_6">
+                                                                                    <li class="dir"><a href="/index.php?idMain=6&idItem=1" target="_self" title="Convenção Luso-Espanhola">Convenção Luso-Espanhola</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=6&idItem=4" target="_self" title="Representação em Fora Internacionais">Representação em Fora Internacionais</a>                                                          </li>
+                                                                                                                <li class="dir"><a href="/index.php?idMain=6&idItem=5" target="_self" title="Relações Ibero-Americanas">Relações Ibero-Americanas</a>                                                          </li>
+                                                                                                                <li class="dir"><span title="Relatórios Comunitários">Relatórios Comunitários</span>                                                                    <ul>
+                                        																							<li><a href="/index.php?idMain=6&idItem=6.1" target="_self" title="Substâncias Perigosas">Substâncias Perigosas</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=6&idItem=6.2" target="_self" title="Águas Piscícolas">Águas Piscícolas</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=6&idItem=6.3" target="_self" title="Origens de Água">Origens de Água</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=6&idItem=6.4" target="_self" title="Nitratos">Nitratos</a>
+												</li>
+											                                        																							<li><a href="/index.php?idMain=6&idItem=6.5" target="_self" title="Águas Balneares">Águas Balneares</a>
+												</li>
+											                                                                            </ul>
+                                                          </li>
+                                                                        </ul>
+                                </li>
+                        <li id="menu_n0_contacto" title="Inqu&eacute;rito de satisfa&ccedil;&atilde;o para cidad&atilde;os"><a accesskey="9" href="/index.php?idMain=-1&idItem=2" onmouseover="_ShowMenu(9)"><span class="menu_n0_titulo blink">&nbsp;&nbsp;Inqu&eacute;rito</span></a></li>
+	</ul>
+
+	<div style="clear:both; height:3px"></div>
+
+	        <div id="voceestaaqui" class="voceestaaqui_colorbg_n0_2">
+            <a href="/index.php?mainId=" title="P&aacute;gina de entrada">Home</a> &gt; Dados de Base > Monitorização        </div>
+    
+	
+	<div id="main_contentWrapper">
+
+	
+<script type="text/javascript">
+(function () {
+ 
+	google.maps.Map.prototype.markers = new Array();
+ 
+	google.maps.Map.prototype.addMarker = function(marker) {
+    	this.markers[this.markers.length] = marker;
+  	};
+	
+	google.maps.Map.prototype.getMarkers = function() {
+		return this.markers
+	};
+	
+	google.maps.Map.prototype.clearMarkers = function() {
+		for(var i=0; i<this.markers.length; i++){
+			this.markers[i].setMap(null);
+		}
+		this.markers = new Array();
+	};
+ 
+ 
+})();
+</script>
+
+<script type="text/javascript" src="snirh/_dadosbase/site/config/javascript.js"></script>
+
+<script type="text/javascript">
+	var ol_bgcolor = "#f9db35";
+	var ol_fgcolor = "#f9f7eb";
+	var ol_capcolor = "#000000";
+</script>
+
+<script type="text/javascript" src="snirh/_dadosbase/site/classes/tabpane/tabpane.js"></script>
+
+
+<script type="text/javascript" src="snirh/_dadosbase/site/classes/date_picker/date_picker.js"></script>
+<script type="text/javascript" src="snirh/_dadosbase/site/classes/colorpicker/ColorPicker.js"></script>
+
+<form name="navega" method="post">
+
+<input type="hidden" name="FILTRA_BACIA" />
+<input type="hidden" name="FILTRA_COVER" />
+<input type="hidden" name="FILTRA_SITE" />
+
+<input type="hidden" name="click_x" id="click_x" value="" />
+<input type="hidden" name="click_y" id="click_y" value="" />
+<input type="hidden" name="zf" id="zf" value="" />
+<input type="hidden" name="movemapa" id="movemapa" />
+
+
+<!-- <div>
+	<div id="messagedbmeteofalhadados"><span>Infelizmente, este serviço viu-se obrigado a suspender, temporariamente, a publicação dos dados meteorológicos a partir do ano hidrol&oacute;gico 2012/13. Esta suspensão relaciona-se com a qualidade dos dados que ficou comprometida, com a ausência da manutenção das estações de monitorização hidro-meteorológicas. Logo que haja condições financeiras e técnicas, será reiniciado a publicação. Por fim, informa-se que a reposição deste serviço passa pelo reinício da manutenção das estações de monitorização de recursos hídricos, que está dependente da aprovação de uma candidatura aos fundos do QREN, POVT-Eixo III - Riscos.</span></div>
+	<div class="falhamanutinfobox">A manutenção das estações de monitorização automáticas está suspensa desde meados de Março de 2010, pelo que poderão ocorrer falhas na disponibilização de dados ao público. Face a este condicionalismo, os dados não são totalmente fiáveis.</div> 
+</div>
+ -->
+<style type="text/css">
+/*
+.falhamanutinfobox {
+	font-weight:bold;
+	border: 2px solid #9C0;
+	margin: 10px 0px;
+	padding:10px;
+	width:930px;
+	color:#069;
+	background-color:#9F6;
+	text-align:center;
+}
+*/
+
+#messagedbmeteofalhadados, .falhamanutinfobox { margin:10px}
+#messagedbmeteofalhadados span, .falhamanutinfobox span { font-size:11px}
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error,
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+  background-color:#F9F4A2 !important;
+  background-image:none !important;
+}
+</style>
+
+<script type="text/javascript">
+window.onload=function(){DBASE_ExecutarAposLoadTotalPagina();};
+jQuery(document).ready(function() {// When the Dom is ready 
+	jQuery("#messagedbmeteofalhadados").message({ type: "error", dismiss: false });
+	jQuery(".falhamanutinfobox").message({ type: "info", dismiss: false });
+
+	//jQuery('.falhamanutinfobox').hide();//Hide the div 
+	//jQuery(".falhamanutinfobox").fadeIn(3000); //Add a fade in effect that will last for 2000 millisecond
+});
+</script>
+		<table width="935px" border="0" cellspacing="0" cellpadding="0">
+		  <tr>
+			<td class="banner_top" colspan="3">
+
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				  <tr>
+					<td width="20px"><img src="snirh/_dadosbase/site/imagens/setaparadireira.gif" width="20" height="23" alt="" title="" /></td>
+					<td>&nbsp;Filtros Activos: <a href="javascript:DBASE_MostraDivFiltro('REDES')" title='Redes'>Redes</a></td>
+					<td align="right"><span class="banner_top_txt">Dados de Base</span></td>
+				  </tr>
+				</table>
+		
+				
+			</td>
+		  </tr>
+		  <tr>
+			<td colspan="3">
+			
+					<table cellspacing="0" cellpadding="0" id="tbl_botoes_superiores">
+					  <tr>
+						<td class="alignleft">
+						
+							<a href="javascript:DBASE_MostraDivFiltro('REDES')" title="Click para alterar/escolher Redes de Monitorização seleccionadas."><img src="snirh/_dadosbase/site/imagens/bt_redes.gif" width="80" height="22" border="0"></a>
+							<a href="javascript:DBASE_MostraDivFiltro('BACIAS')" title="Click para alterar/escolher Bacias Hidrográficas seleccionadas."><img src="snirh/_dadosbase/site/imagens/bt_bacias.gif" width="185" height="22" border="0"></a>	
+							<a href="javascript:DBASE_MostraDivFiltro('SAQUIFEROS')" title="Click para alterar/escolher filtros para Águas Subterrâneas."><img src="snirh/_dadosbase/site/imagens/bt_aguassubterraneas.gif" width="175" height="22" border="0"></a>										 						
+						
+						</td>
+                        <td>&nbsp;</td>
+						<td class="alignright">
+						
+							<a href="javascript:DBASE_MostraDivFiltro('PERSONALIZAR')" title="Personalizar navegação e mapa."><img src="snirh/_dadosbase/site/imagens/bt_configurar.png" border="0"></a>
+                            <a href="javascript:DBASE_MostraDivFiltro('PESQUISAAVANCADA')" title="Personalizar navegação e mapa."><img src="snirh/_dadosbase/site/imagens/bt_pesquisaavancada.png" border="0"></a>
+							<!--<a href="javascript:DBASE_AbreAjuda()" title="Ajuda"><img src="snirh/_dadosbase/site/imagens/bt_ajuda.png" border="0"></a>-->
+						
+						</td>
+					  </tr>
+					</table>
+
+				
+			</td>
+		  </tr>
+
+		  <tr>
+			<td colspan="3" style="padding-left:5px">
+            	<div id="avisomarquee" style="display:none">
+            		<marquee behavior="scroll" direction="left" scrollamount="2" height="25"><p></p></marquee>
+                </div>
+			</td>
+          </tr>
+
+		  <tr>
+			<td align="center" valign="top">
+			
+				<table width="100%" cellpadding="2" cellspacing="0">
+				  <tr>
+					<td class="nav_mapa_tit" colspan="2">
+						<span style="cursor:help"
+							onmouseover="return overlib('<p nowrap>Click em REDES para alterar.<br>Sempre que possível use também o filtro BACIAS HIDROGRÁFICAS para tornar a navegação mais rápida.</p>', WIDTH,250,ABOVE, RIGHT);"
+							onmouseout="return cClick()">Redes de Monitorização seleccionadas (# estações) <div id="infodbasenav"></div></span>
+                    </td>
+				  </tr>
+
+				  				  
+				  
+				                        <tr>
+                        <td>
+                            <img src="snirh/_dadosbase/site/esquemas/desenha_poligono.php?poligono=RECTANGULO&cor_html=0099FF">
+                            <a href="javascript:DBASE_SeleccionaEstacoesRede('&#9632;')" title="Seleccionar todas as estações da rede ETA">ETA</a> (13)					</td>
+                        <td>
+                            	
+                        </td>
+                      </tr>
+				                    
+  				</table>	
+
+				<br />
+				
+				                
+
+					
+                        <input type="hidden" id="gmaps_centro_latitude" name="gmaps_centro_latitude" value="39.6936944">
+                        <input type="hidden" id="gmaps_centro_longitude" name="gmaps_centro_longitude" value="-8.131475">
+                        <input type="hidden" id="gmaps_centro_zoom" name="gmaps_centro_zoom" value="7">
+
+                        <!-- Google Mapas -->
+                        <div id="mapa_google" style="width: 520px; height: 680px; border:1px solid #CCC"></div>
+
+					
+							</td>
+			<td ></td>
+			<td rowspan="2" valign="top">
+<div id="site_direita" style="z-index:5">
+
+	<table cellspacing="0" cellpadding="0">
+
+				  
+	  <tr>
+		<td><table>
+<tr>
+<td class="seleccao_header">
+	
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	  <tr>
+		<td align="center">
+			<span style="cursor:help"
+				onmouseover="return overlib('<p nowrap>Pode seleccionar as estações nesta lista ou no mapa.</p>', ABOVE, RIGHT);"
+				onmouseout="return cClick()">
+					Estações da Rede Seleccionada			</span>	
+		</td>
+		<td>
+					</td>
+	  </tr>
+	</table>
+
+</td>
+</tr>
+<tr>
+<td>
+	<!--<select name="f_estacoes[]" size="7"  multiple="multiple" class="form_select" style="width:315px" onDblClick="javascript:alert('Seleccione as estações e click em [Seleccionar Estações]')">-->
+	<select id="f_estacoes[]" name="f_estacoes[]" size="7"  multiple="multiple" class="form_select formselectseleccao" onDblClick="Selectbox.copySelectedOptions(this.form['f_estacoes[]'],this.form['f_estacoes_activas[]'],true)">
+							<option value="596197002" style="background-color:#ffffff">&#9632; ALBUFEIRA DA AGUIEIRA - PINHEIRO DO &Aacute;ZERE (ETA) (ETA_13)</option>
+							<option value="596193212" style="background-color:#ffffff">&#9632; ALBUFEIRA DA AGUIEIRA - STA COMBA D&Atilde;O (ETA) (ETA_12)</option>
+							<option value="473531102" style="background-color:#ffffff">&#9632; ALBUFEIRA DA APARTADURA (ETA) (ETA_11)</option>
+							<option value="458286230" style="background-color:#ffffff">&#9632; ALBUFEIRA DA SOBREIRA (ETA) (ETA_03)</option>
+							<option value="458288620" style="background-color:#ffffff">&#9632; ALBUFEIRA DE VILA CH&Atilde; (ETA) (ETA_06)</option>
+							<option value="458301048" style="background-color:#ffffff">&#9632; ALBUFEIRA DO ARROIO (ETA) (ETA_10)</option>
+							<option value="458295998" style="background-color:#ffffff">&#9632; ALBUFEIRA NOSSA SENHORA DO DESTERRO (ETA) (ETA_07)</option>
+							<option value="458285290" style="background-color:#ffffff">&#9632; ALBUFEIRA PORTO DE S&Atilde;O MIGUEL (ETA) (ETA_02)</option>
+							<option value="458284486" style="background-color:#ffffff">&#9632; ALBUFEIRA VALE FERREIROS (ETA) (ETA_01)</option>
+							<option value="458299082" style="background-color:#ffffff">&#9632; CABE&Ccedil;A GORDA (ETA) (ETA_09)</option>
+							<option value="458297574" style="background-color:#ffffff">&#9632; COLMEAL (ETA) (ETA_08)</option>
+							<option value="458287262" style="background-color:#ffffff">&#9632; PINH&Atilde;O (ETA) (ETA_04)</option>
+							<option value="458287984" style="background-color:#ffffff">&#9632; RIBEIRA DE CURROS (ETA) (ETA_05)</option>
+		  </select>
+
+
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	  <tr>
+		<td>
+			
+			<!--
+			<input
+				type="button"
+				value="Seleccionar Todas"
+				onClick="SeleccionaTodasEstacoesMapa(this.form,true);"
+				class="form_bt" style="cursor:help" title="Seleccionar todas as estações.">
+			-->
+
+		</td>
+		<td align="right">
+
+			<input
+				type="button"
+				value="Seleccionar Estações"
+				onClick="DBASE_SeleccionaEstacoesDaLista();"
+				class="form_bt_seleccionarestacoes" style="cursor:help" title="Seleccionar Estações.">
+		</td>
+	  </tr>
+	</table>
+</td>
+</tr>
+</table></td>
+	  </tr>
+
+	  <tr>
+		<td><table width="100%">
+ <tr>
+	<td class="seleccao_header">Estações Seleccionadas para Análise</td>
+  </tr>
+  <tr>
+	<td>
+
+		
+		<select id="f_estacoes_activas[]" name="f_estacoes_activas[]"
+        		size="8"
+                multiple="multiple"
+                class="form_select  formselectseleccao"
+                onDblClick="Selectbox.removeSelectedOptions(this.form['f_estacoes_activas[]'])"
+                >
+					  </select>
+	  	<!--
+	  				<div class="select_option_ajuda">Seleccine estações no mapa ou na lista "Estações da Rede Seleccionada".</div>
+				-->
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" id="tbl_botoes_estacoes_seleccao">
+		  <tr>
+			<td>
+				<input type="button"
+					id="bt_limparlista"
+					value="Limpar Lista" 
+					onClick="DBASE_ValidarListaEstacoes(this.form,'LIMPAR');"
+					class="form_bt" style="cursor:help" title="Click para remover todas as estações desta lista. Em alternativa faça duplo-click em cada estação.">
+			
+			</td>
+			<td>
+				<input type="button"
+					id="bt_limparseleccao"
+					value="Limpar Sel." 
+					onClick="DBASE_ValidarListaEstacoes(this.form,'LIMPAR_SELECCAO');"
+					class="form_bt" style="cursor:help" title="Seleccione as estações a remover e click aqui. Em alternativa faça duplo-click em cada estação.">
+			
+			</td>
+			<td align="right">
+				<input type="button"
+					id="bt_validarlista"
+					value="VALIDAR Lista" 
+					onClick="DBASE_ValidarListaEstacoes(this.form,'VALIDAR');"
+					class="form_bt_validar"
+                    style="cursor:help"
+                    title="Seleccione as estações no mapa ou na lista e click aqui.">
+			</td>
+		  </tr>
+		</table>
+		
+		<input type="hidden" id="validar_lista_estacoes" name="validar_lista_estacoes" />
+		
+	</td>
+  </tr>
+  <tr>
+	<td style="padding-top:5px;padding-bottom:5px; text-align:center; color:#7c6d68">
+		<div align="center" id="div_bts_listaestacoes_loading" style="visibility:hidden; position:absolute; left:350px; width:250px">
+			Aguarde um momento, por favor...<br /><img src="snirh/_dadosbase/site/imagens/loadingdadosbase.gif" />
+		</div>
+		<div id="div_bts_listaestacoes_aviso">
+			Ao alterar as estações seleccionadas click <strong><blink>VALIDAR Lista</blink></strong><br />para identificar as estações no mapa/listar parâmetros.
+		</div>
+		<script language="javascript">
+			intervaloblink = window.setInterval('BlinkIt()',1000);
+		</script>
+	</td>
+  </tr>
+</table></td>
+	  </tr>
+
+	  <tr>
+		<td><table>
+	  <tr>
+		<td class="seleccao_header">
+			 			<span style="cursor:help"
+				onmouseover="return overlib('<p nowrap>Parâmetros com dados para as estações seleccionadas validadas.</p>', ABOVE, RIGHT);"
+				onmouseout="return cClick()">
+				Parâmetros com Dados
+			</span>
+			 
+		</td>
+	  </tr>
+	  <tr>
+		<td>
+        
+        	<div id="select_parametros">
+	
+	<select id="f_estacoes_parametros[]" name="f_estacoes_parametros[]" size="8" multiple="multiple"  class="form_select formselectseleccao"  onDblClick="javascript:DBASE_AlertarParaSeleccionarComTecla()">
+
+				
+				
+			  </select>
+  </div>	
+			<!--
+			<div align="right">
+	
+				<input
+					type="button"
+					value="Todos" 
+					onClick="DBASE_FiltrarParametrosPeloFiltro(this.form,1);"
+					title="Ver todos os parâmetros com dados destas estações"
+					style="cursor:help"
+					class="form_bt"
+					disabled='disabled'					>
+	
+				<input
+					type="button"
+					value="Aplicar Filtro do Mapa" 
+					onClick="DBASE_FiltrarParametrosPeloFiltro(this.form,2);"
+					title="Aplicar o filtro definido em 'Personalizar navegação e redes'"
+					style="cursor:help"
+					class="form_bt"
+					disabled='disabled'					>
+				<input type="hidden" name="f_aplicar_filtro_parametros" id="f_aplicar_filtro_parametros" />
+			</div>
+			-->
+			
+		</td>
+	  </tr> 
+</table>	  </td>
+	  </tr>
+
+	  <tr>
+		<td>&nbsp;</td>
+	  </tr>
+
+	  <tr>
+		<td><table>
+	  <tr>
+		<td class="seleccao_header">
+						<span style="cursor:help" 
+				onmouseover="return overlib('<p nowrap>Indicar o período de análise no formato dia/mês/ano.</p><p>Apague o período de análise e click em <strong>VALIDAR Lista</strong> para obter as datas mínima e máxima com dados para as estações seleccionadas.</p>', BELOW, RIGHT);"
+				onmouseout="return cClick()">
+					Período de Análise (dia/mês/ano)
+			</span>
+					</td>
+	  </tr>
+	  <tr>
+		<td>
+	
+			<table border="0" cellspacing="0" cellpadding="5" class="filtro_tabela" align="center">
+			  <tr>
+				<td> De: </td>
+				<td> <input id="f_seleccao_data_tmin" name="f_seleccao_data_tmin" value="" class="form_campo_texto" size="12" maxlength="10"> <img src="/snirh/_dadosbase/site/imagens/calendario.gif" style="cursor:hand" onclick="displayDatePicker('f_seleccao_data_tmin')" alt="Calendário" /> </td>
+				<td> A: </td>
+				<td> <input id="f_seleccao_data_tmax" name="f_seleccao_data_tmax" value="" class="form_campo_texto" size="12" maxlength="10"> <img src="/snirh/_dadosbase/site/imagens/calendario.gif" style="cursor:hand" onclick="displayDatePicker('f_seleccao_data_tmax')" alt="Calendário" /> </td>
+			  </tr>
+			</table>
+	
+			<div align="right">
+
+				<input
+					type="button"
+					value="Ano Hidrológico" 
+					onClick="DBASE_FiltrarDatasPeloFiltro(this.form,'ANOH');"
+					title="Ano hidrológico actual."
+					style="cursor:help"
+					class="form_bt"
+										>
+
+				<input type="button"
+					value="Semestre" 
+					onClick="DBASE_FiltrarDatasPeloFiltro(this.form,'SEMESTRE');"
+					title="Semestre actual (Húmido/Seco) do ano hidrológico."
+					style="cursor:help"
+					class="form_bt"
+										>
+
+				<input
+					type="button"
+					value="Este Mês" 
+					onClick="DBASE_FiltrarDatasPeloFiltro(this.form,'MES');"
+					title="Este Mês."
+					style="cursor:help"
+					class="form_bt"
+										>
+
+					
+				<!--
+				<input
+					type="button"
+					value="Calcular" 
+					onClick="DBASE_FiltrarDatasPeloFiltro(this.form,'CALCULAR');"
+					title="Obter as datas mínima e máxima com dados."
+					style="cursor:help"
+					class="form_bt"
+										>
+				-->
+				<!--
+				<input
+					type="button"
+					value="Aplicar Filtro do Mapa" 
+					onClick="DBASE_FiltrarDatasPeloFiltro(this.form,'USAR_FILTRO');"
+					title="Aplicar o filtro definido em 'Personalizar navegação e redes'"
+					style="cursor:help"
+					class="form_bt"
+					disabled='disabled'					>
+				-->
+				<input type="hidden" name="f_calcular_tmin_tmax" id="f_calcular_tmin_tmax" />
+			</div>
+	
+		</td>
+	  </tr> 
+</table></td>
+	  </tr>
+	
+	  <tr>
+		<td>&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td>
+<script language="javascript">
+<!-- Também definida em pesquisador.pt -->
+function AbreVersaoSimplex(oque,bacia,cover,site) {
+	window.open('/snirh/_dadosbase/site/simplex.php?OBJINFO='+oque+'&FILTRA_BACIA='+bacia+'&FILTRA_COVER='+cover+'&FILTRA_SITE='+site,'SIMPLEX','width=1,height=1,toolbar=0,menubar=0,status=1,scrollbars=0,resizable=0')
+}
+</script>
+
+<input type="hidden" name="nconjuntos_max_variavel" id="nconjuntos_max_variavel" value="50" />
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+   <tr>
+	<td class="seleccao_header">Informação Disponível</td>
+  </tr>
+ 
+ 
+  <tr>
+	<td class="seleccao_informacao">
+
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="3px" id="tbl_infodisponivel">
+		  <tr>
+		  			<td colspan="2" align="right">
+
+				<input
+				type="button"
+				width="100px"
+				value="Características das Estações" 
+				onClick="DBASE_AbreListaEstacoes(this.form['f_estacoes_activas[]']);"
+				class="form_bt_conteudos_v2"
+				title="Características das estações.">
+				
+				<input
+				type="button"
+				width="100px"
+				value="Parâmetros" 
+				onClick="DBASE_AbreListaParametros(this.form['f_estacoes_parametros[]'],'I');"
+				class="form_bt_conteudos"
+				title="Parâmetros com dados em cada estação.">
+			</td>
+			
+					  </tr>
+		  <tr>
+			<th>Seleccione estações e parâmetros at&eacute; um máximo de 50 conjuntos.</th>
+			<td>
+				<input
+				type="button"
+				value="Ver/Guardar Dados" 
+				onClick="DBASE_ConsultarDados(this.form,'VER_DADOS','INTERNET');"
+				class="form_bt_verdados"
+				title="Ver dados">
+			</td>
+		  </tr>
+
+		  <tr>
+			<th>Seleccione um parâmetro e uma  estaç&atilde;o.</th>
+			<td>
+				<input
+				type="button"
+				value="Relatório" 
+				onClick="DBASE_ConsultarDados(this.form,'RELATORIO');"
+				class="form_bt_conteudos"
+				title="Relatório">
+			</td>
+		  </tr>
+	  
+		  <tr>
+			<th>Seleccione um parâmetro e até 100 estações.</th>
+			<td>
+				<input
+				type="button"
+				width="100px"
+				value="Estatística" 
+				onClick="DBASE_ConsultarDados(this.form,'ESTATISTICA');"
+				class="form_bt_conteudos"
+				title="Estatística">
+			</td>
+		  </tr>
+		  
+		  		  
+		  <tr>
+			<th>Seleccione at&eacute; 2 parâmetros e at&eacute; 5 estações.</th>
+			<td>
+				<input
+				type="button"
+				value="Gráfico" 
+				onClick="DBASE_ConsultarDados(this.form,'GRAFICO');"
+				class="form_bt_conteudos"
+				title="Gráfico">
+			</td>
+		  </tr>
+		  <tr>
+			<th>Seleccione uma estação da rede Hidrométrica.</th>
+			<td>
+				<input
+				type="button"
+				value="Curvas de Vazão" 
+				onClick="DBASE_ConsultarDados(this.form,'CURVAS_VAZAO');"
+				class="form_bt_conteudos"
+				title="Curvas de Vazão"
+				disabled='disabled'				>
+			</td>
+		  </tr>
+		  <tr>
+			<th>Seleccione uma estação para ver fotos da bacia hidrogr&aacute;fica.</th>
+			<td>
+				<input
+				type="button"
+				value="HIDRO-ALBUM" 
+				onClick="DBASE_ConsultarFotosDocumentos('FOTOS',this.form);"
+				class="form_bt_conteudos"
+				title="HIDRO-ALBUM">
+			</td>
+		  </tr>
+		  <tr>
+			<th>Seleccione uma estação para ver documentos da bacia hidrogr&aacute;fica.</th>
+			<td>
+				<input
+				type="button"
+				value="HIDRO-BIBLIOTECA" 
+				onClick="DBASE_ConsultarFotosDocumentos('DOCUMENTOS',this.form);"
+				class="form_bt_conteudos"
+				title="HIDRO-BIBLIOTECA">
+			</td>
+		  </tr>
+		</table>
+
+	</td>
+  </tr>
+</table></td>
+	  </tr> 
+	</table>
+</div></td>
+		  </tr>
+          
+		  <tr>
+			<td valign="top">
+
+				<table width="100%" cellpadding="2" cellspacing="0">
+				  <tr>
+				  <td colspan="2">
+<!--                        
+						<script type="text/javascript">
+							var xmlfile="snirh/_dadosbase/site/xml/tickercontent.txt"
+							new ajax_ticker(xmlfile, "texto_avisos", "texto_avisos_texto", 7000, "fade")
+                        </script>
+-->
+						<div id="texto_sobre_dados_sintetizados">
+							Também está disponível informação sintetizada com infografia sobre
+                            
+								                                                                                                                        <a target="_blank" href="/index.php?idMain=1&idItem=1.1" title="Dados Sintetizados > Recursos Hídricos > Boletim de Precipitação">Precipita&ccedil;&atilde;o</a>
+                                                                                    <a target="_blank" href="/index.php?idMain=1&idItem=1.2" title="Dados Sintetizados > Recursos Hídricos > Boletim de Escoamento">Escoamento</a>
+                                                                                    <a target="_blank" href="/index.php?idMain=1&idItem=1.4" title="Dados Sintetizados > Recursos Hídricos > Águas Subterrâneas">&Aacute;guas Subterr&acirc;neas</a>
+                                                                                    <a target="_blank" href="/index.php?idMain=1&idItem=1.3" title="Dados Sintetizados > Recursos Hídricos > Boletim Armazenamento Albufeiras">Armazenamento em Albufeiras</a>
+                                                                                    <a target="_blank" href="/index.php?idMain=1&idItem=1.6" title="Dados Sintetizados > Recursos Hídricos > Boletim de Temperatura">Temperatura</a>
+                                                                                    <a target="_blank" href="/index.php?idMain=1&idItem=1.5" title=""></a>
+                                                                                                                                        
+						</div>
+                        <p>Ao transferir os dados o utilizador compromete-se a referir a sua origem aquando da sua utilização.</p>
+                        
+						<a href="javascript:DBASE_AbrirAutoSizeWindow('../imagens/poa_cartaz.gif','POA','wname')"><img src="snirh/_dadosbase/site/imagens/poa.png" border="0"></a>
+					</td>
+				  </tr>
+  				</table>
+
+				<script type="text/javascript">
+	var colorpick = new ColorPicker();
+</script>
+
+<div id="seleccao_temas_do_mapa" style="z-index:100">
+
+	<div class="tab-pane" id="tabPane_dbase">
+
+		<script type="text/javascript">
+		tp1 = new WebFXTabPane( document.getElementById( "tabPane_dbase" ) );
+		</script>
+
+		<div class="tab-page">
+
+			<h2 class="tab">Configurar Mapa e Navega&ccedil;&atilde;o</h2>
+
+				<table border="0" cellpadding="2" cellspacing="0">
+				  <tr>
+					<td bgcolor="#FFFFFF" colspan="2">
+						
+                        <table border="0" width="100%" cellpadding="2" cellspacing="0">
+						  
+                          <tr>
+							<td style="white-space:nowrap"><strong>Seleccione os temas para ver no mapa:</strong></td>
+							<td> </td>
+							<td style="white-space:nowrap"><strong>Personalizar a navega&ccedil;&atilde;o:</strong> </td>
+						  </tr>
+                          <tr>
+							<td>
+                          
+								<!-- Temas do mapa -->
+							
+                                <table border="0" cellpadding="1px" cellspacing="2px">
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_altimetria1" name="f_temas_mapa_altimetria" value="1" checked='checked'></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_altimetria1">Altimetria</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_ccdr1" name="f_temas_mapa_ccdr" value="1" ></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_ccdr1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_ccdr.gif" alt="CCDR" /> <acronym title="Comiss&atilde;o de Coordena&ccedil;&atilde;o e Desenvolvimento Regional">CCDR</acronym></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_distritos1" name="f_temas_mapa_distritos" value="1" ></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_distritos1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_distritos.gif" alt="Distritos" /> Distritos</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_concelhos1" name="f_temas_mapa_concelhos" value="1"  disabled="true"></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_concelhos1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_concelhos.gif" alt="Concelhos" /> Concelhos</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_arh1" name="f_temas_mapa_arh" value="1" ></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_arh1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_arh.gif" width="7" height="7" alt="ARH" /> Administra&ccedil;&atilde;o Regi&atilde;o Hidrogr&aacute;fica</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_regioesh1" name="f_temas_mapa_regioesh" value="1" ></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_regioesh1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_reghid.gif" width="7" height="7" alt="Regi&otilde;es Hidrogr&aacute;ficas" /> Regi&otilde;es Hidrogr&aacute;ficas</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_gbacias1" name="f_temas_mapa_gbacias" value="1" checked='checked'></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_gbacias1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_gbacias.gif" alt="Grandes Bacias Hidrogr&aacute;ficas" /> Grandes Bacias Hidrogr&aacute;ficas</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_pbacias1" name="f_temas_mapa_pbacias" value="1"  disabled="true"></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_pbacias1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_pbacias.gif" alt="Pequenas Bacias Hidrogr&aacute;ficas" /> Pequenas Bacias Hidrogr&aacute;ficas</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_rios_principais1" name="f_temas_mapa_rios_principais" value="1" ></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_rios_principais1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_rios.gif" alt="Rios Principais" /> Rios Principais</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_rios1" name="f_temas_mapa_rios" value="1"  disabled="true"></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_rios1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_rios.gif" alt="Rios" /> Rios</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_uh1" name="f_temas_mapa_uh" value="1" ></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_uh1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_uhidro.gif" width="7" height="7" alt="Unidades Hidrogeol&oacute;gicas" /> Unidades Hidrogeol&oacute;gicas</label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="CHECKBOX" id="f_temas_mapa_saquiferos1" name="f_temas_mapa_saquiferos" value="1"  disabled="true"></td>
+                                        <td style="white-space:nowrap"><label for="f_temas_mapa_saquiferos1"><img src="snirh/_dadosbase/site/imagens/leg_simbolo_saquifero.gif" width="7" height="7" alt="Sistemas Aqu&iacute;feros" /> Sistemas Aqu&iacute;feros</label></td>
+                                    </tr>
+                                </table>
+								<!-- /Temas do mapa -->
+                            </td>
+							<td>&nbsp;</td>
+							<td style="vertical-align:top">
+                             
+                             	<!-- Personalizar navega&ccedil;&atilde;o -->
+                                <table border="0" cellpadding="1px" cellspacing="2px">
+                                    <tr>
+                                        <td style="white-space:nowrap"><label for="f_raio_simbolo_mapa">Tamanho do simbolo da esta&ccedil;&atilde;o:</label></td>
+                                        <td>
+                                            <select name="f_raio_simbolo_mapa" id="f_raio_simbolo_mapa" class="form_campos">
+                                                <option value="3"  >1</option>
+                                                <option value="5" selected='selected' >2</option>
+                                                <option value="7"  >3</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td nowrap="nowrap" colspan="2">Formato da apresenta&ccedil;&atilde;o da esta&ccedil;&atilde;o: </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" nowrap="nowrap">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="2" align="center">
+                                              <tr>
+                                                <td><input type="RADIO" id="f_simbolo_estacao1" name="f_simbolo_estacao" value="1" checked='checked'></td>
+                                                <td><label for="f_simbolo_estacao1">Esta&ccedil;&atilde;o (C&oacute;digo)</label></td>
+                                                <td><input type="RADIO" id="f_simbolo_estacao2" name="f_simbolo_estacao" value="2" ></td>
+                                                <td><label for="f_simbolo_estacao2">Esta&ccedil;&atilde;o</label></td>
+                                                <td><input type="RADIO" id="f_simbolo_estacao3" name="f_simbolo_estacao" value="3" ></td>
+                                                <td><label for="f_simbolo_estacao3">C&oacute;digo</label></td>
+                                              </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ignorar esta&ccedil;&otilde;es sem coordenadas:</td>
+                                        <td style="white-space:nowrap">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="2" align="center">
+                                            <tr>
+                                            <td><input type="RADIO" id="f_listar_estacoes_offmapa1" name="f_listar_estacoes_offmapa" value="1" ></td>
+                                            <td><label for="f_listar_estacoes_offmapa1">Sim</label></td>
+                                            <td><input type="RADIO" id="f_listar_estacoes_offmapa2" name="f_listar_estacoes_offmapa" value="2" checked='checked'></td>
+                                            <td><label for="f_listar_estacoes_offmapa2">N&atilde;o</label></td>
+                                            </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" nowrap="nowrap">Cores das redes: </td>
+                                    </tr>
+                                    <tr>
+                                    
+                                        <td colspan="2" nowrap="nowrap">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="2" align="center">
+                                              <tr align="center">
+                                                <td id="cell_cor_rede1" bgcolor="#0099FF">&#9632; Rede 1</td>
+                                                <td id="cell_cor_rede2" bgcolor="#009900">&#9674; Rede 2</td>
+                                                <td id="cell_cor_rede3" bgcolor="#999999">&#927; Rede 3</td>
+                                                <td id="cell_cor_rede4" bgcolor="#CCFF00">&#916; Rede 4</td>
+                                              </tr>
+                                              <tr align="center">
+                                                <td><input type="text" name="f_cor_rede1" value="#0099FF" size="9" maxlength="7" class="form_campo_texto" onkeyup="DBASE_MudarBgCellTabela(this.value,'cell_cor_rede1')" />
+                                                <a href="#" onclick="colorpick.select(document.getElementById('f_cor_rede1'),'pick1');return false;" name="pick1" id="pick1">+</a></td>
+                                                <td><input type="text" name="f_cor_rede2" value="#009900" size="9" maxlength="7" class="form_campo_texto" onkeyup="DBASE_MudarBgCellTabela(this.value,'cell_cor_rede2')" />
+                                                <a href="#" onclick="colorpick.select(document.getElementById('f_cor_rede2'),'pick2');return false;" name="pick2" id="pick2">+</a></td>
+                                                <td><input type="text" name="f_cor_rede3" value="#999999" size="9" maxlength="7" class="form_campo_texto" onkeyup="DBASE_MudarBgCellTabela(this.value,'cell_cor_rede3')" />
+                                                <a href="#" onclick="colorpick.select(document.getElementById('f_cor_rede3'),'pick3');return false;" name="pick3" id="pick3">+</a></td>
+                                                <td><input type="text" name="f_cor_rede4" value="#CCFF00" size="9" maxlength="7" class="form_campo_texto" onkeyup="DBASE_MudarBgCellTabela(this.value,'cell_cor_rede4')" />
+                                                <a href="#" onclick="colorpick.select(document.getElementById('f_cor_rede4'),'pick4');return false;" name="pick4" id="pick4">+</a></td>
+                                              </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="f_tipo_de_mapa">Tipo de Mapa:</label></td>
+                                        <td>
+                                        	<select id="f_tipo_de_mapa" name="f_tipo_de_mapa" >
+                                                                                        	<option value="1"  >Detalhado</option>
+                                                                                        	<option value="2" selected='selected' >Google Maps</option>
+                                                                                        	<option value="3"  >Nenhum</option>
+                                                                                        </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                      <td colspan="2">Ao seleccionar redes dos A&ccedil;ores ou Madeira, ser&aacute; activado automaticamente o <em>Google Maps</em>. A lista de temas para ver no mapa n&atilde;o se aplica ao <em>Google Maps</em>.</td>
+                                    </tr>
+                                 </table>
+                                 <!-- /Personalizar navega&ccedil;&atilde;o -->
+
+                            </td>
+						  </tr>
+						</table>
+					</td>
+				 </tr>
+				</table>
+				<p class="filtro_notas">Alguns temas s&oacute; poder&atilde;o ser adicionados com um (ou mais) n&iacute;veis de zoom.</p>
+				<!-- /Configurar temas do mapa -->
+		</div>
+
+		<div class="tab-page">
+			<h2 class="tab">Filtrar Esta&ccedil;&otilde;es</h2>
+
+			<div class="tab-pane" id="tabPane_dbase_filtro_estacoes">
+
+				<script type="text/javascript">
+				tp2 = new WebFXTabPane( document.getElementById( "tabPane_dbase_filtro_estacoes" ) );
+				</script>
+
+
+				<div class="tab-page">
+
+					<h2 class="tab" title="Redes">Redes</h2>
+
+						<table border="0" cellspacing="0" cellpadding="2" class="filtro_tabela">
+						  <tr>
+							<td><span class="dadosbase_texto_tit1">Lista Geral</span></td>
+							<td style="white-space:nowrap"><span class="dadosbase_texto_tit1">Selec&ccedil;&atilde;o<br />(M&aacute;ximo 4)</span></td>
+							<td rowspan="2">
+								<p class="filtro_notas" style="margin:0px">
+									Duplo-click para adicionar/remover.
+									<br /><br />
+									Click em &quot;Aplicar Filtros&quot; para implementar as altera&ccedil;&otilde;es.
+								</p>
+								
+								<div id="animacao_aplicarfiltros" style="visibility:hidden; margin:0px">
+									<img id="anim_aplicarfiltros_redes" src="snirh/_dadosbase/site/imagens/APLICAR_FILTROS.gif" style="cursor:pointer" onclick="DBASE_AplicarFiltros(document.forms['navega']);" />
+								</div>
+								
+							</td>
+						  </tr>
+						  <tr>
+							<td>
+
+								<select name="f_redes_todas[]" size="10" ondblclick="Selectbox.moveSelectedOptions(this.form['f_redes_todas[]'],this.form['f_redes_seleccao[]'],true); DBASE_MostraAnimacaoAplicarFiltros()" class="form_select">
+																																																																<option value="920123705">Hidrométrica</option>
+																																																							<option value="920123000">Hidrométrica Algarve</option>
+																																																							<option value="111307207">Hidrométrica Açores</option>
+																																																							<option value="100406019">Hidrométrica Madeira</option>
+																																																							<option value="920123704">Meteorológica</option>
+																																																							<option value="111307213">Meteorológica Açores</option>
+																																																							<option value="100406020">Meteorológica Madeira</option>
+																																																							<option value="100290943">* Nascentes</option>
+																																																							<option value="100290946">* Piezometria</option>
+																																																							<option value="5453">Qualidade</option>
+																																																							<option value="111702633">Qualidade automática</option>
+																																																							<option value="100290952">* Qualidade águas subterrâneas</option>
+																																																							<option value="100754551">Sedimentológica</option>
+																																																							<option value="100406000">Águas Balneares</option>
+																												</select>							</td>
+							<td>
+								<select name="f_redes_seleccao[]" size="10" multiple="multiple" class="form_select" ondblclick="Selectbox.moveSelectedOptions(this.form['f_redes_seleccao[]'],this.form['f_redes_todas[]'],true)">
+																															<option value="458192970">ETA</option>
+																  </select>							</td>
+						  </tr>
+						</table>
+						<p class="filtro_notas">* Estas redes n&atilde;o podem ser seleccionadas em simult&acirc;neo.</p>
+						<p class="filtro_notas">Mostrar apenas as esta&ccedil;&otilde;es das redes seleccionadas.</p>
+
+				</div>
+
+				<div class="tab-page">
+
+					<h2 class="tab" title="Bacias Hidrogr&aacute;ficas">Bacias Hidrogr&aacute;ficas</h2>
+
+						<table border="0" cellspacing="0" cellpadding="2" class="filtro_tabela">
+						  <tr>
+							<td align="center"><span class="dadosbase_texto_tit1">Lista Geral</span></td>
+							<td><span class="dadosbase_texto_tit1">Selec&ccedil;&atilde;o</span></td>
+							<td></td>
+						  </tr>
+						  <tr>
+							<td>
+								<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								  <tr>
+									<td>
+                                    
+                                          <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="70" height="130" id="FlashID_DBASE_bacias" title="bacias">
+                                            <param name="movie" value="snirh/_dadosbase/site/flash/bacias.swf" />
+                                            <param name="quality" value="high" />
+                                            <param name="wmode" value="opaque" />
+                                            <param name="swfversion" value="8.0.35.0" />
+                                            <!-- This param tag prompts users with Flash Player 6.0 r65 and higher to download the latest version of Flash Player. Delete it if you don’t want users to see the prompt. -->
+                                            <param name="expressinstall" value="/Scripts/expressInstall.swf" />
+                                            <!-- Next object tag is for non-IE browsers. So hide it from IE using IECC. -->
+                                            <!--[if !IE]>-->
+                                            <object type="application/x-shockwave-flash" data="snirh/_dadosbase/site/flash/bacias.swf" width="70" height="130">
+                                              <!--<![endif]-->
+                                              <param name="quality" value="high" />
+                                              <param name="wmode" value="opaque" />
+                                              <param name="swfversion" value="8.0.35.0" />
+                                              <param name="expressinstall" value="/Scripts/expressInstall.swf" />
+                                              <!-- The browser displays the following alternative content for users with Flash Player 6.0 and older. -->
+                                              <div>
+                                                <h4>Content on this page requires a newer version of Adobe Flash Player.</h4>
+                                                <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" width="112" height="33" /></a></p>
+                                              </div>
+                                              <!--[if !IE]>-->
+                                            </object>
+                                            <!--<![endif]-->
+                                    	</object>
+                                    
+                                    </td>
+									<td>
+										<select name="f_baciash_todas[]" size="10" ondblclick="Selectbox.moveSelectedOptions(this.form['f_baciash_todas[]'],this.form['f_baciash_seleccao[]'],true)" class="form_select">
+																																				<option value="8">Arade</option>
+																																																<option value="1551779242">Ave</option>
+																																																<option value="122">Ave/Leça</option>
+																																																<option value="11614394058">Costeiras entre o Lis e Oeste 2</option>
+																																																<option value="107">Cávado/Ribeiras Costeiras</option>
+																																																<option value="12">Douro</option>
+																																																<option value="6832309706">Douro espanhol</option>
+																																																<option value="23">Guadiana</option>
+																																																<option value="6832309834">Guadiana espanhol</option>
+																																																<option value="1551779244">Leça/Ribeiras Costeiras</option>
+																																																<option value="1551779250">Lima</option>
+																																																<option value="1693711518">Lima Espanhol</option>
+																																																<option value="93">Lima/Neiva</option>
+																																																<option value="278">Lis/Ribeiras Costeiras</option>
+																																																<option value="1551779246">Minho</option>
+																																																<option value="1693711904">Minho espanhol</option>
+																																																<option value="80">Minho/Ancora</option>
+																																																<option value="68">Mira</option>
+																																																<option value="47">Mondego</option>
+																																																<option value="1551779252">Neiva/Ribeiras Costeiras</option>
+																																																<option value="2915531236">Oceano Atlântico</option>
+																																																<option value="2915658390">Ria Formosa</option>
+																																																<option value="948">Ribeiras do Alentejo</option>
+																																																<option value="992">Ribeiras do Algarve</option>
+																																																<option value="138">Ribeiras do Oeste</option>
+																																																<option value="38">Sado</option>
+																																																<option value="17">Tejo</option>
+																																																<option value="1693628732">Tejo espanhol</option>
+																																																<option value="57">Vouga/Ribeiras Costeiras</option>
+																																																<option value="1551779248">Âncora/Ribeiras Costeiras</option>
+																																	</select>
+
+									</td>
+									
+								  </tr>
+								</table>
+							
+							
+							</td>
+							<td>
+							
+										<select name="f_baciash_seleccao[]" size="10" multiple="multiple" class="form_select" ondblclick="Selectbox.moveSelectedOptions(this.form['f_baciash_seleccao[]'],this.form['f_baciash_todas[]'],true)">
+																					</select>
+
+
+							  </td>
+							<td><p class="filtro_notas">Duplo-click para adicionar/remover.<br /><br />Click em &quot;Aplicar Filtros&quot; para implementar as altera&ccedil;&otilde;es.</p></td>
+						  </tr>
+						</table>
+						<p class="filtro_notas">Mostrar apenas as esta&ccedil;&otilde;es das bacias hidrogr&aacute;ficas seleccionadas.</p>
+
+				</div>
+
+				<div class="tab-page">
+
+					<h2 class="tab" title="&Aacute;guas Subterr&acirc;neas">&Aacute;guas Subterr&acirc;neas</h2>
+
+						<table border="0" cellspacing="0" cellpadding="2" class="filtro_tabela">
+						  <tr>
+							<td><span class="dadosbase_texto_tit1">Lista Geral</span></td>
+							<td><span class="dadosbase_texto_tit1">Selec&ccedil;&atilde;o</span></td>
+							<td></td>
+						  </tr>
+						  <tr>
+							<td>
+								<select name="f_saquiferos_todas[]" size="10" ondblclick="Selectbox.moveSelectedOptions(this.form['f_saquiferos_todas[]'],this.form['f_saquiferos_seleccao[]'],true)" class="form_select">
+																				<option value="2007427">A0X1RH1 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO MINHO</option>
+																				<option value="2007429">A0X1RH2 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO CÁVADO</option>
+																				<option value="2007431">A0X1RH3 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO DOURO</option>
+																				<option value="2007433">A0X1RH4 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO VOUGA</option>
+																				<option value="2007435">A0X1RH5 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO TEJO</option>
+																				<option value="2007437">A0X1RH6 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO SADO</option>
+																				<option value="2007439">A0X1RH7 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO GUADIANA</option>
+																				<option value="2007441">A0X1RH8 - MACIÇO ANTIGO INDIFERENCIADO DAS BACIAS DAS RIBEIRAS DO ALGARVE</option>
+																				<option value="2007443">A0X2RH1 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO LIMA</option>
+																				<option value="2007445">A0X2RH2 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO AVE</option>
+																				<option value="2007447">A0X2RH4 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO MONDEGO</option>
+																				<option value="2007449">A0X3RH2 - MACIÇO ANTIGO INDIFERENCIADO DA BACIA DO LEÇA</option>
+																				<option value="2007451">A0X4RH2 - MACIÇO ANTIGO INDIFERENCIADO DO BAIXO CÁVADO/AVE</option>
+																				<option value="2007453">A0Z1RH6 - ZONA SUL PORTUGUESA DA BACIA DO SADO</option>
+																				<option value="2007455">A0Z1RH7 - ZONA SUL PORTUGUESA DA BACIA DO GUADIANA</option>
+																				<option value="2007457">A0Z1RH8 - ZONA SUL PORTUGUESA DAS BACIAS DAS RIBEIRAS DO BARLAVENTO</option>
+																				<option value="2007459">A0Z2RH6 - ZONA SUL PORTUGUESA DA BACIA DO MIRA</option>
+																				<option value="2007461">A0Z2RH7 - ZONA SUL PORTUGUESA - TRANSIÇÃO ATLÂNTICO E SERRA</option>
+																				<option value="2007463">A0Z2RH8 - ZONA SUL PORTUGUESA DA BACIA DO ARADE</option>
+																				<option value="2007465">A0Z3RH8 - ZONA SUL PORTUGUESA DAS BACIAS DAS RIBEIRAS DO SOTAVENTO</option>
+																				<option value="2007467">A1 - VEIGA DE CHAVES</option>
+																				<option value="2007469">A10 - MOURA - FICALHO</option>
+																				<option value="2007471">A11 - ELVAS - CAMPO MAIOR</option>
+																				<option value="2007473">A12 - LUSO</option>
+																				<option value="2007475">A2 - ESCUSA</option>
+																				<option value="2007477">A3 - MONFORTE - ALTER DO CHÃO</option>
+																				<option value="2007479">A4 - ESTREMOZ - CANO</option>
+																				<option value="2007481">A5 - ELVAS - VILA BOIM</option>
+																				<option value="2007483">A6 - VIANA DO ALENTEJO - ALVITO</option>
+																				<option value="2007485">A9 - GABROS DE BEJA</option>
+																				<option value="2007487">M01RH7 - ORLA MERIDIONAL INDIFERENCIADO DA BACIA DO GUADIANA</option>
+																				<option value="2007489">M01RH8 - ORLA MERIDIONAL INDIFERENCIADO DAS BACIAS DAS RIBEIRAS DO BARLAVENTO</option>
+																				<option value="2007491">M02RH8 - ORLA MERIDIONAL INDIFERENCIADO DA BACIA DO ARADE</option>
+																				<option value="2007493">M03RH8 - ORLA MERIDIONAL INDIFERENCIADO DAS BACIAS DAS RIBEIRAS DO SOTAVENTO</option>
+																				<option value="2007495">M1 - COVÕES</option>
+																				<option value="2007497">M10 - SÃO JOÃO DA VENDA - QUELFES</option>
+																				<option value="2007499">M11 - CHÃO DE CEVADA - QUINTA DE JOÃO DE OURÉM</option>
+																				<option value="2007501">M12 - CAMPINA DE FARO</option>
+																				<option value="2007503">M13 - PERAL - MONCARAPACHO</option>
+																				<option value="2007505">M14 - MALHÃO</option>
+																				<option value="2007507">M15 - LUZ - TAVIRA</option>
+																				<option value="2007509">M16 - SÃO BARTOLOMEU</option>
+																				<option value="2007511">M17 - MONTE GORDO</option>
+																				<option value="2007513">M2 - ALMÁDENA - ODEÁXERE</option>
+																				<option value="2007515">M3 - MEXILHOEIRA GRANDE - PORTIMÃO</option>
+																				<option value="2007517">M4 - FERRAGUDO - ALBUFEIRA</option>
+																				<option value="2007519">M5 - QUERENÇA - SILVES</option>
+																				<option value="2007521">M6 - ALBUFEIRA - RIBEIRA DE QUARTEIRA</option>
+																				<option value="2007523">M7 - QUARTEIRA</option>
+																				<option value="2007525">M8 - SÃO BRÁS DE ALPORTEL</option>
+																				<option value="2007527">M9 - ALMANSIL - MEDRONHAL</option>
+																				<option value="2007529">O01RH3 - ORLA OCIDENTAL INDIFERENCIADO DA BACIA DO DOURO</option>
+																				<option value="2007531">O01RH4 - ORLA OCIDENTAL INDIFERENCIADO DA BACIA DO VOUGA</option>
+																				<option value="2007533">O01RH5 - ORLA OCIDENTAL INDIFERENCIADO DA BACIA DO TEJO</option>
+																				<option value="2007535">O01RH6 - ORLA OCIDENTAL INDIFERENCIADO DA BACIA DO SADO</option>
+																				<option value="2007537">O02RH4 - ORLA OCIDENTAL INDIFERENCIADO DA BACIA DO MONDEGO</option>
+																				<option value="2007541">O03RH4 - ORLA OCIDENTAL INDIFERENCIADO DA BACIA DO LIS</option>
+																				<option value="2007539">O04RH4 - ORLA OCIDENTAL INDIFERENCIADO DAS BACIAS DAS RIBEIRAS DO OESTE</option>
+																				<option value="2007543">O1 - QUATERNÁRIO DE AVEIRO</option>
+																				<option value="2007545">O10 - LEIROSA - MONTE REAL</option>
+																				<option value="2007547">O11 - SICÓ - ALVAIÁZERE</option>
+																				<option value="2007549">O12 - VIEIRA DE LEIRIA - MARINHA GRANDE</option>
+																				<option value="2007551">O14 - POUSOS - CARANGUEJEIRA</option>
+																				<option value="2007553">O15 - OURÉM</option>
+																				<option value="2007555">O18 - MACEIRA</option>
+																				<option value="2007557">O19 - ALPEDRIZ</option>
+																				<option value="2007559">O2 - CRETÁCICO DE AVEIRO</option>
+																				<option value="2007561">O20 - MACIÇO CALCÁRIO ESTREMENHO</option>
+																				<option value="2007563">O23 - PAÇO</option>
+																				<option value="2007565">O24 - CESAREDA</option>
+																				<option value="2007567">O25 - TORRES VEDRAS</option>
+																				<option value="2007569">O26 - OTA - ALENQUER</option>
+																				<option value="2007571">O28 - PISÕES - ATROZELA</option>
+																				<option value="2007573">O29 - LOURIÇAL</option>
+																				<option value="2007575">O3 - CÁRSICO DA BAIRRADA</option>
+																				<option value="2007577">O30 - VISO - QUERIDAS</option>
+																				<option value="2007579">O31 - CONDEIXA - ALFARELOS</option>
+																				<option value="2007581">O32 - SINES</option>
+																				<option value="2007583">O33 - CALDAS DA RAINHA - NAZARÉ</option>
+																				<option value="2007585">O4 - ANÇÃ - CANTANHEDE</option>
+																				<option value="2007587">O5 - TENTÚGAL</option>
+																				<option value="2007589">O6 - ALUVIÕES DO MONDEGO</option>
+																				<option value="2007591">O7 - FIGUEIRA DA FOZ - GESTEIRA</option>
+																				<option value="2007593">O8 - VERRIDE</option>
+																				<option value="2007595">O9 - PENELA - TOMAR</option>
+																				<option value="2007597">T01RH5 - BACIA DO TEJO-SADO INDIFERENCIADO DA BACIA DO TEJO</option>
+																				<option value="2007599">T01RH6 - BACIA DO TEJO-SADO INDIFERENCIADO DA BACIA DO SADO</option>
+																				<option value="2007601">T1 - BACIA DO TEJO-SADO / MARGEM DIREITA</option>
+																				<option value="2007603">T3 - BACIA DO TEJO-SADO / MARGEM ESQUERDA</option>
+																				<option value="2007605">T6 - BACIA DE ALVALADE</option>
+																				<option value="2007607">T7 - ALUVIÕES DO TEJO</option>
+																	</select>
+							</td>
+							<td>
+								<select name="f_saquiferos_seleccao[]" size="10" multiple="multiple" class="form_select" ondblclick="Selectbox.moveSelectedOptions(this.form['f_saquiferos_seleccao[]'],this.form['f_saquiferos_todas[]'],true)">
+																  </select>
+							</td>
+							<td><p class="filtro_notas">Duplo-click para adicionar/remover.<br /><br />Click em &quot;Aplicar Filtros&quot; para implementar as altera&ccedil;&otilde;es.</p></td>
+						  </tr>
+                          
+                          
+                          
+                          <tr>
+							
+							<td colspan="3">
+							
+								<table border="0" cellspacing="0" cellpadding="0">
+								  <tr>
+									<td style="text-align:right; padding-right:10px"><span class="dadosbase_texto_tit1">Tipo de Ponto de &Aacute;gua:</span></td>
+									
+																			<td class="form_texto2" style="padding-left:5px"><label for="agsubtppontoagua64">Dreno</label></td>
+										<td><input id="agsubtppontoagua64" type="checkbox" name="f_agsubtppontoagua[]" value="64"  class="form_box" /></td>
+																			<td class="form_texto2" style="padding-left:5px"><label for="agsubtppontoagua62">Furo Horizontal</label></td>
+										<td><input id="agsubtppontoagua62" type="checkbox" name="f_agsubtppontoagua[]" value="62"  class="form_box" /></td>
+																			<td class="form_texto2" style="padding-left:5px"><label for="agsubtppontoagua61">Furo Vertical</label></td>
+										<td><input id="agsubtppontoagua61" type="checkbox" name="f_agsubtppontoagua[]" value="61"  class="form_box" /></td>
+																			<td class="form_texto2" style="padding-left:5px"><label for="agsubtppontoagua63">Mina</label></td>
+										<td><input id="agsubtppontoagua63" type="checkbox" name="f_agsubtppontoagua[]" value="63"  class="form_box" /></td>
+																			<td class="form_texto2" style="padding-left:5px"><label for="agsubtppontoagua51">Nascente</label></td>
+										<td><input id="agsubtppontoagua51" type="checkbox" name="f_agsubtppontoagua[]" value="51"  class="form_box" /></td>
+																			<td class="form_texto2" style="padding-left:5px"><label for="agsubtppontoagua60">Poço</label></td>
+										<td><input id="agsubtppontoagua60" type="checkbox" name="f_agsubtppontoagua[]" value="60"  class="form_box" /></td>
+																		
+								  </tr>
+								</table>
+
+							</td>
+						  </tr>
+						</table>
+                        
+						<p class="filtro_notas_importante">Aplic&aacute;vel apenas &agrave;s redes de &aacute;gua subterr&acirc;nea.</p>
+				</div>
+
+				<div class="tab-page">
+
+					<h2 class="tab" title="Par&acirc;metros">Par&acirc;metros</h2>
+
+						<table border="0" cellspacing="0" cellpadding="2" class="filtro_tabela">
+						  <tr>
+							<td><span class="dadosbase_texto_tit1">Par&acirc;metros com dados nas redes seleccionadas</span></td>
+							<td><span class="dadosbase_texto_tit1">Selec&ccedil;&atilde;o</span></td>
+							<td></td>
+						  </tr>
+						  <tr>
+							<td>
+								<select name="f_parametros_todas[]" size="10" ondblclick="Selectbox.moveSelectedOptions(this.form['f_parametros_todas[]'],this.form['f_parametros_seleccao[]'],true)" class="form_select">
+																				<option value="100002982">4,4'-DDD ou p,p'-DDD (ug/l)</option>
+																				<option value="100002983">4,4'-DDE ou p,p'-DDE (ug/l)</option>
+																				<option value="100002984">4,4'-DDT ou p,p'-DDT (ug/l)</option>
+																				<option value="100002986">Alcalinidade (mg/l CaCO3)</option>
+																				<option value="100002990">Aldrina (ug/l)</option>
+																				<option value="100002991">Alum&iacute;nio (mg/l)</option>
+																				<option value="100002992">Amon&iacute;aco (mg/l NH3)</option>
+																				<option value="100002996">Am&oacute;nia Total (mg/l NH4)</option>
+																				<option value="100002994">Ars&eacute;nio total (mg/l)</option>
+																				<option value="100002995">Atrazina (ug/l)</option>
+																				<option value="100002998">Azoto Kjeldahl (mg/l N)</option>
+																				<option value="1215">Benzo(a)pireno (ug/l)</option>
+																				<option value="775086358">Benzo(ghi)perileno (ug/l)</option>
+																				<option value="775086348">Benzo(k)fluoranteno (ug/l)</option>
+																				<option value="100003045">Boro (mg/l)</option>
+																				<option value="100003004">B&aacute;rio (mg/l)</option>
+																				<option value="100003114">CBO5 (mg/l O2)</option>
+																				<option value="100003104">Carbono Org&acirc;nico Total (mg/l C)</option>
+																				<option value="100003109">Car&ecirc;ncia Qu&iacute;mica de Oxig&eacute;nio</option>
+																				<option value="1991">Cheiro</option>
+																				<option value="100003741">Chumbo total (mg/l)</option>
+																				<option value="100003154">Cianeto (mg/l)</option>
+																				<option value="100003164">Cloreto (mg/l)</option>
+																				<option value="1998">Cloro residual dispon&iacute;vel tot (mg/l HOCl) - eam</option>
+																				<option value="100003169">Cloro residual dispon&iacute;vel total (mg/l)</option>
+																				<option value="100003746">Cobre total (mg/l)</option>
+																				<option value="100003206">Coliformes Fecais</option>
+																				<option value="100003211">Coliformes Totais</option>
+																				<option value="100003225">Condutividade de laborat&oacute;rio a 20&ordm;C (uS/cm)</option>
+																				<option value="100003228">Condutividade de laborat&oacute;rio a 25&ordm;C (uS/cm)</option>
+																				<option value="100003234">Cor (mg/L Pt-Co)</option>
+																				<option value="100003237">Cr&oacute;mio total (mg/l)</option>
+																				<option value="100003736">C&aacute;dmio total (mg/l)</option>
+																				<option value="100003099">C&aacute;lcio (mg/l)</option>
+																				<option value="100003242">Detergentes ani&oacute;nicos (LAS)</option>
+																				<option value="100003247">Detergentes ani&oacute;nicos (MBAS)</option>
+																				<option value="100003257">Dialdrina (ug/l)</option>
+																				<option value="100003276">Dureza total (mg/l CaCO3)</option>
+																				<option value="100003287">Endossulf&atilde;o I ou Alfa-Endossulf&atilde;o (ug/l)</option>
+																				<option value="100003292">Endossulf&atilde;o II ou Beta-Endossulf&atilde;o (ug/l)</option>
+																				<option value="100003751">Endossulf&atilde;o Sulfato (ug/l)</option>
+																				<option value="100003310">Endrina (ug/l)</option>
+																				<option value="100003315">Estreptococos Fecais</option>
+																				<option value="774135458">Fen&oacute;is (mg/l)</option>
+																				<option value="100003325">Ferro dissolvido (mg/l)</option>
+																				<option value="100003330">Ferro total (mg/l)</option>
+																				<option value="1296">Fluoranteno (ug/l)</option>
+																				<option value="100003353">Fluoreto (mg/l)</option>
+																				<option value="100003363">Fosfato (mg/l P2O5)</option>
+																				<option value="100003392">Heptacloro (ug/l)</option>
+																				<option value="100003397">Heptacloro Ep&oacute;xido (ug/l)</option>
+																				<option value="100003387">Hexaclorobenzeno ou HCB (ug/l)</option>
+																				<option value="100003025">Hexaclorociclohexano-Alfa (ug/l)</option>
+																				<option value="100003030">Hexaclorociclohexano-Beta (ug/l)</option>
+																				<option value="249256282">Hexaclorociclohexano-Delta (ug/l)</option>
+																				<option value="100003402">Hidrocarbonetos totais (mg/l)</option>
+																				<option value="100003418">Magn&eacute;sio (mg/l)</option>
+																				<option value="100003428">Mangan&ecirc;s total (mg/l)</option>
+																				<option value="672270490">Merc&uacute;rio total (mg/l)</option>
+																				<option value="100003451">Molinato (ug/l)</option>
+																				<option value="100003461">Nitrato (mg/l NO3)</option>
+																				<option value="100003466">Nitrito (mg/l NO2)</option>
+																				<option value="100003456">N&iacute;quel total (mg/l)</option>
+																				<option value="100003756">Oxidabilidade ao Permanganato (mg/l)</option>
+																				<option value="100003512">Oxig&eacute;nio dissolvido - lab. (%)</option>
+																				<option value="100003507">Oxig&eacute;nio dissolvido - lab. (mg/l O2)</option>
+																				<option value="1356">PCB IUPAC 028 (ug/l)</option>
+																				<option value="1358">PCB IUPAC 052 (ug/l)</option>
+																				<option value="1350">PCB IUPAC 101 (ug/l)</option>
+																				<option value="1351">PCB IUPAC 118 (ug/l)</option>
+																				<option value="1353">PCB IUPAC 153 (ug/l)</option>
+																				<option value="1354">PCB IUPAC 180 (ug/l)</option>
+																				<option value="100729418">Pesticidas Totais (ug/l)</option>
+																				<option value="100003569">Pot&aacute;ssio (mg/l)</option>
+																				<option value="100003761">Sabor</option>
+																				<option value="411871098">Salmonela 5 000 ml (pres./aus.)</option>
+																				<option value="100003585">Sel&eacute;nio (mg/l)</option>
+																				<option value="262281736">Simazina (ug/l)</option>
+																				<option value="100003615">Sulfato (mg/l)</option>
+																				<option value="100003590">S&iacute;lica (mg/l SiO2)</option>
+																				<option value="100003595">S&oacute;dio (mg/l)</option>
+																				<option value="100003600">S&oacute;lidos dissolvidos totais (mg/l)</option>
+																				<option value="100003610">S&oacute;lidos suspensos totais (mg/l)</option>
+																				<option value="1382">S&oacute;lidos totais (mg/l)</option>
+																				<option value="100003625">Temperatura Amostra (&deg;C)</option>
+																				<option value="100003630">Turva&ccedil;&atilde;o (NTU)</option>
+																				<option value="100003633">Van&aacute;dio (mg/l)</option>
+																				<option value="100003643">Zinco total (mg/l)</option>
+																				<option value="100003563">pH - lab.</option>
+																				<option value="100003471">&Oacute;leos e Gorduras (mg/l)</option>
+																	</select>
+							</td>
+							<td>
+								<select name="f_parametros_seleccao[]" size="10" multiple="multiple" class="form_select" ondblclick="Selectbox.moveSelectedOptions(this.form['f_parametros_seleccao[]'],this.form['f_parametros_todas[]'],true)">
+																  </select>
+							</td>
+							<td><p class="filtro_notas">Duplo-click para adicionar/remover.<br /><br />Click em &quot;Aplicar Filtros&quot; para implementar as altera&ccedil;&otilde;es.</p></td>
+						  </tr>
+						</table>
+
+						<p class="filtro_notas_importante">Ao alterar o filtro &quot;Redes&quot; deve &quot;Aplicar Filtros&quot; antes de seleccionar os par&acirc;metros.</p>
+						<p class="filtro_notas">Mostrar apenas as esta&ccedil;&otilde;es com dados para os par&acirc;metros seleccionados.</p>
+
+				</div>
+
+			 	<div class="tab-page">
+
+					<h2 class="tab" title="Datas/Dados">Datas/Dados</h2>
+
+						<table border="0" cellspacing="0" cellpadding="5" class="filtro_tabela">
+						  <tr>
+						  	<td colspan="4"><span class="dadosbase_texto_tit1">DATAS</span></td>
+						  </tr>
+						  <tr>
+							<td><span class="dadosbase_texto_tit0">De (DD/MM/YYYY):</span></td>
+							<td> <input id="f_data_a" name="f_data_a" value="" class="form_campo_texto" size="12" maxlength="10"> <img src="snirh/_dadosbase/site/imagens/calendario.gif" style="cursor:pointer" onclick="displayDatePicker('f_data_a')" alt="Calend&aacute;rio" />&nbsp; </td>
+							<td><span class="dadosbase_texto_tit0">A (DD/MM/YYYY):</span></td>
+							<td> <input id="f_data_b" name="f_data_b" value="" class="form_campo_texto" size="12" maxlength="10"> <img src="snirh/_dadosbase/site/imagens/calendario.gif" style="cursor:pointer" onclick="displayDatePicker('f_data_b')" alt="Calend&aacute;rio" /> </td>
+						  </tr>
+						  <tr>
+							<td colspan="4" style="text-align:left"><span class="dadosbase_texto_tit0">Com dados nos &uacute;ltimos <input id="f_data_c" name="f_data_c" value="" class="form_campo_texto" size="3" maxlength="3"> dias.</span></td>
+						  </tr>
+						  <tr>
+							<td colspan="4" style="text-align:left"><span class="dadosbase_texto_tit0">Com o m&iacute;nimo de <input id="f_data_anos" name="f_data_anos" value="" class="form_campo_texto" size="3" maxlength="3"> anos de dados.</span></td>
+						  </tr>						  
+
+						  <tr>
+						  	<td colspan="4"><span class="dadosbase_texto_tit1">VALORES (<em>ESTE FILTRO EST&Aacute; EM TESTE</em>)</span></td>
+						  </tr>
+						  <tr>
+							<td colspan="4" style="text-align:left"><span class="dadosbase_texto_tit0">Superiores a:</span> <input id="f_valores_superior_a" name="f_valores_superior_a" value="" class="form_campo_texto" size="12" maxlength="10"> <span class="dadosbase_texto_tit0">Inferiores a: <input id="f_valores_inferior_a" name="f_valores_inferior_a" value="" class="form_campo_texto" size="12" maxlength="10"></span></td>
+						  </tr>
+				  		</table>
+                        
+						<p class="filtro_notas">Mostrar apenas as esta&ccedil;&otilde;es com dados no crit&eacute;rios indicados.</p>
+						
+
+				</div>
+
+					<div class="tab-page">
+
+					<h2 class="tab" title="Outros">Outros</h2>
+
+						<table border="0" cellspacing="0" cellpadding="5" class="filtro_tabela">
+						  <tr>
+							<td style="text-align:right"><span class="dadosbase_texto_tit0">Nome  da esta&ccedil;&atilde;o <sup>*1</sup>:</span></td>
+							<td style="text-align:left"> <input id="f_estacao_like" name="f_estacao_like" value="" class="form_campo_texto" size="20" maxlength="15"> </td>
+						    <td rowspan="4" style="text-align:left">&nbsp;</td>
+						    <td style="text-align:center"><span class="dadosbase_texto_tit0">Esta&ccedil;&otilde;es com o c&oacute;digo</span><br /><span class="filtro_notas">(separe por v&iacute;rgulas)</span>:</td>
+						  </tr>
+						  <tr>
+						    <td style="text-align:right"><span class="dadosbase_texto_tit0">C&oacute;digo da esta&ccedil;&atilde;o <sup>*1</sup>:</span></td>
+						    <td style="text-align:left"><input id="f_simbolo_like" name="f_simbolo_like" value="" class="form_campo_texto" size="20" maxlength="15"></td>
+						    <td rowspan="3" style="text-align:center"><textarea name="f_simbolo_in" cols="30" rows="5" class="form_textarea"></textarea></td>
+					      </tr>
+						  <tr>
+							<td style="text-align:right"><span class="dadosbase_texto_tit0">Estado da esta&ccedil;&atilde;o <sup>*2</sup>:</span> </td>
+							<td style="text-align:left">
+                            	<select name="f_estado" id="f_estado" class="form_select">
+                                		<option value=""></option>
+									                                        <option value="ATIVA" >ATIVA</option>
+                                                                            <option value="DESATIVADA" >DESATIVADA</option>
+                                                                            <option value="EXTINTA" >EXTINTA</option>
+                                                                            <option value="SUSPENSA" >SUSPENSA</option>
+                                                                    </select>
+                             </td>
+					      </tr>
+						  <tr>
+							<td colspan="2">
+							
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr>
+									<td style="text-align:right"><span class="dadosbase_texto_tit0">Com telemetria:</span></td>
+									<td style="text-align:left"> <input type="CHECKBOX" id="f_telemetria1" name="f_telemetria" value="1" > </td>
+									<td style="text-align:right"><span class="dadosbase_texto_tit0">Com dados:</span></td>
+									<td style="text-align:left"> <input type="CHECKBOX" id="f_com_dados1" name="f_com_dados" value="1" > </td>
+							    </tr>
+						  	</table>
+						  
+							
+							
+							</td>
+					      </tr>
+						  
+						  
+						  <tr>
+							<td style="text-align:right"><span class="dadosbase_texto_tit0">Entidade:</span></td>
+							<td colspan="3">
+							
+								<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								  <tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									
+																			<td class="form_texto2"><label for="entidade656710030">INAG</label></td>
+										<td><input id="entidade656710030" type="checkbox" name="f_entidade[]" value="656710030"  class="form_box" /></td>
+																			<td class="form_texto2"><label for="entidade105">Norte</label></td>
+										<td><input id="entidade105" type="checkbox" name="f_entidade[]" value="105"  class="form_box" /></td>
+																			<td class="form_texto2"><label for="entidade106">Centro</label></td>
+										<td><input id="entidade106" type="checkbox" name="f_entidade[]" value="106"  class="form_box" /></td>
+																			<td class="form_texto2"><label for="entidade109">LVT</label></td>
+										<td><input id="entidade109" type="checkbox" name="f_entidade[]" value="109"  class="form_box" /></td>
+																			<td class="form_texto2"><label for="entidade104">Alentejo</label></td>
+										<td><input id="entidade104" type="checkbox" name="f_entidade[]" value="104"  class="form_box" /></td>
+																			<td class="form_texto2"><label for="entidade108">Algarve</label></td>
+										<td><input id="entidade108" type="checkbox" name="f_entidade[]" value="108"  class="form_box" /></td>
+																			<td class="form_texto2"><label for="entidade847934346">Açores</label></td>
+										<td><input id="entidade847934346" type="checkbox" name="f_entidade[]" value="847934346"  class="form_box" /></td>
+																			<td class="form_texto2"><label for="entidade847934344">Madeira</label></td>
+										<td><input id="entidade847934344" type="checkbox" name="f_entidade[]" value="847934344"  class="form_box" /></td>
+																		
+									<td class="form_texto2"><label for="">EDP</label></td>
+									<td><input id="entidadeEDP" type="checkbox" name="f_entidade[]" value="EDP"  class="form_box" /></td>
+									<td class="form_texto2"><label for="">Outras</label></td>
+									<td><input id="entidadeOUTRAS" type="checkbox" name="f_entidade[]" value="OUTRAS"  class="form_box" /></td>
+								  </tr>
+								</table>
+
+							</td>
+						  </tr>
+
+						  <tr>
+							<td style="text-align:right"> <acronym title="Administra&ccedil;&atilde;o Regi&atilde;o Hidrogr&aacute;fica"><span class="dadosbase_texto_tit0">ARH</span></acronym>: </td>
+							<td colspan="3">
+							
+								<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								  <tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									
+																			<td class="form_texto2"><label for="arh1906570350">ARH-Norte</label></td>
+										<td><input id="arh1906570350" type="checkbox" name="f_arh[]" value="1906570350"  class="form_box"  /></td>
+																			<td class="form_texto2"><label for="arh1906570352">ARH-Centro</label></td>
+										<td><input id="arh1906570352" type="checkbox" name="f_arh[]" value="1906570352"  class="form_box"  /></td>
+																			<td class="form_texto2"><label for="arh1906570354">ARH-Tejo</label></td>
+										<td><input id="arh1906570354" type="checkbox" name="f_arh[]" value="1906570354"  class="form_box"  /></td>
+																			<td class="form_texto2"><label for="arh1906570356">ARH-Alentejo</label></td>
+										<td><input id="arh1906570356" type="checkbox" name="f_arh[]" value="1906570356"  class="form_box"  /></td>
+																			<td class="form_texto2"><label for="arh1906570358">ARH-Algarve</label></td>
+										<td><input id="arh1906570358" type="checkbox" name="f_arh[]" value="1906570358"  class="form_box"  /></td>
+																			<td class="form_texto2"><label for="arh1911695582">Rib. Oeste</label></td>
+										<td><input id="arh1911695582" type="checkbox" name="f_arh[]" value="1911695582"  class="form_box"  /></td>
+																	  </tr>
+								</table>
+
+							</td>
+						  </tr>
+                          
+                          <tr>
+							<td colspan="4">
+                            
+                            <table>
+                            	<tr>
+                                    <td style="text-align:right"><span class="dadosbase_texto_tit0">Curso de &aacute;gua:</span></td>
+                                    <td style="text-align:left"><input id="f_curso_agua" name="f_curso_agua" value="" class="form_campo_texto" size="20" maxlength="17"></td>
+                                    <td style="text-align:right"><span class="dadosbase_texto_tit0">Divis&atilde;o administrativa:</span></td>
+                                    <td style="text-align:left"><input id="f_divisao_administrativa" name="f_divisao_administrativa" value="" class="form_campo_texto" size="20" maxlength="17"></td>
+                            	</tr>
+                             </table>
+                             </td>
+						  </tr>
+
+
+                          <tr>
+							<td colspan="4">
+                            
+                            <table>
+                            	<tr>
+                                    <td style="text-align:right"><span class="dadosbase_texto_tit0">Altitude <sup>*2</sup>:</span></td>
+                                    <td style="text-align:left"><input id="f_altitude" name="f_altitude" value="" class="form_campo_texto" size="20" maxlength="17"></td>
+                                    <td style="text-align:right"><span class="dadosbase_texto_tit0">&Aacute;rea drenada <sup>*3</sup>:</span></td>
+                                    <td style="text-align:left"><input id="f_area_drenada" name="f_area_drenada" value="" class="form_campo_texto" size="20" maxlength="17"></td>
+                            	</tr>
+                             </table>
+                             </td>
+						  </tr>
+						
+                        							</table>
+
+						<!--<p class="filtro_notas">Mostrar apenas as esta&ccedil;&otilde;es que cumprem estes crit&eacute;rios.</p>-->
+					  <p class="filtro_notas_importante">
+							<sup><strong>*1</strong></sup> Use &quot;%&quot; se n&atilde;o sabe o c&oacute;digo/nome exacto. Por exemplo, <strong>19C%</strong> devolve todas as esta&ccedil;&otilde;es da quadr&iacute;cula 19C. <strong>%PONTE%</strong> devolve todas as esta&ccedil;&otilde;es com a palavra PONTE.
+                            <br />
+                            <sup><strong>*2</strong></sup> Os filtros <strong>Estado da esta&ccedil;&atilde;o</strong> e <strong>Altitude</strong> s&atilde;o aplic&aacute;veis apenas &agrave;s redes Meteorol&oacute;gica e Hidrom&eacute;trica.
+                            <br />
+                            <sup><strong>*3</strong></sup> O filtro <strong>&Aacute;rea drenada</strong> &eacute; aplic&aacute;vel apenas &agrave; rede Hidrom&eacute;trica.<br />O filtro <strong>C&oacute;digo da esta&ccedil;&atilde;o com o texto</strong> pode incluir AND e OR. Exemplo: <strong>%C OR %F</strong>.
+							<br />O filtro TELEMETRIA apenas &eacute; aplic&aacute;vel &agrave;s esta&ccedil;&otilde;es autom&aacute;ticas.
+                            <br />
+                            Exemplos do filtro <strong>Altitude</strong> e <strong>&Aacute;rea drenada</strong>: &gt; 20, &gt;20 AND &lt;30 ou =300.
+					  </p>
+
+				</div>
+
+			</div>
+		</div>
+		<div class="tab-page">
+			<h2 class="tab">Redes de Teste</h2>
+			<p>As redes/par&acirc;metros de teste s&oacute; est&atilde;o dispon&iacute;veis para a equipa de desenvolvimento.</p>
+			
+				<table border="0" cellspacing="0" cellpadding="5" class="filtro_tabela">
+				  <tr>
+					<td style="text-align:right"> Senha de acesso: </td>
+					<td style="text-align:left">
+
+															<input type="password" class="form_campo_texto" name="f_login_password" id="f_login_password" size="25" maxlength="18"  />
+							
+					</td>
+					<td>
+													<input
+								id="bf_filtro_aplicar"
+								type="button"
+								value="LOGIN"
+								onclick="DBASE_FazerLogin(this.form,this.value);"
+								class="form_bt_filtro">
+											</td>
+				  </tr>
+				 </table>
+
+		</div>		
+	</div>
+
+	<div align="right" class="div_bts_filtro" id="div_bts_filtro_id">
+
+			<table border="0" cellspacing="5" cellpadding="0">
+			  <tr>
+				<td style="padding-right:10px;" align="center">
+				<div align="center" id="div_bts_filtro_id_loading" style="visibility:hidden;">
+					Aguarde um momento, por favor...<br /><img src="snirh/_dadosbase/site/imagens/loadingdadosbase.gif" />
+				</div>
+				</td>
+				<td>
+				<input
+						id="bf_filtro_aplicar"
+						type="button"
+						value="Aplicar Filtros"
+						onclick="DBASE_AplicarFiltros(this.form);"
+						class="form_bt_filtro">
+				</td>
+				<td>
+				<input type="button"
+						id="bf_filtro_limpar"
+						value="Limpar Filtros"
+						onclick="DBASE_LimparFiltros(this.form)"
+						class="form_bt_filtro">
+				</td>
+				<td>
+				<input type="button"
+						id="bf_filtro_fechar"
+						value="Fechar"
+						onclick="DBASE_FecharDivFiltro()"
+						class="form_bt_filtro">
+				</td>
+			  </tr>
+			</table>
+
+		
+	</div>
+
+	<input type="hidden" id="aplicar_filtro" name="aplicar_filtro" />
+	<input type="hidden" id="aplicar_filtro_dados" name="aplicar_filtro_dados" />
+
+</div>
+<script type="text/javascript">
+<!--
+swfobject.registerObject("FlashID_DBASE_bacias");
+//-->
+</script>
+				<div id="colorPickerDiv" style="position: absolute; visibility: hidden; z-index:1000"> </div>			</td>
+			<td> </td>
+		  </tr>
+		</table>
+</form>
+
+<map name="areashape">
+<area shape="circle" coords="283,573,14" href="#" alt="Desfazer zoom e centrar" onClick="DBASE_MapaDetalhado_ZoomZero()">
+</map>
+
+
+<iframe
+	name="iframe_add"
+	id="iframe_add"
+	border="0"
+	width="500"
+	height="0"
+	framespacing="0"
+	frameborder="no"
+	scrolling="no"
+	allowtransparency="true"
+	src="snirh/_dadosbase/site/iframes/iframe_add.php">
+</iframe>
+
+
+<script type="text/javascript">
+</script>
+	</div>
+
+    <div style="clear:both"></div>
+
+    <div id="footerWrapper">
+      <p>O Servi&ccedil;o SNIRH foi premiado pelo Instituto de Inform&aacute;tica (Pr&eacute;mio Descartes 1997). O programa Rios-SVARH recebeu o 3.&deg; Pr&eacute;mio, na categoria de Gest&atilde;o, do Concurso de Software 2003 da Microsoft. O SNIRH participa activamente no Banco Internacional de Objetos Educacionais. &Eacute; permitido o uso dos conte&uacute;dos deste site, desde que mencionada a sua fonte.</p></div>
+
+            </div>
+        </div>
+        <div class="DivFooterHome">
+
+
+ 					<div id="nav_sub">
+                        <ul>
+                        	<li style="margin-top:3px">(c) SNIRH 1995-2026&nbsp;</li>
+                            <li style="margin-top:3px"><a href="/pda/" title="Portal M&oacute;vel">Portal M&oacute;vel</a></li>
+                            <li style="margin-top:3px"><a id="lnk_snirh_faqs" href="javascript:S_xWindowPerguntasFrequentes('Li4vX2RhZG9zYmFzZS9zaXRlL2phbmVsYXMvZmFxcy5waHA=')" title="Perguntas Frequentes">Perguntas Frequentes</a></li>
+                            <li><a href="#" target="_self" title="Semestre Seco (Abril a Setembro)"><img src="snirh/_level0/estacoesdoano/estacoesdoano.php" width="80" height="20" alt="Gr&aacute;fico com a evolu&ccedil;&acirc;o das esta&ccedil;&otilde;es do ano" /></a></li>
+                            <li><a href="http://www.facebook.com/pages/SNIRH-Sistema-Nacional-de-Informacao-de-Recursos-Hidricos/222670260907" target="_blank" title="Find us on Facebook"><img src="snirh/_level0/imagens2/facebook.gif" width="50" height="20" alt="Facebook" /></a></li>
+                            <li><a href="#" title="Este site respeita as normas da acessibilidade"><img src="images/logo_acessibilidade.gif" width="22" height="20" alt="Acessibilidade" /></a></li>
+<!--
+                            <li style="margin-top:3px"><a href="#" style="cursor:text"><span style="color:#333">685 utilizadores <em>on-line</em> - <span style="font-size:10px" title="Estat&iacute;stica at&eacute; Jun 2024. Visitas/dia no &uacute;ltimo ano.">3 758 575 visitas desde Abr 2004, 0/dia</span></span></a></li>
+-->
+							
+                      </ul>
+                    </div>
+        </div>
+
+    </div>
+
+<map name="MapLogos" id="MapLogos">
+	<area shape="rect" coords="85,8,240,65" href="http://www.maotdr.gov.pt/" target="_blank" title="Minist&eacute;rio do Ambiente e do Ordenamento do Territ&oacute;rio" alt="Minist&eacute;rio do Ambiente e do Ordenamento do Territ&oacute;rio" />
+	<area shape="rect" coords="5,8,79,66" href="http://www.inag.pt" target="_blank" title="Instituto da &Aacute;gua" alt="Instituto da &Aacute;gua" />
+</map>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+
+	function _blink(selector){
+		jQuery(selector).fadeOut(100, function(){
+			jQuery(this).fadeIn(2000, function(){
+				_blink(this);
+		});
+		});
+	}
+
+	_blink('.blink');
+
+		//setInterval("$('.blink').toggle();",500);
+
+		/*
+		jQuery(".blink").animate({opacity:0},200,"linear",function(){
+			jQuery(this).animate({opacity:1},200);
+		});
+		*/
+
+	 	jQuery('#snirhfaq').dialog({
+			autoOpen: false,
+			modal: false,
+			resizable: true,
+			width: 500,
+			height: 400,
+			buttons:  {
+				'Imprimir': function() {
+					jQuery('#snirhfaq-print').html(jQuery('#snirhfaq div').html());
+				 	if (jQuery.browser.msie ) {
+						jQuery('#snirhfaq-print').printElement({printMode: 'popup', pageTitle:"SNIRH - Perguntas Frequentes ("+jQuery('#voceestaaqui').text()+")"});
+					} else {
+						jQuery('#snirhfaq-print').printElement({pageTitle:"SNIRH - Perguntas Frequentes ("+jQuery('#voceestaaqui').text()+")"});
+					}
+					jQuery('#snirhfaq-print').html('');
+					//jQuery('#snirhfaq-print').printElement();
+				},
+				'Fechar': function() {
+					jQuery(this).dialog('close');
+				}
+			}
+		});
+		});
+
+<!--
+
+//Nifty("div#grandedestaque","big");
+
+var dhxWins = new dhtmlXWindows();
+dhxWins.setImagePath("_classes/js/dhtmlxWindows2.5/codebase/imgs/");
+//-->
+</script>
+
+
+<div id="snirhfaq" style="display:none"></div>
+<div id="snirhfaq-print"></div>
+
+<input type="hidden" id="idsessaosnirh" value="nq294967roc589j9phh480ogv2" />
+
+
+</body>
+</html>
+

@@ -34,4 +34,4 @@ dependencies = [
 "Bug Tracker" = "https://github.com/rhugman/get-snirh/issues"
 
 [tool.setuptools.package-data]
-"get_snirh" = ["data/*.csv", "data/*.txt", "data/*.json"]
+"get_snirh" = ["data/snapshot_*.csv"]

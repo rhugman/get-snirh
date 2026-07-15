@@ -32,7 +32,7 @@ from .exceptions import (
 )
 from .networks import fetch_networks
 from .parameters import fetch_parameters
-from .snapshots import load_snapshot, save_snapshot
+from .snapshots import load_snapshot, save_snapshot, snapshot_date
 from .stations import fetch_stations
 from .timeseries import fetch_timeseries
 from .utils import slugify
@@ -168,11 +168,13 @@ class Snirh:
         except SnirhNetworkError as exc:
             if self._network_slug is None:
                 raise
+            stamp = snapshot_date(self._network_slug)
+            age = f"fetched {stamp}" if stamp else "of unknown date"
             warnings.warn(
                 f"SNIRH is unreachable ({exc}); falling back to the bundled "
-                f"snapshot for network '{self._network_slug}'. Snapshot data "
-                "may be STALE — retry live or run refresh_snapshot() once "
-                "SNIRH is reachable again.",
+                f"snapshot for network '{self._network_slug}' ({age}). "
+                "Snapshot data may be STALE — retry live or run "
+                "refresh_snapshot() once SNIRH is reachable again.",
                 stacklevel=2,
             )
             df = load_snapshot(self._network_slug)
