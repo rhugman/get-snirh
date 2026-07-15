@@ -79,6 +79,45 @@ class TestLiveDiscovery(unittest.TestCase):
 
 @unittest.skipUnless(os.getenv("RUN_LIVE_TESTS"),
                      "Skipping live tests. Set RUN_LIVE_TESTS=1 to run.")
+class TestLiveParametersEnum(unittest.TestCase):
+    """The curated Parameters enum must stay true to live discovery.
+
+    Discovery is the source of truth; the enum is convenience constants. If
+    SNIRH ever renumbers a parameter, the stale enum id would silently fetch
+    the wrong quantity (or nothing), so pin the ids against live discovery.
+
+    Two requests' worth of stations per network covers all 28: the enum is
+    meteorological apart from the two groundwater-level ids. Probed
+    2026-07-15: meteorologica's first 50 stations yield 26, piezometria's
+    the remaining 2.
+    """
+
+    #: {network slug: stations to discover parameters for}. One
+    #: _CHUNK_SIZE-sized request each.
+    SOURCES = {"meteorologica": 50, "piezometria": 50}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.discovered = set()
+        for slug, n_stations in cls.SOURCES.items():
+            snirh = Snirh(slug)
+            uids = snirh.stations()["uid"].astype(str).tolist()[:n_stations]
+            pars = snirh.parameters(uids)
+            cls.discovered |= set(pars["uid"].astype(str))
+
+    def test_every_enum_id_exists_in_discovery(self):
+        missing = {p.name: p.value for p in Parameters
+                   if str(p.value) not in self.discovered}
+        self.assertEqual(
+            missing, {},
+            f"Parameter uids in the curated enum that live discovery no longer "
+            f"reports: {missing}. Either SNIRH renumbered them (fix the enum) "
+            f"or the sampled stations no longer carry them (fix SOURCES)."
+        )
+
+
+@unittest.skipUnless(os.getenv("RUN_LIVE_TESTS"),
+                     "Skipping live tests. Set RUN_LIVE_TESTS=1 to run.")
 class TestLiveStationsSmokeAllNetworks(unittest.TestCase):
     """stations() smoke across every discovered network.
 
