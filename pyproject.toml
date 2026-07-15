@@ -7,7 +7,7 @@ name = "get-snirh"
 version = "0.2.0.dev0"
 description = "A Python package to automate downloading water resource data from SNIRH"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 authors = [
     {name = "Rui Hugman"},
     {name = "Luis Costa"},

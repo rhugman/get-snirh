@@ -38,15 +38,21 @@ Complete rework around live discovery. **Breaking release** — see the
   network error raises instead of silently returning an empty frame.
 - Golden offline tests against recorded SNIRH fixtures (`tests/golden/`),
   plus per-module offline test suites.
-- CI split: the offline suite runs on push/PR (`test.yml`, Ubuntu + Windows);
-  a separate scheduled workflow (`live-drift.yml`) runs the gated live suite
-  weekly to detect drift in SNIRH's page layout, endpoints or encodings.
+- CI split: the offline suite runs on push/PR (`test.yml`, Ubuntu + Windows,
+  Python 3.10/3.12/3.14 — 3.14 resolves pandas 3.x, so the open-ended
+  `pandas>=2.0.0` floor is exercised rather than assumed); a separate
+  scheduled workflow (`live-drift.yml`) runs the gated live suite weekly to
+  detect drift in SNIRH's page layout, endpoints or encodings.
 - All 15 SNIRH networks verified end to end against the live service
   (14 fully; `hidrometrica_algarve` works but the network itself reports
   almost no data). See the "Supported networks" table in the README.
 
 ### Changed (breaking)
 
+- Minimum Python is now **3.10** (`requires-python = ">=3.10"`), up from 3.8.
+  3.8 and 3.9 are both end-of-life, and neither was ever tested — CI has
+  never run below 3.10, so the old floor was a claim rather than a promise.
+  The tested range is now 3.10 through 3.14.
 - `StationFetcher` / `DataFetcher` and the `snirh.stations.…` /
   `snirh.data.…` accessor objects are removed in favor of the flat facade.
 - Station columns are canonical English: `marker_site` → `uid`,

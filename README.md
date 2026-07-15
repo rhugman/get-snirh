@@ -8,6 +8,9 @@ A Python package to automate the retrieval of water resource data from the Portu
 
 ## Installation
 
+Needs Python 3.10 or newer; tested on 3.10, 3.12 and 3.14 (Ubuntu and
+Windows).
+
 Install from PyPI:
 
 ```bash

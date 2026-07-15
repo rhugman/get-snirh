@@ -5,7 +5,7 @@ channels:
 dependencies:
   # Runtime floors mirror pyproject.toml. pandas>=2.0 is not cosmetic: data.py
   # uses pd.read_csv(date_format=...), which 1.x does not have.
-  - python>=3.8
+  - python>=3.10
   - pandas>=2.0.0
   - requests>=2.25.0
   - beautifulsoup4>=4.12
