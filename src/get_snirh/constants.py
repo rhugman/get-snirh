@@ -1,24 +1,68 @@
+"""URLs, encodings and parameter constants for SNIRH endpoints."""
+
 from enum import Enum
 
-class SnirhUrls:
-    """Base URLs for SNIRH services."""
-    BASE_URL = "https://snirh.apambiente.pt/snirh/_dadosbase/site"
-    STATION_LIST_CSV = f"{BASE_URL}/paraCSV/lista_csv.php"
-    DATA_CSV = f"{BASE_URL}/paraCSV/dados_csv.php"
+#: Package version. Keep in sync with ``pyproject.toml``.
+__version__ = "0.2.0.dev0"
 
-class SnirhHeaders:
-    """Default headers for requests."""
-    DEFAULT = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Referer': 'https://snirh.apambiente.pt/'
-    }
+#: Honest User-Agent, verified accepted by all SNIRH endpoints (2026-07-15).
+USER_AGENT = f"get-snirh/{__version__} (+https://github.com/rhugman/get-snirh)"
+
+#: Marker character SNIRH prefixes to station and parameter labels
+#: (arrives as the HTML entity ``&#9632;``).
+MARKER_CHAR = "■"  # '■'
+
+
+class SnirhUrls:
+    """SNIRH endpoints.
+
+    Session-scoped (require the lazily-established network session):
+    ``STATION_MARKERS_XML``, ``STATION_PARAMETERS``.
+    Everything else is stateless.
+    """
+
+    BASE_URL = "https://snirh.apambiente.pt"
+    #: Home page: sets PHPSESSID; also serves the network <select> for discovery,
+    #: and receives the network-selection POST.
+    HOME = f"{BASE_URL}/index.php?idMain=2&idItem=1"
+
+    _DADOSBASE = f"{BASE_URL}/snirh/_dadosbase/site"
+    #: Session-scoped station uid/code/coordinate markers for the selected network.
+    STATION_MARKERS_XML = f"{_DADOSBASE}/xml/xml_listaestacoes.php"
+    #: Session-scoped per-station parameter discovery (?sites=<uid>[,<uid>...]).
+    STATION_PARAMETERS = f"{_DADOSBASE}/_ajax_listaparscomdados.php"
+    #: Stateless station metadata CSV (?s_cover=<network uid>).
+    STATION_LIST_CSV = f"{_DADOSBASE}/paraCSV/lista_csv.php"
+    #: Stateless timeseries CSV.
+    DATA_CSV = f"{_DADOSBASE}/paraCSV/dados_csv.php"
+
+
+class SnirhEncodings:
+    """Correct decoding per endpoint (probed live 2026-07-15).
+
+    - Home page: no charset in Content-Type; accented network names are
+      ISO-8859-1 bytes.
+    - Marker XML: declares ``charset=utf-8``; non-ASCII arrives as HTML
+      entities (``&#9632;``, sometimes double-escaped) which the parser
+      unescapes.
+    - Parameter ajax: entity-encoded ASCII (``&iacute;`` etc.); UTF-8-safe.
+    - CSV endpoints: ISO-8859-1 with real accented bytes.
+    """
+
+    HOME = "ISO-8859-1"
+    STATION_MARKERS_XML = "utf-8"
+    STATION_PARAMETERS = "utf-8"
+    STATION_LIST_CSV = "ISO-8859-1"
+    DATA_CSV = "ISO-8859-1"
+
 
 class Parameters(Enum):
-    """SNIRH Parameter IDs."""
+    """Curated SNIRH parameter uids (convenience constants).
+
+    Live discovery via :meth:`get_snirh.Snirh.parameters` is the source of
+    truth; these are kept for convenience.
+    """
+
     # Meteorological
     WIND_DIRECTION_HOURLY = '1857'
     EVAPORATION_PICHE_DAILY = '4131'
@@ -46,7 +90,7 @@ class Parameters(Enum):
     WIND_SPEED_INSTANT = '1041803938'
     WIND_SPEED_MAX_HOURLY = '100750612'
     WIND_SPEED_AVG_DAILY = '490270858'
-    
+
     # Groundwater
     GWL_DEPTH = '2277'
     PIEZOMETRIC_LEVEL = '100290981'

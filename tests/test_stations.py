@@ -1,104 +1,175 @@
-import unittest
-from unittest.mock import Mock, MagicMock
 import pandas as pd
-import io
-from get_snirh.stations import StationFetcher
-from get_snirh.client import SnirhClient
+import pytest
 
-class TestStationFetcher(unittest.TestCase):
-    def setUp(self):
-        self.mock_client = Mock(spec=SnirhClient)
-        self.fetcher = StationFetcher(self.mock_client)
+from get_snirh.constants import SnirhUrls
+from get_snirh.exceptions import SnirhDiscoveryError, SnirhParsingError
+from get_snirh.stations import (
+    canonical_column,
+    fallback_column,
+    fetch_station_uids,
+    fetch_stations,
+    parse_markers_xml,
+    parse_metadata_csv,
+)
+from _fakes import FakeClient
 
-    def test_get_station_codes(self):
-        # Mock the CSV response for station codes (marker sites)
-        # The format expected is a CSV where the first column is named "<markers>"
-        # and contains quoted strings separated by something (the split logic uses ")
-        # We need enough fields to satisfy the column dropping logic (indices 3, 15, 19, 27, 31 kept)
-        # We use 7-digit codes so that "(1234567)" is 9 chars, matching the extraction logic
-        
-        # Create a row with enough columns (32 columns, indices 0-31)
-        # Split indices: 3, 15, 19, 27, 31
-        # List indices = (Split index - 1) / 2
-        # List indices: 1, 7, 9, 13, 15
-        row1 = ['"x"'] * 32
-        row1[1] = '"site_123"'
-        row1[7] = '"37.0"'
-        row1[9] = '"-8.0"'
-        row1[13] = '"Station A"'
-        row1[15] = '"Station A (1234567)"'
-        
-        row2 = ['"x"'] * 32
-        row2[1] = '"site_456"'
-        row2[7] = '"37.1"'
-        row2[9] = '"-8.1"'
-        row2[13] = '"Station B"'
-        row2[15] = '"Station B (7654321)"'
+MARKERS_XML = """<markers>
+<marker site="2028876" cover="100290946" redenome="Piezometria"
+        lat="42.0474" lng="-8.38867"
+        estacao3="&amp;#9632; 3/N1" estacao="&#9632; 3/N1" activa="0"/>
+<marker site="920685966" lat="37.1" lng="-8.5"
+        estacao="&#9632; Po&ccedil;o S&atilde;o Br&aacute;s (612/45)"/>
+<marker site="555" lat="" lng="notanumber" estacao="&#9632; 700/1"/>
+</markers>"""
 
-        csv_content = "<markers>\n" + ",".join(row1) + "\n" + ",".join(row2) + "\n"
-        self.mock_client.fetch_csv.return_value = io.StringIO(csv_content)
+METADATA_CSV = "\n".join(
+    [
+        "SNIRH - SISTEMA NACIONAL DE INFORMAÇÃO DE RECURSOS HÍDRICOS",
+        "",
+        "REDE:,Piezometria",
+        "",
+        "CÓDIGO,NOME,DISTRITO,CONCELHO,FREGUESIA,BACIA,ALTITUDE (M),COORD_X (M),COORD_Y (M),SISTEMA AQUÍFERO,ESTADO",
+        "3/N1,Poço São Brás,FARO,OLHÃO,QUELFES,RIBEIRAS DO ALGARVE,10,25000.5,12000.1,M12 - CAMPINA DE FARO,ATIVA",
+        "420/8,01,SETÚBAL,MONTIJO,CANHA,TEJO,44,152403.4,204253.4,T3 - BACIA DO TEJO-SADO / MARGEM ESQUERDA,",
+        "",
+        "Dados obtidos através do site http://snirh.apambiente.pt em 15/07/2026 11:42",
+    ]
+)
 
-        df = self.fetcher.get_station_codes(use_web=True)
 
-        self.assertEqual(len(df), 2)
-        self.assertIn('marker_site', df.columns)
-        self.assertIn('code', df.columns)
-        self.assertEqual(df.iloc[0]['marker_site'], 'site_123')
-        self.assertEqual(df.iloc[0]['code'], '1234567')
+class TestParseMarkersXml:
+    def test_columns(self):
+        df = parse_markers_xml(MARKERS_XML)
+        assert list(df.columns) == ["uid", "code", "name", "latitude", "longitude"]
+        assert len(df) == 3
 
-    def test_get_all_stations(self):
-        # Mock the CSV response for station metadata
-        # Skips 3 rows
-        csv_content = """Header1
-Header2
-Header3
-CÓDIGO,BACIA,RIO
-123,RIBEIRAS DO ALGARVE,River A
-456,TEJO,River B
-"""
-        self.mock_client.fetch_csv.return_value = io.StringIO(csv_content)
+    def test_code_only_label(self):
+        row = parse_markers_xml(MARKERS_XML).iloc[0]
+        assert row["uid"] == "2028876"
+        assert row["code"] == "3/N1"
+        assert row["name"] == "3/N1"
+        assert row["latitude"] == pytest.approx(42.0474)
+        assert row["longitude"] == pytest.approx(-8.38867)
 
-        df = self.fetcher.get_all_stations(use_web=True)
+    def test_name_code_label_with_accents(self):
+        row = parse_markers_xml(MARKERS_XML).iloc[1]
+        assert row["code"] == "612/45"
+        assert row["name"] == "Poço São Brás"
 
-        self.assertEqual(len(df), 2)
-        self.assertEqual(df.iloc[0]['CÓDIGO'], '123')
-        self.assertEqual(df.iloc[0]['BACIA'], 'RIBEIRAS DO ALGARVE')
+    def test_marker_char_stripped(self):
+        df = parse_markers_xml(MARKERS_XML)
+        assert not df["code"].str.contains("■").any()
+        assert not df["name"].str.contains("&#").any()
 
-    def test_get_stations_with_metadata_filtered(self):
-        # Mock get_station_codes
-        codes_df = pd.DataFrame({
-            'marker_site': ['site_123', 'site_456'],
-            'code': ['123', '456'], # Note: code is string in one, int in other? 
-                                     # In stations.py: extract_station_code returns string.
-                                     # In get_all_stations mock above, pandas reads int.
-                                     # The merge might fail if types don't match.
-                                     # Let's check stations.py merge: left_on='CÓDIGO', right_on='code'
-        })
-        
-        # Mock get_all_stations
-        # We need to ensure types match for merge. 
-        # If 'code' is string '123', 'CÓDIGO' should probably be cast or be string.
-        # In real pandas read_csv, if it looks like int, it becomes int.
-        # Let's assume we need to handle type mismatch in the implementation or mock.
-        # For this test, I'll make CÓDIGO strings to be safe, or rely on pandas smarts.
-        meta_df = pd.DataFrame({
-            'CÓDIGO': ['123', '456'], # Strings to match codes_df
-            'BACIA': ['RIBEIRAS DO ALGARVE', 'TEJO']
-        })
+    def test_unparseable_coords_are_nan(self):
+        row = parse_markers_xml(MARKERS_XML).iloc[2]
+        assert pd.isna(row["latitude"])
+        assert pd.isna(row["longitude"])
 
-        # We mock the methods of the fetcher itself to isolate the merge logic
-        # But get_stations_with_metadata calls self.get_station_codes() and self.get_all_stations()
-        # So we can mock those methods on the instance.
-        
-        self.fetcher.get_station_codes = Mock(return_value=codes_df)
-        self.fetcher.get_all_stations = Mock(return_value=meta_df)
+    def test_empty_document(self):
+        df = parse_markers_xml("<markers></markers>")
+        assert df.empty
+        assert list(df.columns) == ["uid", "code", "name", "latitude", "longitude"]
 
-        # Test filtering
-        result = self.fetcher.get_stations_with_metadata(basin_filter=['RIBEIRAS DO ALGARVE'])
 
-        self.assertEqual(len(result), 1)
-        self.assertEqual(result.iloc[0]['code'], '123')
-        self.assertEqual(result.iloc[0]['BACIA'], 'RIBEIRAS DO ALGARVE')
+class TestFetchStationUids:
+    def test_session_scoped_and_network_selected(self):
+        client = FakeClient({SnirhUrls.STATION_MARKERS_XML: MARKERS_XML.encode("utf-8")})
+        df = fetch_station_uids(client, "100290946")
+        assert client.ensured == ["100290946"]
+        assert client.calls[0]["session_scoped"] is True
+        assert len(df) == 3
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_empty_markers_raise_discovery_error(self):
+        client = FakeClient({SnirhUrls.STATION_MARKERS_XML: b"<markers></markers>"})
+        with pytest.raises(SnirhDiscoveryError):
+            fetch_station_uids(client, "100290946")
+
+
+class TestColumnMapping:
+    @pytest.mark.parametrize(
+        "header,expected",
+        [
+            ("CÓDIGO", "code"),
+            ("NOME", "name"),
+            ("DISTRITO", "district"),
+            ("CONCELHO", "municipality"),
+            ("FREGUESIA", "parish"),
+            ("BACIA", "basin"),
+            ("ALTITUDE (M)", "altitude"),
+            ("COORD_X (M)", "coord_x"),
+            ("COORD_Y (M)", "coord_y"),
+            ("SISTEMA AQUÍFERO", "aquifer_system"),
+            ("ESTADO", "status"),
+        ],
+    )
+    def test_known_headers(self, header, expected):
+        assert canonical_column(header) == expected
+
+    def test_unknown_header_fallback(self):
+        assert fallback_column("ENTIDADE RESPONSÁVEL (AUTOMÁTICA)") == (
+            "entidade_responsavel_automatica"
+        )
+        assert canonical_column("TELEMETRIA") == "telemetria"
+        assert canonical_column("ÍNDICE QUALIDADE*") == "indice_qualidade"
+
+
+class TestParseMetadataCsv:
+    def test_canonical_columns(self):
+        df = parse_metadata_csv(METADATA_CSV)
+        assert list(df.columns) == [
+            "code", "name", "district", "municipality", "parish", "basin",
+            "altitude", "coord_x", "coord_y", "aquifer_system", "status",
+        ]
+
+    def test_footer_dropped(self):
+        df = parse_metadata_csv(METADATA_CSV)
+        assert len(df) == 2
+        assert not df["code"].str.contains("Dados obtidos").any()
+
+    def test_values_stay_portuguese(self):
+        df = parse_metadata_csv(METADATA_CSV)
+        assert df.iloc[0]["name"] == "Poço São Brás"
+        assert df.iloc[1]["district"] == "SETÚBAL"
+
+    def test_codes_are_strings(self):
+        df = parse_metadata_csv(METADATA_CSV)
+        # NOME '01' must survive as a string, codes untouched
+        assert df.iloc[1]["name"] == "01"
+        assert df.iloc[1]["code"] == "420/8"
+
+    def test_numeric_coords(self):
+        df = parse_metadata_csv(METADATA_CSV)
+        assert df.iloc[0]["coord_x"] == pytest.approx(25000.5)
+        assert df.iloc[0]["altitude"] == pytest.approx(10)
+
+    def test_missing_header_raises(self):
+        with pytest.raises(SnirhParsingError):
+            parse_metadata_csv("just\nsome\nrandom,text")
+
+
+class TestFetchStationsMerged:
+    def _client(self):
+        return FakeClient(
+            {
+                SnirhUrls.STATION_MARKERS_XML: MARKERS_XML.encode("utf-8"),
+                SnirhUrls.STATION_LIST_CSV: METADATA_CSV.encode("ISO-8859-1"),
+            }
+        )
+
+    def test_inner_merge_on_code(self):
+        df = fetch_stations(self._client(), "100290946")
+        # 3/N1 and 420/8 in metadata; 3/N1, 612/45, 700/1 in markers -> only 3/N1
+        assert len(df) == 1
+        assert df.iloc[0]["code"] == "3/N1"
+        assert df.iloc[0]["uid"] == "2028876"
+
+    def test_uid_code_first_and_both_coordinate_sets(self):
+        df = fetch_stations(self._client(), "100290946")
+        assert list(df.columns[:3]) == ["uid", "code", "name"]
+        for column in ("latitude", "longitude", "coord_x", "coord_y"):
+            assert column in df.columns
+
+    def test_metadata_name_preferred(self):
+        df = fetch_stations(self._client(), "100290946")
+        assert df.iloc[0]["name"] == "Poço São Brás"

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "get-snirh"
-version = "0.1.2"
+version = "0.2.0.dev0"
 description = "A Python package to automate downloading water resource data from SNIRH"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -24,6 +24,8 @@ classifiers = [
 dependencies = [
     "pandas>=2.0.0",
     "requests>=2.25.0",
+    "beautifulsoup4>=4.12",
+    "urllib3>=1.26",
 ]
 
 [project.urls]
