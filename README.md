@@ -206,6 +206,26 @@ All data retrieved by this tool belongs to SNIRH/APA. Users are responsible for 
 
 This tool is provided "as is", without warranty of any kind. Use it responsibly to avoid overloading the SNIRH servers.
 
+## Acknowledgements
+
+The 0.2.0 rework owes a lot to two earlier MIT-licensed projects by
+[Francisco Macedo](https://github.com/franciscobmacedo), which had already
+worked out much of how SNIRH actually behaves:
+
+- **[snirhcrawler](https://github.com/franciscobmacedo/snirhcrawler)** — works
+  the same four endpoints this package does, and reads the network list from
+  the same `f_redes_todas[]` home-page select. Having a correct prior reading
+  of SNIRH's undocumented behaviour to check against saved a great deal of
+  guesswork here.
+- **[recursoshidricos](https://github.com/franciscobmacedo/recursoshidricos)**
+  — a fuller application over the same data, useful for seeing which endpoints
+  hold up in practice.
+
+Where this package differs (a flat client facade, canonical English columns,
+snapshot fallback) those are choices for a different audience, not
+corrections. Both projects are MIT licensed and neither is affiliated with
+this one.
+
 ## Citation
 
 If you use this software in your research, please cite it as:
