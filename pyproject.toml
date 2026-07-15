@@ -35,3 +35,10 @@ dependencies = [
 
 [tool.setuptools.package-data]
 "get_snirh" = ["data/snapshot_*.csv"]
+
+[tool.pytest.ini_options]
+# Only the non-default settings: python_files/classes/functions in the old
+# pytest.ini were already pytest's defaults. Live tests are skipped unless
+# RUN_LIVE_TESTS=1 (see tests/test_live.py).
+testpaths = ["tests"]
+addopts = "-v"

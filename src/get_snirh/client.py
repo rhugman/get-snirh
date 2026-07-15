@@ -1,6 +1,6 @@
 """HTTP client for SNIRH with lazy network-session handling.
 
-SNIRH has two kinds of endpoints (see ADR-0001):
+SNIRH has two kinds of endpoints:
 
 - **Session-scoped**: ``xml_listaestacoes.php`` and
   ``_ajax_listaparscomdados.php`` return empty documents unless the client
