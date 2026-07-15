@@ -389,6 +389,46 @@ class TestGoldenTimeseries:
             "tmax": "31/12/2023", "formato": "csv",
         }
 
+    def test_short_legend_layout_parses(self):
+        # Qualidade 02N/02 x '(m+p)-Xileno': SNIRH prints only the FLAG
+        # entries actually used, so the whole body is 252 bytes against the
+        # 3533-byte full legend in timeseries_empty.csv. Same structure.
+        df = parse_timeseries_csv(
+            golden_text("timeseries_qualidade_flagged.csv", SnirhEncodings.DATA_CSV)
+        )
+        assert list(df.columns) == ["timestamp", "value"]
+        assert len(df) == 1
+        assert df["timestamp"].iloc[0] == pd.Timestamp("2022-05-16 15:42")
+        assert df["value"].iloc[0] == pytest.approx(1.0)
+
+    def test_censored_value_keeps_the_reading(self):
+        # The value is flagged '(<)' (below detection limit). The parser does
+        # not surface FLAG, so the reading must still come through as a float
+        # rather than being coerced to NaN or dropped.
+        df = parse_timeseries_csv(
+            golden_text("timeseries_qualidade_flagged.csv", SnirhEncodings.DATA_CSV)
+        )
+        assert df["value"].dtype == "float64"
+        assert df["value"].notna().all()
+
+    def test_short_legend_layout_carries_the_data_header(self):
+        # The sentinel parse_timeseries_csv rejects degraded bodies on. All 15
+        # networks' real bodies carried it on line 3 (2026-07-15 sweep); this
+        # is the smallest such body, so it is the tightest guard on that claim.
+        text = golden_text("timeseries_qualidade_flagged.csv", SnirhEncodings.DATA_CSV)
+        assert text.splitlines()[2].startswith("DATA,")
+
+    def test_fetch_timeseries_short_legend_via_fake_client(self):
+        client = FakeClient({
+            SnirhUrls.DATA_CSV: golden_bytes("timeseries_qualidade_flagged.csv"),
+        })
+        df = fetch_timeseries(client, {"9203856240": "02N/02"}, "776221266",
+                              start="2015-01-01", end="2024-12-31")
+        assert list(df.columns) == TIMESERIES_COLUMNS
+        assert len(df) == 1
+        assert (df["code"] == "02N/02").all()
+        assert (df["uid"] == "9203856240").all()
+
     def test_empty_combo_parses_to_zero_rows(self):
         # Hidrométrica 19B/01H x 'Nível instantâneo máximo anual',
         # 2015-2024: SNIRH returns header + FLAG legend + footer with no
@@ -423,6 +463,7 @@ class TestGoldenFixtureFiles:
         "parameters_station_2028876.html",
         "timeseries_3n1_gwl.csv",
         "timeseries_empty.csv",
+        "timeseries_qualidade_flagged.csv",
         "MANIFEST.txt",
     }
 

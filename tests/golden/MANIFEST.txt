@@ -58,3 +58,9 @@ captured: 2026-07-15
 url: https://snirh.apambiente.pt/snirh/_dadosbase/site/paraCSV/dados_csv.php?sites=1627743378&pars=436115734&tmin=01/01/2015&tmax=31/12/2024&formato=csv (GET, stateless)
 notes: Full payload, untruncated (ISO-8859-1). Hidrométrica station 19B/01H (uid 1627743378), parameter 436115734 'Nível instantâneo máximo anual', 2015-2024: a combo the network matrix verified as genuinely empty server-side. Header + full FLAG legend + footer, zero data rows. Expected parse: 0 rows.
 ------------------------------------------------------------------------------
+file: timeseries_qualidade_flagged.csv
+size: 252 bytes
+captured: 2026-07-15
+url: https://snirh.apambiente.pt/snirh/_dadosbase/site/paraCSV/dados_csv.php?sites=9203856240&pars=776221266&tmin=01/01/2015&tmax=31/12/2024&formato=csv (GET, stateless)
+notes: Full payload, untruncated (ISO-8859-1). Qualidade station 02N/02 'A VEIGA DO SEIXO' (uid 9203856240), parameter 776221266 '(m+p)-Xileno (ug/l)', 2015-2024. Smallest real dados_csv.php layout observed across all 15 networks (2026-07-15 sweep): the FLAG legend lists only the flags actually used — here '(<)' alone — against the 3533-byte full legend in timeseries_empty.csv, and the value is censored ('(<)' = below detection limit). Same structure regardless: 'DATA,' header on line 3, data from line 5. Expected parse: 1 row, 16/05/2022 15:42 = 1.0; the FLAG column is not retained (the parser keeps timestamp+value).
+------------------------------------------------------------------------------
