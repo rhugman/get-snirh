@@ -2,6 +2,7 @@ import pandas as pd
 import pytest
 
 from get_snirh.constants import Parameters, SnirhUrls
+from get_snirh.exceptions import SnirhNetworkError, SnirhParsingError
 from get_snirh.timeseries import (
     TIMESERIES_COLUMNS,
     default_max_workers,
@@ -157,6 +158,41 @@ class TestFetchTimeseries:
         df = fetch_timeseries(client, stations, "2277", "2023-01-01", "2023-06-30")
         assert set(df["code"]) == {"GOOD"}
         assert len(df) == 2
+
+    @pytest.mark.parametrize(
+        "body",
+        [
+            "<html><body><h1>Site em manutenção</h1></body></html>",
+            "",
+            "Fatal error: Uncaught Error in /var/www/dados_csv.php:88",
+        ],
+        ids=["maintenance_page", "empty_body", "php_error"],
+    )
+    def test_degraded_response_for_every_station_raises(self, body):
+        """A degraded HTTP-200 body must never read as 'no observations'."""
+        client = _routed_client({"1": body, "2": body})
+        with pytest.raises(SnirhParsingError, match="All 2 station fetches failed"):
+            fetch_timeseries(client, {"1": "A", "2": "B"}, "2277",
+                             "2023-01-01", "2023-06-30")
+
+    def test_degraded_response_for_some_stations_keeps_the_rest(self):
+        client = _routed_client({"1": "<html>manutenção</html>", "2": DATA_CSV})
+        df = fetch_timeseries(client, {"1": "BAD", "2": "GOOD"}, "2277",
+                              "2023-01-01", "2023-06-30")
+        assert set(df["code"]) == {"GOOD"}
+
+    def test_all_stations_failing_on_network_still_raises_network_error(self):
+        client = _routed_client({"1": SnirhNetworkError("unreachable")})
+        with pytest.raises(SnirhNetworkError, match="SNIRH appears unreachable"):
+            fetch_timeseries(client, {"1": "A"}, "2277", "2023-01-01", "2023-06-30")
+
+    def test_genuinely_empty_response_is_still_not_an_error(self):
+        """The real empty layout carries header+legend+footer: not a failure."""
+        client = _routed_client({"1": EMPTY_CSV, "2": EMPTY_CSV})
+        df = fetch_timeseries(client, {"1": "A", "2": "B"}, "2277",
+                              "2023-01-01", "2023-06-30")
+        assert df.empty
+        assert list(df.columns) == TIMESERIES_COLUMNS
 
     def test_stateless_requests(self):
         client = _routed_client({"1": DATA_CSV})

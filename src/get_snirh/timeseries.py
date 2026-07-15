@@ -14,7 +14,7 @@ import pandas as pd
 
 from .client import SnirhClient
 from .constants import Parameters, SnirhEncodings, SnirhUrls
-from .exceptions import SnirhNetworkError
+from .exceptions import SnirhNetworkError, SnirhParsingError
 from .utils import to_snirh_date
 
 logger = logging.getLogger(__name__)
@@ -61,22 +61,44 @@ def station_map(stations) -> Dict[str, str]:
         ) from None
 
 
+#: Start of the row SNIRH prints above the data rows. A station with no
+#: observations still returns the full layout (header, flag legend, footer),
+#: so a body without this row is a degraded response, not an empty one.
+_DATA_HEADER = "DATA,"
+
+
 def parse_timeseries_csv(csv_text: str) -> pd.DataFrame:
     """Parse a ``dados_csv.php`` response into (timestamp, value).
 
     Layout: 3 title lines, a header row, ``dd/mm/yyyy HH:MM`` data rows and
     a one-line footer.
+
+    Raises:
+        SnirhParsingError: if the body is not a CSV export at all. SNIRH is a
+            legacy PHP server that serves maintenance pages and error dumps
+            with HTTP 200, which must not be mistaken for "no observations".
     """
-    df = pd.read_csv(
-        io.StringIO(csv_text),
-        sep=",",
-        skiprows=3,
-        header=0,
-        skipfooter=1,
-        usecols=[0, 1],
-        names=["timestamp", "value"],
-        engine="python",
-    )
+    if not any(line.startswith(_DATA_HEADER) for line in csv_text.splitlines()):
+        raise SnirhParsingError(
+            f"dados_csv.php response has no {_DATA_HEADER!r} header row, so it "
+            "is not a CSV export; SNIRH is likely serving a maintenance or "
+            f"error page. Body starts: {csv_text.strip()[:200]!r}"
+        )
+    try:
+        df = pd.read_csv(
+            io.StringIO(csv_text),
+            sep=",",
+            skiprows=3,
+            header=0,
+            skipfooter=1,
+            usecols=[0, 1],
+            names=["timestamp", "value"],
+            engine="python",
+        )
+    except (ValueError, pd.errors.ParserError) as exc:
+        raise SnirhParsingError(
+            f"Could not parse the dados_csv.php CSV body: {exc}"
+        ) from exc
     if df.empty:
         return pd.DataFrame(columns=["timestamp", "value"])
     timestamps = pd.to_datetime(
@@ -195,15 +217,24 @@ def fetch_timeseries(
 
     if not frames:
         # An empty result must mean "no observations in the window", never a
-        # silent total outage: if every station errored and at least one was a
-        # network failure, raise instead of returning an empty frame.
-        network_errors = [e for _, _, e in errors if isinstance(e, SnirhNetworkError)]
-        if network_errors and len(errors) == len(stations_by_uid):
-            raise SnirhNetworkError(
-                f"All {len(stations_by_uid)} station fetches failed "
-                f"({len(network_errors)} network errors); SNIRH appears "
-                f"unreachable. First error: {network_errors[0]}"
-            ) from network_errors[0]
+        # silent total outage: if every station errored, raise instead of
+        # returning an empty frame, whatever the failures were.
+        if errors and len(errors) == len(stations_by_uid):
+            network_errors = [
+                e for _, _, e in errors if isinstance(e, SnirhNetworkError)
+            ]
+            if network_errors:
+                raise SnirhNetworkError(
+                    f"All {len(stations_by_uid)} station fetches failed "
+                    f"({len(network_errors)} network errors); SNIRH appears "
+                    f"unreachable. First error: {network_errors[0]}"
+                ) from network_errors[0]
+            cause = errors[0][2]
+            raise SnirhParsingError(
+                f"All {len(stations_by_uid)} station fetches failed and none "
+                f"returned usable data; SNIRH is likely serving degraded "
+                f"responses. First error: {cause}"
+            ) from cause
         logger.warning("No data fetched for any station.")
         return _empty_result()
 
