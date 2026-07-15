@@ -12,9 +12,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 from .client import SnirhClient
-from .constants import MARKER_CHAR, SnirhEncodings, SnirhUrls
+from .constants import SnirhEncodings, SnirhUrls
 from .exceptions import SnirhDiscoveryError
-from .utils import unescape_html
+from .utils import clean_marker_label
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ def parse_parameters_html(html_text: str) -> pd.DataFrame:
         uid = (option.get("value") or "").strip()
         if not uid:
             continue
-        name = unescape_html(option.get_text()).replace(MARKER_CHAR, " ").strip()
+        name = clean_marker_label(option.get_text())
         rows.append({"uid": uid, "name": name})
     return pd.DataFrame(rows, columns=PARAMETER_COLUMNS)
 

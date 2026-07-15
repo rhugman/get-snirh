@@ -19,9 +19,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 from .client import SnirhClient
-from .constants import MARKER_CHAR, SnirhEncodings, SnirhUrls
+from .constants import SnirhEncodings, SnirhUrls
 from .exceptions import SnirhDiscoveryError, SnirhParsingError
-from .utils import strip_accents, unescape_html
+from .utils import clean_marker_label, slugify
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +59,7 @@ def _split_label(label: str):
     content of the trailing parentheses if present, else the whole string;
     the name is the part before the parentheses, or equals the code.
     """
-    text = unescape_html(label).replace(MARKER_CHAR, " ").strip()
+    text = clean_marker_label(label)
     match = _TRAILING_PARENS.match(text)
     if match:
         code = match.group("code").strip()
@@ -157,9 +157,7 @@ def fetch_station_uids(client: SnirhClient, network_uid) -> pd.DataFrame:
 def fallback_column(header: str) -> str:
     """Generic canonicalization for headers not in CANONICAL_COLUMNS:
     de-accent, lowercase, non-alphanumeric runs -> ``_``, strip ``_``."""
-    text = strip_accents(str(header)).lower()
-    text = re.sub(r"[^a-z0-9]+", "_", text)
-    return text.strip("_")
+    return slugify(str(header))
 
 
 def canonical_column(header: str) -> str:
@@ -235,8 +233,8 @@ def fetch_stations(client: SnirhClient, network_uid) -> pd.DataFrame:
 
     # Prefer the metadata 'name' (full station name) over the label-derived one.
     left = uids.drop(columns=["name"]) if "name" in metadata.columns else uids
-    merged = pd.merge(left, metadata, on="code", how="inner")
-    if merged.empty and not uids.empty and not metadata.empty:
+    merged = pd.merge(left, metadata, on="code", how="inner", validate="one_to_one")
+    if merged.empty and not uids.empty:
         raise SnirhParsingError(
             f"Station codes from the uid mapping and the metadata CSV do not "
             f"align for network uid {network_uid} (0 of {len(uids)} matched)."

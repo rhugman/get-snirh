@@ -5,6 +5,8 @@ import html as _html
 import re
 import unicodedata
 
+from .constants import MARKER_CHAR
+
 
 def strip_accents(text: str) -> str:
     """Remove diacritics: NFD-decompose and drop combining marks."""
@@ -41,6 +43,15 @@ def unescape_html(text: str) -> str:
     return text
 
 
+def clean_marker_label(text: str) -> str:
+    """Unescape a SNIRH label and drop its leading ``■`` marker.
+
+    >>> clean_marker_label("&amp;#9632; Piezometria")
+    'Piezometria'
+    """
+    return unescape_html(text).replace(MARKER_CHAR, " ").strip()
+
+
 _DDMMYYYY = re.compile(r"^\d{1,2}/\d{1,2}/\d{4}$")
 
 
@@ -50,6 +61,12 @@ def to_snirh_date(value, name: str = "date") -> str:
     Accepts ISO ``'YYYY-MM-DD'`` strings and ``datetime.date`` /
     ``datetime.datetime`` objects. Rejects ``'dd/mm/yyyy'`` strings.
     """
+    if type(value).__name__ == "NaTType":
+        raise TypeError(
+            f"{name} is NaT (pandas missing-value marker); pass an ISO "
+            "'YYYY-MM-DD' string or a datetime.date/datetime object, not a "
+            "missing/NaT value."
+        )
     if isinstance(value, _dt.datetime):
         return value.strftime("%d/%m/%Y")
     if isinstance(value, _dt.date):
@@ -62,6 +79,8 @@ def to_snirh_date(value, name: str = "date") -> str:
                 "accepted. Pass an ISO 'YYYY-MM-DD' string or a "
                 "datetime.date/datetime object."
             )
+        if text.endswith(("Z", "z")):
+            text = text[:-1] + "+00:00"
         try:
             parsed = _dt.datetime.fromisoformat(text)
         except ValueError as exc:
