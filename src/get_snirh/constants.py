@@ -3,7 +3,7 @@
 from enum import Enum
 
 #: Package version. Keep in sync with ``pyproject.toml``.
-__version__ = "0.2.0.dev0"
+__version__ = "0.2.0"
 
 #: Honest User-Agent, verified accepted by all SNIRH endpoints (2026-07-15).
 USER_AGENT = f"get-snirh/{__version__} (+https://github.com/rhugman/get-snirh)"
