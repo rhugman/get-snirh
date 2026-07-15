@@ -218,12 +218,14 @@ __marimo__/
 # (regenerable, ~2.6 MB).
 examples/querenca_silves_data.csv
 
-# Local working files — planning notes and agent/editor config. These are
-# scratch for whoever is driving the work, not part of the package.
+# Local working files — planning notes, design docs and agent/editor config.
+# These are scratch for whoever is driving the work, not part of the package:
+# the code and its comments are the record that ships.
 CONTEXT.md
 ROADMAP.md
 AI_AGENT_INSTRUCTIONS.md
 .copilot/
+docs/
 get-snirh.code-workspace
 
 # Loose exploratory notebooks (the maintained examples live in examples/).
