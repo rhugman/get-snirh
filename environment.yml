@@ -3,8 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  # Runtime floors mirror pyproject.toml. pandas>=2.0 is not cosmetic: data.py
-  # uses pd.read_csv(date_format=...), which 1.x does not have.
+  # Runtime floors mirror pyproject.toml; keep the two in step.
   - python>=3.10
   - pandas>=2.0.0
   - requests>=2.25.0

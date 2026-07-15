@@ -86,10 +86,10 @@ class TestLiveParametersEnum(unittest.TestCase):
     SNIRH ever renumbers a parameter, the stale enum id would silently fetch
     the wrong quantity (or nothing), so pin the ids against live discovery.
 
-    Two requests' worth of stations per network covers all 28: the enum is
-    meteorological apart from the two groundwater-level ids. Probed
-    2026-07-15: meteorologica's first 50 stations yield 26, piezometria's
-    the remaining 2.
+    One request's worth of stations from each of two networks covers all 28,
+    because the enum is meteorological apart from the two groundwater-level
+    ids. Probed 2026-07-15: meteorologica's first 50 stations yield 26,
+    piezometria's the remaining 2.
     """
 
     #: {network slug: stations to discover parameters for}. One

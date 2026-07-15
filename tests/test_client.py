@@ -79,8 +79,8 @@ class TestSessions:
         assert DEFAULT_TIMEOUT == (30, 120)
         client = RecordingClient()
         client.get("https://example.invalid/x")
-        # timeout injected by _request wrapper in the real client; here we
-        # just confirm the stateless path routes through _request
+        # _request applies self._timeout to every call, and RecordingClient
+        # replaces _request — so only the routing through it is observable.
         assert client.requests_made[-1][0] == "GET"
 
     def test_stateless_sessions_are_thread_local(self):

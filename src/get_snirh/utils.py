@@ -44,7 +44,10 @@ def unescape_html(text: str) -> str:
 
 
 def clean_marker_label(text: str) -> str:
-    """Unescape a SNIRH label and drop its leading ``■`` marker.
+    """Unescape a SNIRH label and strip its ``■`` markers.
+
+    SNIRH only ever prefixes the marker, but every occurrence is replaced —
+    a label carrying one mid-string would be cleaned too.
 
     >>> clean_marker_label("&amp;#9632; Piezometria")
     'Piezometria'

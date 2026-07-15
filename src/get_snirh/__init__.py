@@ -81,7 +81,7 @@ class Snirh:
                  verbose: bool = False):
         if verbose:
             logger = logging.getLogger(__name__)
-            # Only add handler if one doesn't exist to avoid duplicates
+            # Snirh(verbose=True) may be constructed more than once per process.
             if not any(isinstance(h, logging.StreamHandler) for h in logger.handlers):
                 handler = logging.StreamHandler()
                 handler.setFormatter(logging.Formatter(

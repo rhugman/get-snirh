@@ -10,7 +10,7 @@ USER_AGENT = f"get-snirh/{__version__} (+https://github.com/rhugman/get-snirh)"
 
 #: Marker character SNIRH prefixes to station and parameter labels
 #: (arrives as the HTML entity ``&#9632;``).
-MARKER_CHAR = "■"  # '■'
+MARKER_CHAR = "■"
 
 
 class SnirhUrls:

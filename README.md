@@ -65,8 +65,15 @@ uid string — live discovery via `snirh.parameters(...)` is the source of
 truth for what a station actually measures.
 
 Other station filters work the same way: any canonical column can be used
-as a keyword argument, e.g. `snirh.stations(status="ATIVA")` or
-`snirh.stations(basin=["MONDEGO", "VOUGA"], district="COIMBRA")`.
+as a keyword argument, e.g. `snirh.stations(status="EM SERVIÇO")` or
+`snirh.stations(basin=["MONDEGO", "VOUGA/RIBEIRAS COSTEIRAS"], district="COIMBRA")`.
+
+Values are SNIRH's own and matching is exact (if case-insensitive), so take
+them from the table rather than guessing: `"VOUGA"` matches nothing, because
+the basin is called `VOUGA/RIBEIRAS COSTEIRAS`. Which values exist is also
+per-network — `status="ATIVA"` is a meteorological/hydrometric value and
+returns zero rows against `piezometria`, whose stations are `EM SERVIÇO`,
+`EM RESERVA`, `ABANDONADO` and so on.
 
 ## Examples
 
@@ -113,15 +120,15 @@ timeseries) against the live service on 2026-07-15:
 | `hidrometrica` | 719 | verified | River stage/flow, daily and hourly series. |
 | `meteorologica` | 789 | verified | Rainfall, temperature, wind, evaporation, etc. |
 | `qualidade` | 4202 | verified | Surface-water quality; sparse grab samples with time-of-day timestamps. |
-| `qualidade_automatica` | 112 | verified | Discontinued automatic network; tested station records end mid-2000s — use historic windows. |
+| `qualidade_automatica` | 112 | verified | Discontinued automatic network; tested station records end mid-2000s — use historic windows. No `status` column. |
 | `aguas_balneares` | 758 | verified | Bathing water; very sparse seasonal samples, many empty station×parameter combinations. No `status` column. |
 | `sedimentologica` | 305 | verified | Historic; tested station records end ~1982. No `status` column. |
 | `nascentes` | 83 | verified | Springs; spot-sampled, sparse. Station `name` holds short AF-codes (SNIRH's own labeling). |
 | `hidrometrica_acores` | 15 | verified | Tested station records end ~2002 — use historic windows. No `status` column. |
-| `meteorologica_acores` | 72 | verified | Discontinued conventional network; tested records end ~1995. Often 1 parameter per station. |
+| `meteorologica_acores` | 72 | verified | Discontinued conventional network; tested records end ~1995. Often 1 parameter per station. No `status` column. |
 | `hidrometrica_madeira` | 9 | verified | Coordinate-less network (uids discovered via the home-page fallback); historic daily flow (1987–1990). |
 | `meteorologica_madeira` | 52 | verified | Tested station records end ~2011 — use historic windows. |
-| `eta` | 13 | verified | Water-treatment plants; coordinate-less (home-page fallback); sampling data, e.g. pesticide analyses from 2003. |
+| `eta` | 13 | verified | Water-treatment plants; coordinate-less (home-page fallback); sampling data, e.g. pesticide analyses from 2003. No `status` column. |
 | `hidrometrica_algarve` | 29 | works | Network reports almost no data (2 active stations; the rest are installation-status entries). |
 
 Caveats that apply across networks:
@@ -203,7 +210,7 @@ This tool is provided "as is", without warranty of any kind. Use it responsibly 
 
 If you use this software in your research, please cite it as:
 
-> Costa, L., & Hugman, R. (2025). get-snirh (Version 0.2.0) [Computer software]. https://github.com/rhugman/get-snirh
+> Costa, L., & Hugman, R. (2026). get-snirh (Version 0.2.0) [Computer software]. https://github.com/rhugman/get-snirh
 
 ## License
 
