@@ -92,17 +92,61 @@ def parse_markers_xml(xml_text: str) -> pd.DataFrame:
     return df
 
 
+def parse_station_select_html(html_text: str) -> pd.DataFrame:
+    """Parse the home page ``<select name="f_estacoes[]">`` into the uid
+    mapping columns (latitude/longitude NaN).
+
+    Fallback uid source: stations without coordinates (all of the ETA and
+    Hidrométrica Madeira networks, for instance) never appear on the map
+    layer, but they are listed in the station select once the network
+    session is established.
+    """
+    soup = BeautifulSoup(html_text, "html.parser")
+    select = soup.find("select", attrs={"name": "f_estacoes[]"})
+    rows = []
+    if select is not None:
+        for option in select.find_all("option"):
+            uid = (option.get("value") or "").strip()
+            if not uid:
+                continue
+            code, name = _split_label(option.get_text())
+            rows.append(
+                {
+                    "uid": uid,
+                    "code": code,
+                    "name": name,
+                    "latitude": float("nan"),
+                    "longitude": float("nan"),
+                }
+            )
+    return pd.DataFrame(rows, columns=UID_COLUMNS)
+
+
 def fetch_station_uids(client: SnirhClient, network_uid) -> pd.DataFrame:
-    """Fetch the live uid mapping for a network (session-scoped)."""
+    """Fetch the live uid mapping for a network (session-scoped).
+
+    Primary source: the map markers XML. When it is empty (coordinate-less
+    networks never appear on the map layer) the home page station select is
+    used as fallback.
+    """
     client.ensure_network(network_uid)
     response = client.get(SnirhUrls.STATION_MARKERS_XML, session_scoped=True)
     xml_text = response.content.decode(SnirhEncodings.STATION_MARKERS_XML)
     df = parse_markers_xml(xml_text)
     if df.empty:
+        logger.info(
+            "No map markers for network %s; falling back to the home page "
+            "station list (coordinate-less network?)", network_uid,
+        )
+        response = client.get(SnirhUrls.HOME, session_scoped=True)
+        html_text = response.content.decode(SnirhEncodings.HOME)
+        df = parse_station_select_html(html_text)
+    if df.empty:
         raise SnirhDiscoveryError(
-            f"xml_listaestacoes.php returned no stations for network uid "
-            f"{network_uid}. Either the network session was not established "
-            "or the network has no stations."
+            f"Neither the map markers XML nor the home page station list "
+            f"returned stations for network uid {network_uid}. Either the "
+            "network session was not established or the network has no "
+            "stations."
         )
     logger.info("Discovered %d station uids for network %s", len(df), network_uid)
     return df
@@ -192,6 +236,11 @@ def fetch_stations(client: SnirhClient, network_uid) -> pd.DataFrame:
     # Prefer the metadata 'name' (full station name) over the label-derived one.
     left = uids.drop(columns=["name"]) if "name" in metadata.columns else uids
     merged = pd.merge(left, metadata, on="code", how="inner")
+    if merged.empty and not uids.empty and not metadata.empty:
+        raise SnirhParsingError(
+            f"Station codes from the uid mapping and the metadata CSV do not "
+            f"align for network uid {network_uid} (0 of {len(uids)} matched)."
+        )
     if len(merged) < len(uids):
         logger.warning(
             "%d of %d stations in the uid mapping have no metadata row and "

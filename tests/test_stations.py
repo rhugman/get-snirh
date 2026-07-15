@@ -10,6 +10,7 @@ from get_snirh.stations import (
     fetch_stations,
     parse_markers_xml,
     parse_metadata_csv,
+    parse_station_select_html,
 )
 from _fakes import FakeClient
 
@@ -72,6 +73,31 @@ class TestParseMarkersXml:
         assert list(df.columns) == ["uid", "code", "name", "latitude", "longitude"]
 
 
+SELECT_HTML = """<html><body>
+<select name="f_estacoes[]" multiple>
+<option value="">-- todas --</option>
+<option value="458000111">&#9632; ALBUFEIRA DA AGUIEIRA - PINHEIRO DO &Aacute;ZERE (ETA_13)</option>
+<option value="458000222">&#9632; H09</option>
+</select>
+</body></html>"""
+
+
+class TestParseStationSelectHtml:
+    def test_columns_and_values(self):
+        df = parse_station_select_html(SELECT_HTML)
+        assert list(df.columns) == ["uid", "code", "name", "latitude", "longitude"]
+        assert len(df) == 2  # placeholder option (empty value) skipped
+        assert df["uid"].tolist() == ["458000111", "458000222"]
+        assert df["code"].tolist() == ["ETA_13", "H09"]
+        assert df["name"].iloc[0] == "ALBUFEIRA DA AGUIEIRA - PINHEIRO DO ÁZERE"
+        assert df["latitude"].isna().all()
+
+    def test_no_select_element(self):
+        df = parse_station_select_html("<html><body>nothing here</body></html>")
+        assert df.empty
+        assert list(df.columns) == ["uid", "code", "name", "latitude", "longitude"]
+
+
 class TestFetchStationUids:
     def test_session_scoped_and_network_selected(self):
         client = FakeClient({SnirhUrls.STATION_MARKERS_XML: MARKERS_XML.encode("utf-8")})
@@ -80,10 +106,25 @@ class TestFetchStationUids:
         assert client.calls[0]["session_scoped"] is True
         assert len(df) == 3
 
-    def test_empty_markers_raise_discovery_error(self):
-        client = FakeClient({SnirhUrls.STATION_MARKERS_XML: b"<markers></markers>"})
-        with pytest.raises(SnirhDiscoveryError):
-            fetch_station_uids(client, "100290946")
+    def test_falls_back_to_home_select_when_markers_empty(self):
+        client = FakeClient({
+            SnirhUrls.STATION_MARKERS_XML: b"<markers></markers>",
+            SnirhUrls.HOME: SELECT_HTML.encode("ISO-8859-1"),
+        })
+        df = fetch_station_uids(client, "458192970")
+        assert df["code"].tolist() == ["ETA_13", "H09"]
+        assert df["latitude"].isna().all()
+        # fallback request goes through the network session too
+        assert client.calls[1]["url"] == SnirhUrls.HOME
+        assert client.calls[1]["session_scoped"] is True
+
+    def test_raises_when_both_sources_empty(self):
+        client = FakeClient({
+            SnirhUrls.STATION_MARKERS_XML: b"<markers></markers>",
+            SnirhUrls.HOME: b"<html><body>no select</body></html>",
+        })
+        with pytest.raises(SnirhDiscoveryError, match="Neither the map markers"):
+            fetch_station_uids(client, "458192970")
 
 
 class TestColumnMapping:
