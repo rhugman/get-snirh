@@ -74,13 +74,15 @@ the plotting one also needs `matplotlib` (see `environment.yml`).
 | Notebook | What it covers |
 |---|---|
 | [`example_gwl_algarve.ipynb`](examples/example_gwl_algarve.ipynb) | The basics: bind a network, filter stations by basin, fetch a parameter, save a CSV. |
-| [`example_area_querenca_silves.ipynb`](examples/example_area_querenca_silves.ipynb) | Everything SNIRH holds for one area (the Querença-Silves aquifer): surveying all 15 networks for coverage, selecting stations by aquifer vs. by coordinates, and downloading, mapping and plotting groundwater level, spring discharge, chemistry, rainfall and river level. |
+| [`example_area_querenca_silves.ipynb`](examples/example_area_querenca_silves.ipynb) | Everything SNIRH holds for one area (the Querença-Silves aquifer): surveying all 15 networks for coverage, selecting stations by aquifer vs. by coordinates, then downloading, mapping and plotting hydraulic head, spring discharge, chemistry (nitrate, chloride, conductivity), rainfall and river level — every station in the area, 133k observations. |
 
 The second is the one to read if your question is *"what data exists for
 this place?"* — it also works through the traps: parameters that discover
 but return nothing, abandoned stations, a station that silently switches
-from hourly to monthly logging, and plots that bridge gaps with lines that
-are not data.
+from hourly to monthly logging, plots that bridge gaps with lines that are
+not data, and why hydraulic head is the column you want rather than depth
+to water. Note it queries every station in the area, so it is a few hundred
+requests and several minutes.
 
 ## How it works
 
