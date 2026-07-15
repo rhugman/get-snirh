@@ -33,7 +33,7 @@ from .exceptions import (
 from .networks import fetch_networks
 from .parameters import fetch_parameters
 from .snapshots import load_snapshot, save_snapshot, snapshot_date
-from .stations import fetch_stations
+from .stations import fetch_stations, station_map
 from .timeseries import fetch_timeseries
 from .utils import slugify
 
@@ -65,17 +65,7 @@ def _filter_stations(df: pd.DataFrame, filters: dict) -> pd.DataFrame:
 
 def _station_uids(station) -> list:
     """Normalize a station argument to a list of uid strings."""
-    if isinstance(station, pd.DataFrame):
-        if "uid" not in station.columns:
-            raise ValueError("stations DataFrame must have a 'uid' column.")
-        return [str(uid) for uid in station["uid"]]
-    if isinstance(station, pd.Series):
-        if "uid" in station.index:  # a DataFrame row
-            return [str(station["uid"])]
-        return [str(uid) for uid in station]  # e.g. stations["uid"]
-    if isinstance(station, (str, int)):
-        return [str(station)]
-    return [str(uid) for uid in station]
+    return list(station_map(station))
 
 
 class Snirh:

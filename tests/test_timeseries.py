@@ -8,7 +8,6 @@ from get_snirh.timeseries import (
     default_max_workers,
     fetch_timeseries,
     parse_timeseries_csv,
-    station_map,
 )
 from _fakes import FakeClient
 
@@ -63,33 +62,6 @@ class TestDefaultMaxWorkers:
     @pytest.mark.parametrize("n,expected", [(0, 1), (1, 1), (5, 5), (10, 10), (50, 10)])
     def test_cap(self, n, expected):
         assert default_max_workers(n) == expected
-
-
-class TestStationMap:
-    def test_dataframe_with_uid_and_code(self):
-        df = pd.DataFrame({"uid": ["1", "2"], "code": ["A", "B"]})
-        assert station_map(df) == {"1": "A", "2": "B"}
-
-    def test_dataframe_uid_only(self):
-        df = pd.DataFrame({"uid": [1, 2]})
-        assert station_map(df) == {"1": "1", "2": "2"}
-
-    def test_dataframe_without_uid_rejected(self):
-        with pytest.raises(ValueError, match="uid"):
-            station_map(pd.DataFrame({"code": ["A"]}))
-
-    def test_list_of_uids(self):
-        assert station_map(["1", 2]) == {"1": "1", "2": "2"}
-
-    def test_dict(self):
-        assert station_map({1: "A"}) == {"1": "A"}
-
-    def test_single_uid(self):
-        assert station_map("42") == {"42": "42"}
-
-    def test_bad_type(self):
-        with pytest.raises(TypeError):
-            station_map(3.14)
 
 
 def _routed_client(payloads):

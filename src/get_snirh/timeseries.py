@@ -8,13 +8,14 @@ Output is long-format with columns ``timestamp, code, uid, parameter, value``.
 import io
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, Optional, Union
+from typing import Optional, Union
 
 import pandas as pd
 
 from .client import SnirhClient
 from .constants import Parameters, SnirhEncodings, SnirhUrls
 from .exceptions import SnirhNetworkError, SnirhParsingError
+from .stations import station_map
 from .utils import to_snirh_date
 
 logger = logging.getLogger(__name__)
@@ -27,38 +28,6 @@ _TIMESTAMP_FORMAT = "%d/%m/%Y %H:%M"
 def default_max_workers(n_stations: int) -> int:
     """Default concurrency: ``min(10, n)``, at least 1 (polite cap)."""
     return max(1, min(10, n_stations))
-
-
-def station_map(stations) -> Dict[str, str]:
-    """Normalize the stations argument to ``{uid: code}`` (both str).
-
-    Accepts a DataFrame with ``uid`` (+ preferably ``code``) columns, a
-    list/iterable of uids, a dict ``{uid: code}``, or a single uid.
-    """
-    if isinstance(stations, pd.DataFrame):
-        if "uid" not in stations.columns:
-            raise ValueError(
-                "stations DataFrame must have a 'uid' column (a 'code' column "
-                "is used for labelling when present)."
-            )
-        uids = stations["uid"].astype(str)
-        if "code" in stations.columns:
-            codes = stations["code"].astype(str)
-        else:
-            codes = uids
-        return dict(zip(uids, codes))
-    if isinstance(stations, dict):
-        return {str(uid): str(code) for uid, code in stations.items()}
-    if isinstance(stations, (str, int)):
-        uid = str(stations)
-        return {uid: uid}
-    try:
-        return {str(uid): str(uid) for uid in stations}
-    except TypeError:
-        raise TypeError(
-            "stations must be a DataFrame with uid+code columns, a list of "
-            f"uids, or a dict {{uid: code}}; got {type(stations).__name__}"
-        ) from None
 
 
 #: Start of the row SNIRH prints above the data rows. A station with no

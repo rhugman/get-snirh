@@ -14,6 +14,7 @@ Two sources, merged on the station ``code``:
 import io
 import logging
 import re
+from typing import Dict
 
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -251,3 +252,43 @@ def fetch_stations(client: SnirhClient, network_uid) -> pd.DataFrame:
     merged = merged[ordered].reset_index(drop=True)
     logger.info("Merged stations table has %d rows", len(merged))
     return merged
+
+
+def station_map(stations) -> Dict[str, str]:
+    """Normalize a caller's ``stations`` argument to ``{uid: code}`` (both str).
+
+    The single definition of what the facade accepts as a station argument, so
+    ``.parameters()`` and ``.timeseries()`` cannot drift apart on accepted
+    shapes or error quality.
+
+    Accepts a :func:`fetch_stations` DataFrame (or one row of it), a ``uid``
+    Series, a list/iterable of uids, a dict ``{uid: code}``, or a single uid.
+    Codes fall back to the uid when unavailable.
+    """
+    if isinstance(stations, pd.DataFrame):
+        if "uid" not in stations.columns:
+            raise ValueError(
+                "stations DataFrame must have a 'uid' column (a 'code' column "
+                "is used for labelling when present)."
+            )
+        uids = stations["uid"].astype(str)
+        codes = stations["code"].astype(str) if "code" in stations.columns else uids
+        return dict(zip(uids, codes))
+    if isinstance(stations, pd.Series):
+        if "uid" in stations.index:  # a single fetch_stations row
+            uid = str(stations["uid"])
+            code = str(stations["code"]) if "code" in stations.index else uid
+            return {uid: code}
+        return {str(uid): str(uid) for uid in stations}  # e.g. stations["uid"]
+    if isinstance(stations, dict):
+        return {str(uid): str(code) for uid, code in stations.items()}
+    if isinstance(stations, (str, int)):
+        uid = str(stations)
+        return {uid: uid}
+    try:
+        return {str(uid): str(uid) for uid in stations}
+    except TypeError:
+        raise TypeError(
+            "stations must be a DataFrame with uid+code columns, a list of "
+            f"uids, or a dict {{uid: code}}; got {type(stations).__name__}"
+        ) from None

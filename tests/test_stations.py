@@ -1,6 +1,7 @@
 import pandas as pd
 import pytest
 
+from get_snirh import _station_uids
 from get_snirh.constants import SnirhUrls
 from get_snirh.exceptions import SnirhDiscoveryError, SnirhParsingError
 from get_snirh.stations import (
@@ -11,6 +12,7 @@ from get_snirh.stations import (
     parse_markers_xml,
     parse_metadata_csv,
     parse_station_select_html,
+    station_map,
 )
 from _fakes import FakeClient
 
@@ -214,3 +216,71 @@ class TestFetchStationsMerged:
     def test_metadata_name_preferred(self):
         df = fetch_stations(self._client(), "100290946")
         assert df.iloc[0]["name"] == "Poço São Brás"
+
+
+class TestStationMap:
+    def test_dataframe_with_uid_and_code(self):
+        df = pd.DataFrame({"uid": ["1", "2"], "code": ["A", "B"]})
+        assert station_map(df) == {"1": "A", "2": "B"}
+
+    def test_dataframe_uid_only(self):
+        df = pd.DataFrame({"uid": [1, 2]})
+        assert station_map(df) == {"1": "1", "2": "2"}
+
+    def test_dataframe_without_uid_rejected(self):
+        with pytest.raises(ValueError, match="uid"):
+            station_map(pd.DataFrame({"code": ["A"]}))
+
+    def test_list_of_uids(self):
+        assert station_map(["1", 2]) == {"1": "1", "2": "2"}
+
+    def test_dict(self):
+        assert station_map({1: "A"}) == {"1": "A"}
+
+    def test_single_uid(self):
+        assert station_map("42") == {"42": "42"}
+
+    def test_bad_type(self):
+        with pytest.raises(TypeError):
+            station_map(3.14)
+
+    def test_dataframe_row(self):
+        """A single row must map uid->code, not splatter its cells into keys."""
+        df = pd.DataFrame({"uid": ["10"], "code": ["A"], "name": ["Station A"]})
+        assert station_map(df.iloc[0]) == {"10": "A"}
+
+    def test_dataframe_row_without_code(self):
+        df = pd.DataFrame({"uid": ["10"], "name": ["Station A"]})
+        assert station_map(df.iloc[0]) == {"10": "10"}
+
+    def test_uid_series(self):
+        df = pd.DataFrame({"uid": ["1", "2"], "code": ["A", "B"]})
+        assert station_map(df["uid"]) == {"1": "1", "2": "2"}
+
+
+class TestStationArgumentIsSharedAcrossTheFacade:
+    """.parameters() and .timeseries() must accept the same station shapes."""
+
+    STATIONS = pd.DataFrame(
+        {"uid": ["10", "11"], "code": ["A", "B"], "name": ["Station A", "Station B"]}
+    )
+
+    @pytest.mark.parametrize(
+        "shape",
+        ["frame", "row", "uid_series", "list", "dict", "str", "int"],
+    )
+    def test_uids_agree(self, shape):
+        value = {
+            "frame": self.STATIONS,
+            "row": self.STATIONS.iloc[0],
+            "uid_series": self.STATIONS["uid"],
+            "list": ["10", "11"],
+            "dict": {"10": "A"},
+            "str": "42",
+            "int": 7,
+        }[shape]
+        assert _station_uids(value) == list(station_map(value))
+
+    def test_malformed_argument_gets_the_same_guidance(self):
+        with pytest.raises(TypeError, match="stations must be a DataFrame"):
+            _station_uids(3.14)
