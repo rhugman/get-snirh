@@ -4,6 +4,26 @@ name: Live drift
 # encodings). Runs the gated live suite in tests/test_live.py (~57 sequential
 # HTTP requests). Schedule + manual dispatch ONLY — never on push/PR, to be
 # polite to SNIRH.
+#
+# KNOWN LIMITATION — this workflow switches itself off when the repo is quiet.
+# GitHub disables a scheduled workflow after 60 days of repository inactivity,
+# and only new commits reset that clock: issues, pull requests, releases and
+# this workflow's own runs do not count. Disabling applies to the whole file,
+# so workflow_dispatch stops working too — the run button simply will not fire.
+# It is not loud: GitHub emails the maintainer, and nothing else says the
+# alarm has stopped.
+#
+# So on a stable release, expect the drift check to lapse ~2 months after the
+# last commit. That is accepted: the alternative is a bot pushing empty
+# commits to manufacture activity, which is not worth the noise in history.
+# After any quiet spell, assume this is off and check.
+#
+# Re-enable with:  gh workflow enable live-drift.yml
+# Check state with: gh api repos/rhugman/get-snirh/actions/workflows \
+#                     --jq '.workflows[] | {name, state}'
+# ('disabled_inactivity' is the state to look for; .github/workflows/test.yml
+# was found sitting in it in July 2026, silently taking its pull_request
+# trigger down with it.)
 on:
   schedule:
     # Mondays 06:17 UTC — offset from the top of the hour to avoid the
