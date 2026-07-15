@@ -41,15 +41,14 @@ class DataFetcher:
         Returns:
             pd.DataFrame: Concatenated data for all stations.
         """
-        # Determine parameter ID and Name
         if isinstance(parameter, Parameters):
             par_id = parameter.value
-            par_name = parameter.name # Use Enum name (e.g. GWL_DEPTH)
+            par_name = parameter.name
         else:
             par_id = str(parameter)
             par_name = str(parameter)
 
-        # Prepare station mapping: {marker_site: station_name}
+        # Station mapping: {marker_site: station_name}
         station_map = {}
         if isinstance(station_codes, list):
             station_map = {code: code for code in station_codes}
@@ -59,9 +58,6 @@ class DataFetcher:
             if 'marker_site' in station_codes.columns and 'estacao' in station_codes.columns:
                 station_map = dict(zip(station_codes['marker_site'], station_codes['estacao']))
             else:
-                logger.warning("DataFrame passed to get_timeseries missing 'marker_site' or 'estacao' columns. Using index/first column.")
-                # Fallback logic if needed, or just raise error. For now, assume user knows what they are doing if they pass DF.
-                # But to be safe, let's just error if columns missing.
                 raise ValueError("DataFrame must contain 'marker_site' and 'estacao' columns.")
         
         logger.info("Fetching time-series for %d stations. Parameter: %s (%s)", len(station_map), par_name, par_id)
@@ -77,8 +73,7 @@ class DataFetcher:
                 )
                 
                 csv_buffer = self.client.fetch_csv(url)
-                
-                # Parsing logic from notebook
+
                 df_temp = pd.read_csv(
                     csv_buffer,
                     sep=',',
@@ -95,27 +90,17 @@ class DataFetcher:
                 )
                 
                 df_temp = df_temp.reset_index()
-                # Use the station name (estacao) instead of the code
-                df_temp['site_name'] = name 
-                
-                # Use the parameter name/str instead of ID
+                df_temp['site_name'] = name
                 df_temp['parameter'] = par_name
-                
-                # Reorder
                 df_temp = df_temp[['date', 'site_name', 'parameter', 'value']]
                 return df_temp
             except Exception as e:
-                # Log error but continue
                 logger.error("Error fetching data for station %s (code %s): %s", name, code, str(e))
                 return None
 
-        # Determine max_workers if not provided
         if max_workers is None:
-            # Default to min(10, number of stations) to avoid creating too many threads for few stations
-            # but cap at 10 to be polite to the server
-            max_workers = min(10, len(station_map))
-            # Ensure at least 1 worker
-            max_workers = max(1, max_workers)
+            # Cap at 10 to be polite to the SNIRH server.
+            max_workers = max(1, min(10, len(station_map)))
 
         logger.debug("Using %d workers for concurrent fetching", max_workers)
 
@@ -129,7 +114,6 @@ class DataFetcher:
                 except Exception as e:
                     logger.error("Unexpected error in thread: %s", str(e))
 
-        # Filter out empty DataFrames
         all_dfs = [df for df in all_dfs if not df.empty]
 
         if not all_dfs:

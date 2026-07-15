@@ -18,10 +18,7 @@ class SnirhHeaders:
     }
 
 class Parameters(Enum):
-    """
-    SNIRH Parameter IDs.
-    Extracted from notebook comments.
-    """
+    """SNIRH Parameter IDs."""
     # Meteorological
     WIND_DIRECTION_HOURLY = '1857'
     EVAPORATION_PICHE_DAILY = '4131'
