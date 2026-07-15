@@ -65,6 +65,23 @@ Other station filters work the same way: any canonical column can be used
 as a keyword argument, e.g. `snirh.stations(status="ATIVA")` or
 `snirh.stations(basin=["MONDEGO", "VOUGA"], district="COIMBRA")`.
 
+## Examples
+
+Runnable notebooks in [`examples/`](examples/), saved with their output so
+you can read them without fetching anything. Both hit SNIRH live when run;
+the plotting one also needs `matplotlib` (see `environment.yml`).
+
+| Notebook | What it covers |
+|---|---|
+| [`example_gwl_algarve.ipynb`](examples/example_gwl_algarve.ipynb) | The basics: bind a network, filter stations by basin, fetch a parameter, save a CSV. |
+| [`example_area_querenca_silves.ipynb`](examples/example_area_querenca_silves.ipynb) | Everything SNIRH holds for one area (the Querença-Silves aquifer): surveying all 15 networks for coverage, selecting stations by aquifer vs. by coordinates, and downloading, mapping and plotting groundwater level, spring discharge, chemistry, rainfall and river level. |
+
+The second is the one to read if your question is *"what data exists for
+this place?"* — it also works through the traps: parameters that discover
+but return nothing, abandoned stations, a station that silently switches
+from hourly to monthly logging, and plots that bridge gaps with lines that
+are not data.
+
 ## How it works
 
 - **Live-first discovery.** Networks, stations and parameters are scraped
