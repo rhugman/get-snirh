@@ -37,6 +37,11 @@ concurrency:
   group: live-drift
   cancel-in-progress: true
 
+# The alert step opens/closes a tracking issue when CI is blind (see below).
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   live-drift:
     runs-on: ubuntu-latest
@@ -58,6 +63,43 @@ jobs:
         pip install pytest
         pip install -e .
 
+    # SNIRH blocks non-Portuguese IPs (403), so from a GitHub-hosted runner the
+    # live suite would just skip and the job would go green — blind. Probe once
+    # up front so we can distinguish "unreachable, no coverage" (alert, don't
+    # run) from "reachable" (run; failures are genuine drift).
+    - name: Probe SNIRH reachability
+      id: probe
+      run: |
+        python - <<'PY'
+        import os
+        from get_snirh import SnirhClient
+        from get_snirh.constants import SnirhUrls
+        from get_snirh.exceptions import SnirhNetworkError
+        try:
+            SnirhClient().get(SnirhUrls.HOME)
+            state = "reachable"
+        except SnirhNetworkError as exc:
+            state = "unreachable"
+            print(f"::warning::SNIRH unreachable from CI — no drift coverage this run: {exc}")
+        with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+            fh.write(f"state={state}\n")
+        PY
+
     - name: Run live drift suite (sequential requests)
+      if: steps.probe.outputs.state == 'reachable'
       run: |
         RUN_LIVE_TESTS=1 python -m pytest tests/test_live.py -v
+
+    # Keep exactly one open tracking issue while CI is blind, so a permanent
+    # green-but-blind check can't silently hide drift; close it on recovery.
+    - name: Alert — CI blind (SNIRH unreachable)
+      if: steps.probe.outputs.state == 'unreachable'
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: bash .github/scripts/drift-blind-alert.sh open
+
+    - name: Resolve alert — SNIRH reachable again
+      if: steps.probe.outputs.state == 'reachable'
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: bash .github/scripts/drift-blind-alert.sh close

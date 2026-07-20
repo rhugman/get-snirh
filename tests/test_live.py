@@ -4,13 +4,32 @@ Skipped by default; set RUN_LIVE_TESTS=1 to run. Keep request volume low —
 these exist to detect SNIRH drift, not to exercise every code path.
 """
 
+import functools
 import os
 import unittest
 
 from get_snirh import Parameters, Snirh, SnirhClient
+from get_snirh.exceptions import SnirhNetworkError
 from get_snirh.networks import fetch_networks
 from get_snirh.stations import fetch_stations
 from get_snirh.timeseries import TIMESERIES_COLUMNS
+
+
+def skip_on_network_error(func):
+    """Turn a SNIRH outage into a skip, not a failure.
+
+    These tests exist to catch *drift* — SNIRH changing shape underneath us.
+    An unreachable server (e.g. the 403s SNIRH returns to non-Portuguese IPs,
+    which is what CI runners get) is not drift, so skip rather than fail and
+    keep the red signal meaningful.
+    """
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except SnirhNetworkError as exc:
+            raise unittest.SkipTest(f"SNIRH unreachable: {exc}")
+    return wrapper
 
 
 #: UTF-8-decoded-as-latin1 pairs (Ã©=é, Ã§=ç, ...), stray marker chars and
@@ -30,6 +49,7 @@ class TestLiveDiscovery(unittest.TestCase):
     def setUpClass(cls):
         cls.snirh = Snirh("piezometria")
 
+    @skip_on_network_error
     def test_01_networks(self):
         networks = self.snirh.networks()
         self.assertEqual(len(networks), 15)
@@ -39,6 +59,7 @@ class TestLiveDiscovery(unittest.TestCase):
         for name in networks["name"]:
             self.assertTrue(_no_mojibake(name), f"mojibake in network name {name!r}")
 
+    @skip_on_network_error
     def test_02_stations(self):
         stations = self.snirh.stations()
         type(self).stations = stations  # reuse downstream to save requests
@@ -52,6 +73,7 @@ class TestLiveDiscovery(unittest.TestCase):
         for value in stations["name"].dropna().head(200):
             self.assertTrue(_no_mojibake(str(value)), f"mojibake in {value!r}")
 
+    @skip_on_network_error
     def test_03_parameters(self):
         stations = getattr(type(self), "stations", None)
         if stations is None:
@@ -62,6 +84,7 @@ class TestLiveDiscovery(unittest.TestCase):
         for name in parameters["name"]:
             self.assertTrue(_no_mojibake(name), f"mojibake in parameter {name!r}")
 
+    @skip_on_network_error
     def test_04_timeseries(self):
         stations = getattr(type(self), "stations", None)
         if stations is None:
@@ -97,6 +120,7 @@ class TestLiveParametersEnum(unittest.TestCase):
     SOURCES = {"meteorologica": 50, "piezometria": 50}
 
     @classmethod
+    @skip_on_network_error
     def setUpClass(cls):
         cls.discovered = set()
         for slug, n_stations in cls.SOURCES.items():
@@ -129,10 +153,12 @@ class TestLiveStationsSmokeAllNetworks(unittest.TestCase):
     """
 
     @classmethod
+    @skip_on_network_error
     def setUpClass(cls):
         cls.client = SnirhClient()
         cls.networks = fetch_networks(cls.client)
 
+    @skip_on_network_error
     def test_stations_every_network(self):
         for network in self.networks.itertuples(index=False):
             with self.subTest(network=network.slug):
