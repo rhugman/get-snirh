@@ -203,6 +203,13 @@ the live tests **skip** rather than fail when the server is unreachable
 (`403`/`SnirhNetworkError`) — from a cloud runner they will almost always
 skip, and a red run means genuine drift, not an outage.
 
+A permanently green-but-skipped check would silently hide drift, so the
+workflow probes SNIRH first: when it is unreachable it opens (and keeps
+updating) a single tracking issue, and closes it automatically once SNIRH
+is reachable again. The open issue — not a green run — is the signal that
+CI has no live coverage; restore it by running the live suite from a
+Portuguese vantage point.
+
 ## Disclaimer & Data Acknowledgment
 
 This software is an unofficial tool and is **not** affiliated with, endorsed by, or maintained by the **Agência Portuguesa do Ambiente (APA)** or the **Sistema Nacional de Informação de Recursos Hídricos (SNIRH)**.
