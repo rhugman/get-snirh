@@ -107,6 +107,11 @@ requests and several minutes.
   unreachable, `stations()` falls back to a snapshot shipped with the
   package and warns loudly, including the date the snapshot was fetched.
   `snirh.refresh_snapshot()` regenerates the snapshot from a live fetch.
+- **SNIRH blocks non-Portuguese IPs.** The portal returns `403 Forbidden`
+  to requests from outside Portugal (this includes most cloud/CI runners,
+  e.g. GitHub Actions), so live calls surface as `SnirhNetworkError`. Run
+  from a Portuguese IP (or a proxy/VPN into Portugal) to reach the live
+  service; otherwise you get the bundled-snapshot fallback described above.
 
 ## Supported networks
 
@@ -193,7 +198,10 @@ RUN_LIVE_TESTS=1 pytest tests/test_live.py
 
 Regular CI runs the offline suite only. A separate scheduled workflow runs
 the live suite weekly to detect drift in SNIRH's page layout, endpoints or
-encodings.
+encodings. Because SNIRH blocks non-Portuguese IPs (see *How it works*),
+the live tests **skip** rather than fail when the server is unreachable
+(`403`/`SnirhNetworkError`) — from a cloud runner they will almost always
+skip, and a red run means genuine drift, not an outage.
 
 ## Disclaimer & Data Acknowledgment
 
